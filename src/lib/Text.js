@@ -1,6 +1,6 @@
 import React from "react";
 import { Text } from 'react-native';
-import {styleSheet} from './CustomStyle';
+import { styleSheet } from '~/lib/CustomStyle';
 
 const CustomText = (props) => {
 	const { index, onPress, children, className, style, numberOfLines } = props;

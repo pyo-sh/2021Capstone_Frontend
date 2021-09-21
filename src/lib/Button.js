@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity } from 'react-native';
-import { styleSheet } from '/lib/CustomStyle';
+import { styleSheet } from '~/lib/CustomStyle';
 
 const Button = (props) => {
 	const { index, onPress, children, className, style } = props;
