@@ -4,12 +4,12 @@ import {
     Text
 } from 'react-native';
 
-const Main = () => {
+const Login = () => {
     return <View>
         <Text>
-            hi! Main Page
+            hi! Login Page
         </Text>
     </View>
 }
 
-export default Main;
+export default Login;
