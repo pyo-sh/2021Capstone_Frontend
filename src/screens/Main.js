@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     View,
-    Text
+    Text,
+    Image
 } from 'react-native';
 
 const Main = () => {

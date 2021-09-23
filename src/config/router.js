@@ -12,6 +12,11 @@ import Search from '~/screens/Search';
 import Recipes from '~/screens/Recipes';
 import Setting from '~/screens/Setting';
 
+import MainTabIcon from '~/components/icons/MainTabIcon';
+import SearchTabIcon from '~/components/icons/SearchTabIcon';
+import RecipesTabIcon from '~/components/icons/RecipesTabIcon';
+import SettingTabIcon from '~/components/icons/SettingTabIcon';
+
 const RouterComponent = () => {
     return (
         <Router>
@@ -20,15 +25,25 @@ const RouterComponent = () => {
                     gestureEnabled={false} panHandlers={null} />
                 <Scene key="login" hideNavBar component={Login}
                     gestureEnabled={false} panHandlers={null} />
-                <Scene key="BottomTab" hideNavBar tabs={true} default="main">
+                <Scene key="BottomTab" hideNavBar showLabel={false}
+                    tabs={true} default="main"
+                    >
                     <Scene key="main" hideNavBar component={Main}
-                        gestureEnabled={false} panHandlers={null} />
+                        gestureEnabled={false} panHandlers={null}
+                        icon={MainTabIcon}
+                        />
                     <Scene key="search" hideNavBar component={Search}
-                        gestureEnabled={false} panHandlers={null} />
+                        gestureEnabled={false} panHandlers={null}
+                        icon={SearchTabIcon}
+                        />
                     <Scene key="recipes" hideNavBar component={Recipes}
-                        gestureEnabled={false} panHandlers={null} />
+                        gestureEnabled={false} panHandlers={null}
+                        icon={RecipesTabIcon}
+                        />
                     <Scene key="setting" hideNavBar component={Setting}
-                        gestureEnabled={false} panHandlers={null} />
+                        gestureEnabled={false} panHandlers={null}
+                        icon={SettingTabIcon}
+                        />
                 </Scene>
             </Stack>
         </Router>
