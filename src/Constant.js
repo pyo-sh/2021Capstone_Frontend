@@ -7,5 +7,4 @@ export const Color = {
     background: "#f0f6f5",
     pointed_red: "#e26c7f",
     gray: "#707070",
-    
 }
