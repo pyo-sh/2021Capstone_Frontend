@@ -80,7 +80,7 @@ const styleSheet = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        borderColor: Color.primary_3,
+        borderColor: Color.primary_2,
         borderRadius: 50,
         borderWidth: 2,
         backgroundColor: Color.white,
@@ -107,7 +107,7 @@ const styleSheet = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 50,
-        backgroundColor: Color.pointed_blue,
+        backgroundColor: Color.primary_2,
         shadowColor: "#000000",
         shadowOffset: {
             width: 0,
