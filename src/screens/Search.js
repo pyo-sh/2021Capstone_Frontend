@@ -7,7 +7,7 @@ import {
 const Search = () => {
     return <View>
         <Text>
-            Search
+            12345
         </Text>
     </View>
 }
