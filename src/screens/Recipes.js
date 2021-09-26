@@ -7,7 +7,7 @@ import {
 const Recipes = () => {
     return <View>
         <Text>
-            Recipes
+            1234
         </Text>
     </View>
 }
