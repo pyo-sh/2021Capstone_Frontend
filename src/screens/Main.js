@@ -81,9 +81,7 @@ const styleSheet = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: Color.primary_2,
-        borderRadius: 50,
-        borderWidth: 2,
-        backgroundColor: Color.white,
+        borderColor: Color.primary_3,
     },
     headerTitle: {
         paddingHorizontal: 20,
