@@ -35,10 +35,10 @@ const Main = () => {
                 </View>
                 <View style={styleSheet.headerTitle}>
                     <View style={{ display: 'flex', flexDirection: 'row' }}>
-                        <Text style={{ fontSize: 25 }}>내</Text>
-                        <Text style={{ fontSize: 25, color: Color.primary_1, paddingHorizontal: 10 }}>'냉장고'</Text>
+                        <Text style={styleSheet.defaultFont}>내</Text>
+                        <Text style={[styleSheet.defaultFont, { color: Color.primary_1, paddingHorizontal: 10 }]}>'냉장고'</Text>
                     </View>
-                    <Text style={{ fontSize: 25 }}>현명하게 관리하기</Text>
+                    <Text style={styleSheet.defaultFont}>현명하게 관리하기</Text>
                 </View>
             </View>
         </View>
@@ -115,6 +115,10 @@ const styleSheet = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         elevation: 5,
+    },
+    defaultFont: {
+        fontFamily: 'NotoSansKR',
+        fontSize: 25,
     },
 });
 

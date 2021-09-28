@@ -57,6 +57,7 @@ const styleSheet = StyleSheet.create({
         textAlign: 'center',
         color: Color.primary_1,
         fontSize: 23,
+        fontFamily: 'NotoSansKR',
     },
 });
 
