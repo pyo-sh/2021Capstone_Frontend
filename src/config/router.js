@@ -17,6 +17,8 @@ import SearchTabIcon from '~/components/icons/SearchTabIcon';
 import RecipesTabIcon from '~/components/icons/RecipesTabIcon';
 import SettingTabIcon from '~/components/icons/SettingTabIcon';
 
+import TopBar from '~/components/TopBar';
+
 const RouterComponent = () => {
     return (
         <Router>
@@ -32,17 +34,17 @@ const RouterComponent = () => {
                         gestureEnabled={false} panHandlers={null}
                         icon={MainTabIcon}
                         />
-                    <Scene key="search" hideNavBar component={Search}
+                    <Scene key="search" navBar={TopBar} component={Search}
                         gestureEnabled={false} panHandlers={null}
-                        icon={SearchTabIcon}
+                        icon={SearchTabIcon} title="카테고리" hasMenu={true}
                         />
-                    <Scene key="recipes" hideNavBar component={Recipes}
+                    <Scene key="recipes" navBar={TopBar} component={Recipes}
                         gestureEnabled={false} panHandlers={null}
-                        icon={RecipesTabIcon}
+                        icon={RecipesTabIcon} title="레시피" hasMenu={true}
                         />
-                    <Scene key="setting" hideNavBar component={Setting}
+                    <Scene key="setting" navBar={TopBar} component={Setting}
                         gestureEnabled={false} panHandlers={null}
-                        icon={SettingTabIcon}
+                        icon={SettingTabIcon} title="내 정보" hasMenu={true}
                         />
                 </Scene>
             </Stack>
