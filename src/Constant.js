@@ -8,3 +8,15 @@ export const Color = {
     pointed_red: "#e26c7f",
     gray: "#707070",
 }
+
+export const DefaultFont_EN = {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+}
+
+export const DefaultFont_KR = {
+    fontFamily: 'Noto Sans KR',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+}
