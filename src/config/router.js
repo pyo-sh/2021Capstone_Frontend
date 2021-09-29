@@ -36,15 +36,15 @@ const RouterComponent = () => {
                         />
                     <Scene key="search" navBar={TopBar} component={Search}
                         gestureEnabled={false} panHandlers={null}
-                        icon={SearchTabIcon} title="카테고리" hasMenu={true}
+                        icon={SearchTabIcon} title="카테고리" hasPop={false}
                         />
                     <Scene key="recipes" navBar={TopBar} component={Recipes}
                         gestureEnabled={false} panHandlers={null}
-                        icon={RecipesTabIcon} title="레시피" hasMenu={true}
+                        icon={RecipesTabIcon} title="레시피" hasPop={false}
                         />
                     <Scene key="setting" navBar={TopBar} component={Setting}
                         gestureEnabled={false} panHandlers={null}
-                        icon={SettingTabIcon} title="내 정보" hasMenu={true}
+                        icon={SettingTabIcon} title="내 정보" hasPop={false}
                         />
                 </Scene>
             </Stack>

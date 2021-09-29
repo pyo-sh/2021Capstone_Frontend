@@ -8,24 +8,23 @@ import {
 import { Color } from '~/Constant';
 import { SvgXml } from 'react-native-svg';
 
-const hamburgerIcon = (color) => {
+const backIcon = (color) => {
     return `
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 45 25" fill="none">
-            <path d="M2.5 2.89999H42.5" stroke="${color}" stroke-width="4" stroke-linecap="round"/>
-            <path d="M2.5 12.6H42.5" stroke="${color}" stroke-width="4" stroke-linecap="round"/>
-            <path d="M2.5 22.1H42.5" stroke="${color}" stroke-width="4" stroke-linecap="round"/>
+        <svg width="13" height="25" viewBox="0 0 21 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 19.678L19.6777 2.00031" stroke="${color}" stroke-width="4"/>
+            <path d="M2 17.678L19.6777 35.3556" stroke="${color}" stroke-width="4"/>
         </svg>
     `;
 }
 
 const TopBar = (props) => {
-    const { title, hasMenu } = props; 
+    const { title, hasPop } = props; 
 
     return <View style={styleSheet.wrapper}>
         <View style={{ width:30, marginLeft: 10 }}>
-            {hasMenu
+            {hasPop
             ?   <TouchableOpacity index={1} onPress={() => {}}>
-                    <SvgXml xml={hamburgerIcon(Color.primary_1)}/>
+                    <SvgXml xml={backIcon(Color.primary_1)}/>
                 </TouchableOpacity>
             :   null
             }
@@ -34,7 +33,7 @@ const TopBar = (props) => {
             {title}
         </Text>
         <View style={{ width:30, marginRight: 10 }}>
-
+            {/* Empty Space */}
         </View>
     </View>
 }
