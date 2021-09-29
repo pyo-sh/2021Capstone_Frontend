@@ -6,16 +6,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { Color } from '~/Constant';
-import { SvgXml } from 'react-native-svg';
-
-const backIcon = (color) => {
-    return `
-        <svg width="13" height="25" viewBox="0 0 21 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2 19.678L19.6777 2.00031" stroke="${color}" stroke-width="4"/>
-            <path d="M2 17.678L19.6777 35.3556" stroke="${color}" stroke-width="4"/>
-        </svg>
-    `;
-}
+import LeftArrowIcon from '~/components/icons/LeftArrowIcon';
 
 const TopBar = (props) => {
     const { title, hasPop } = props; 
@@ -24,7 +15,7 @@ const TopBar = (props) => {
         <View style={{ width:30, marginLeft: 10 }}>
             {hasPop
             ?   <TouchableOpacity index={1} onPress={() => {}}>
-                    <SvgXml xml={backIcon(Color.primary_1)}/>
+                    <LeftArrowIcon color={Color.primary_1}/>
                 </TouchableOpacity>
             :   null
             }
