@@ -74,7 +74,9 @@ const Search = () => {
             />
         </SafeAreaView>
         <View style={styleSheet.content}>
-            <Text style={styleSheet.info}>- - ' {text} '로 검색한 결과 - - - - - - - - - - - - - - -</Text>
+            <Text style={styleSheet.info}>
+                - - {text ? `' ${text} '로 검색한 결과` : '검색 결과'}  - - - - - - - - - - - - - - -    
+            </Text>
             <FlatList
                 style={styleSheet.searched}
                 data={foods}
