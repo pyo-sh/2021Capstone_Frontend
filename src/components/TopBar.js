@@ -41,6 +41,13 @@ const styleSheet = StyleSheet.create({
         alignItems: 'center',
 
         backgroundColor: Color.white,
+        shadowColor: Color.primary_1,
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.25,
+        elevation: 4,
     },
     title: {
         flex: 1,
