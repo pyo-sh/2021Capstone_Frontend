@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Color } from '~/Constant';
 import SearchInput from '~/components/search/SearchInput';
+import SearchedFood from '~/components/search/SearchedFood';
 
 const tempIcon = ({title, color}) => {
     return <View
@@ -28,6 +29,11 @@ const tempIcon = ({title, color}) => {
         <Text style={{ fontSize: 11 }}>{title}</Text>
     </View>;
 }
+const temp = () => {
+    return <View style={{width: 10}}>
+
+    </View>
+}
 const categories = [
     { id: 1, name: 'Vegetable', icon: tempIcon },
     { id: 2, name: 'Fruit', icon: tempIcon },
@@ -39,11 +45,11 @@ const categories = [
     { id: 8, name: 'Grain', icon: tempIcon },
     { id: 9, name: 'Others', icon: tempIcon },
 ];
-const temp = () => {
-    return <View style={{width: 10}}>
-
-    </View>
-}
+const foods = [
+    { id: 1, name: '토마토' },
+    { id: 2, name: '상추' },
+    { id: 3, name: '당근' }
+];
 
 const Search = () => {
     const [text, setText] = useState('');
@@ -69,6 +75,12 @@ const Search = () => {
         </SafeAreaView>
         <View style={styleSheet.content}>
             <Text style={styleSheet.info}>- - ' {text} '로 검색한 결과 - - - - - - - - - - - - - - -</Text>
+            <FlatList
+                style={styleSheet.searched}
+                data={foods}
+                keyExtractor={item => item.id}
+                renderItem={({item}) => <SearchedFood data={item}/>}
+            />
         </View>
     </View>
 }
@@ -103,7 +115,11 @@ const styleSheet = StyleSheet.create({
     },
     info: {
         color: Color.primary_3,
-    }
+        marginBottom: 10,
+    },
+    searched: {
+        paddingHorizontal: 20,
+    },
 });
 
 export default Search;

@@ -7,6 +7,8 @@ export const Color = {
     background: "#f0f6f5",
     pointed_red: "#e26c7f",
     gray: "#707070",
+    light_gray: "#f7f9ff",
+    mid_gray: "#e0e3e9",
 }
 
 export const DefaultFont_EN = {
