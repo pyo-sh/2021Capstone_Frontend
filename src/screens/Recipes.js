@@ -7,6 +7,14 @@ import {
 } from 'react-native';
 import { Color } from '~/Constant';
 import SearchInput from '~/components/search/SearchInput';
+import ImnIngrItem from '~/components/recipe/ImnIngrItem';
+
+const imnIngrs = [
+    { presetIngrNum: 1, ingrName: '파', },
+    { presetIngrNum: 2, ingrName: '양파', },
+    { presetIngrNum: 3, ingrName: '두부', },
+    { presetIngrNum: 4, ingrName: '우유', },
+];
 
 const Recipes = () => {
     const [ingredient, setIngredient] = useState('');
@@ -16,6 +24,22 @@ const Recipes = () => {
             <Text style={styleSheet.topTitle}>
                 - - 유통기한 임박 재료 - - - - - - - - - - - - - - -
             </Text>
+            <FlatList
+                style={styleSheet.imnIngrList}
+                data={imnIngrs}
+                renderItem={({item}) => {
+                    const { ingrName } = item;
+                    return <ImnIngrItem
+                        isSelected={ingredient === ingrName}
+                        ingrName={ingrName}
+                        setIngredient={() => setIngredient(ingrName)}
+                    />
+                }}
+                keyExtractor={(item) => item.presetIngrNum}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                ItemSeparatorComponent={() => <View style={{width: 10}}></View>}
+            />
         </View>
         <View style={styleSheet.content}>
             <SearchInput
@@ -41,6 +65,9 @@ const styleSheet = StyleSheet.create({
     },
     topTitle: {
         color: Color.primary_4,
+    },
+    imnIngrList: {
+        marginTop: 10,
     },
     content: {
         flex: 1,
