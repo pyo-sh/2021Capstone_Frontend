@@ -17,16 +17,17 @@ const fridge = {
     enrollIngrs: []
 }
 
-const Fridge = () => {
+const Fridge = ({ data }) => {
+    const { refName, colorCode } = data;
     return (
         <View style={styleSheet.wrapper}>
             <View style={styleSheet.fridge}>
                 <Text style={[
                     styleSheet.title,
-                    { backgroundColor: fridge.colorCode },
+                    { backgroundColor: colorCode },
                     DefaultFont_KR
                 ]}>
-                    {fridge.refName}
+                    {refName}
                 </Text>
             </View>
         </View>
