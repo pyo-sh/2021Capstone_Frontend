@@ -1,8 +1,9 @@
 // State
 const initialState = {
     uid: '',
-    name: '',
-    email: '',
+    name: 'my_id',
+    email: 'my_email@email.com',
+    nick_name: 'my_nickname',
     imageURL: '',
     isLoadingUser: false,
     loadUserErrorReason: '',

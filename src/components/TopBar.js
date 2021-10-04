@@ -6,26 +6,16 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { Color } from '~/Constant';
-import { SvgXml } from 'react-native-svg';
-
-const hamburgerIcon = (color) => {
-    return `
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 45 25" fill="none">
-            <path d="M2.5 2.89999H42.5" stroke="${color}" stroke-width="4" stroke-linecap="round"/>
-            <path d="M2.5 12.6H42.5" stroke="${color}" stroke-width="4" stroke-linecap="round"/>
-            <path d="M2.5 22.1H42.5" stroke="${color}" stroke-width="4" stroke-linecap="round"/>
-        </svg>
-    `;
-}
+import LeftArrowIcon from '~/components/icons/LeftArrowIcon';
 
 const TopBar = (props) => {
-    const { title, hasMenu } = props; 
+    const { title, hasPop } = props; 
 
     return <View style={styleSheet.wrapper}>
         <View style={{ width:30, marginLeft: 10 }}>
-            {hasMenu
+            {hasPop
             ?   <TouchableOpacity index={1} onPress={() => {}}>
-                    <SvgXml xml={hamburgerIcon(Color.primary_1)}/>
+                    <LeftArrowIcon color={Color.primary_1}/>
                 </TouchableOpacity>
             :   null
             }
@@ -34,7 +24,7 @@ const TopBar = (props) => {
             {title}
         </Text>
         <View style={{ width:30, marginRight: 10 }}>
-
+            {/* Empty Space */}
         </View>
     </View>
 }
@@ -51,6 +41,13 @@ const styleSheet = StyleSheet.create({
         alignItems: 'center',
 
         backgroundColor: Color.white,
+        shadowColor: Color.primary_1,
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.25,
+        elevation: 4,
     },
     title: {
         flex: 1,
