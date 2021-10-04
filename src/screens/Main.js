@@ -88,7 +88,7 @@ const Main = () => {
 }
 
 const styleSheet = StyleSheet.create({
-    
+   
 });
 
 
