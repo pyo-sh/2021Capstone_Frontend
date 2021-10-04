@@ -13,7 +13,7 @@ const icon = (color) => {
     `;
 }
 const RightArrowIcon = (props) => {
-    return <View>
+    return <View style={props?.style ?? {}}>
         <SvgXml xml={icon(props.color)}/>
     </View>
 }

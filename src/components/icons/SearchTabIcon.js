@@ -16,7 +16,7 @@ const icon = (isFocused, color) => {
     `
 }
 const SearchTabIcon = (props) => {
-    return <View>
+    return <View style={props?.style ?? {}}>
         <SvgXml xml={icon(props.focused, Color.primary_1)}/>
     </View>
 }
