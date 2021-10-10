@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     View,
@@ -7,27 +7,45 @@ import {
 import { Color, DefaultFont_KR } from '~/Constant';
 import { SvgXml } from 'react-native-svg';
 
-const fridge = {
-    refNum : "202005060001",
-    refName : "일반냉장고",
-    explan : "주방 첫번째 냉장고",
-    refType : "h", 
-    ownerNum : "2005060001",
-    colorCode : "#F6CA50",
-    enrollIngrs: []
-}
+const getDummyRefs = (refNum) => {
+    return [
+        {
+            refNum : "202005060001",
+            refName : "일반냉장고",
+            explan : "주방 첫번째 냉장고",
+            refType : "h",
+            ownerNum : "2005060001",
+            colorCode : "#225685",
+            enrollIngrs: [],
+        },
+        {
+            refNum : "202005060002",
+            refName : "비밀 냉장고",
+            explan : "아무도 모르는 냉장고",
+            refType : "r",
+            ownerNum : "2005060001",
+            colorCode : "#9DD6EB",
+            enrollIngrs: [],
+        },
+    ].filter((obj) => obj?.refNum == refNum)[0] ?? {};
+};
 
-const Fridge = ({ data }) => {
-    const { refName, colorCode } = data;
+const Fridge = ({ refNum }) => {
+    const [datas, setDatas] = useState({});
+
+    useEffect(() => {
+        setDatas(getDummyRefs(refNum));
+    }, []);
+
     return (
         <View style={styleSheet.wrapper}>
             <View style={styleSheet.fridge}>
                 <Text style={[
                     styleSheet.title,
-                    { backgroundColor: colorCode },
+                    { backgroundColor: datas?.colorCode ?? "#ffffff" },
                     DefaultFont_KR
                 ]}>
-                    {refName}
+                    {datas?.refName}
                 </Text>
             </View>
         </View>

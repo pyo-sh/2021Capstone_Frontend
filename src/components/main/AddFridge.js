@@ -26,15 +26,16 @@ const AddFridge = ({ setRefs }) => {
 
     const submitRef = () => {
         if(canSubmit){
-            setRefs((prev) => [...prev, {
-                refNum : (202005060002 + prev.length).toString(),
-                refName : title,
-                explan : explain,
-                refType : "r",
-                ownerNum : "2005060001",
-                colorCode : color,
-                enrollIngrs: [],
-            }]);
+            setRefs((prev) => [...prev, (202005060002 + prev.length)]);
+            // {
+            //     refNum : (202005060002 + prev.length).toString(),
+            //     refName : title,
+            //     explan : explain,
+            //     refType : "r",
+            //     ownerNum : "2005060001",
+            //     colorCode : color,
+            //     enrollIngrs: [],
+            // }
             setTitle('');
             setExplain('');
             closeModal();
@@ -143,13 +144,13 @@ const styleSheet = StyleSheet.create({
         borderRadius: 35,
         borderWidth: 4,
         borderStyle: 'dotted',
-        borderColor: Color.gray,
+        borderColor: "#cccccc",
     },
     plus: {
         width: 60,
         height: 0,
         borderWidth: 2,
-        borderColor: Color.gray,
+        borderColor: "#cccccc",
     },
     rotate: {
         position: 'relative',
