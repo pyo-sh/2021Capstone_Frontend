@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { Color, DefaultFont_KR } from '~/Constant';
 import { SvgXml } from 'react-native-svg';
+import { Actions } from 'react-native-router-flux';
 
 const getDummyIngrs = (ref) => ([]);
 
@@ -30,7 +31,11 @@ const Fridge = ({ refInfos }) => {
 
     return (
         <View style={styleSheet.wrapper}>
-            <TouchableOpacity index={1} onPress={() => {}} style={styleSheet.addButton}>
+            <TouchableOpacity
+                index={1}
+                onPress={() => {Actions.addingr()}}
+                style={styleSheet.addButton}
+            >
                 <SvgXml xml={plusButton(Color.white)}/>
             </TouchableOpacity>
             <View style={styleSheet.fridge}>
@@ -62,6 +67,7 @@ const styleSheet = StyleSheet.create({
         marginHorizontal: 'auto',
         // right: 16,
         bottom: 50,
+        zIndex: 50,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
