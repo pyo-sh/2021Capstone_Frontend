@@ -12,7 +12,24 @@ import Fridge from '~/components/main/Fridge';
 import AddFridge from '~/components/main/AddFridge';
 import { Color } from '~/Constant';
 
-const dummyRefs = [ 202005060001, 202005060002 ];
+const dummyRefs = [
+    {
+        refNum : "202005060001",
+        refName : "일반냉장고",
+        explan : "주방 첫번째 냉장고",
+        refType : "h",
+        ownerNum : "2005060001",
+        colorCode : "#225685",
+    },
+    {
+        refNum : "202005060002",
+        refName : "비밀 냉장고",
+        explan : "아무도 모르는 냉장고",
+        refType : "r",
+        ownerNum : "2005060001",
+        colorCode : "#9DD6EB",
+    }
+];
 
 const Main = () => {
     const [refs, setRefs] = useState([]);
@@ -53,10 +70,10 @@ const Main = () => {
                     </Text>
                 </View>,
                 /* 임박한 식자재 페이지 필요 */
-                ...refs?.map((refNum, index) => {
+                ...refs?.map((refInfos, index) => {
                     return <Fridge
-                        key={refNum ?? `Fridge-${index}`}
-                        refNum={refNum}
+                        key={refInfos?.refNum ?? `Fridge-${index}`}
+                        refInfos={refInfos}
                     />;
                 }),
                 <AddFridge

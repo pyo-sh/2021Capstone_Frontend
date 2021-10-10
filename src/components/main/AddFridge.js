@@ -26,16 +26,17 @@ const AddFridge = ({ setRefs }) => {
 
     const submitRef = () => {
         if(canSubmit){
-            setRefs((prev) => [...prev, (202005060002 + prev.length)]);
-            // {
-            //     refNum : (202005060002 + prev.length).toString(),
-            //     refName : title,
-            //     explan : explain,
-            //     refType : "r",
-            //     ownerNum : "2005060001",
-            //     colorCode : color,
-            //     enrollIngrs: [],
-            // }
+            setRefs((prev) => [...prev, 
+                {
+                    refNum : (202005060002 + prev.length).toString(),
+                    refName : title,
+                    explan : explain,
+                    refType : "r",
+                    ownerNum : "2005060001",
+                    colorCode : color,
+                    enrollIngrs: [],
+                }
+            ]);
             setTitle('');
             setExplain('');
             closeModal();
