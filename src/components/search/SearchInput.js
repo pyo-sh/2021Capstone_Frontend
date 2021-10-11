@@ -42,9 +42,9 @@ const SlideRightView = (props) => {
 }
 
 const SearchInput = (props) => {
-    const { text, onChangeText, placeholder, onSubmitEditing } = props;
+    const { text, onChangeText, placeholder, onSubmitEditing, style} = props;
 
-    return <View style={styleSheet.wrapper}>
+    return <View style={[styleSheet.wrapper, (style ?? {})]}>
         <TextInput
             style={styleSheet.input}
             value={text}
@@ -71,14 +71,14 @@ const SearchInput = (props) => {
 const styleSheet = StyleSheet.create({
     wrapper: {
         width: '100%',
+        height: 47,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
     },
     input: {
         width: '100%',
-        flex: 1,
-        height: 47,
+        height: '100%',
         paddingLeft: 20,
         backgroundColor: Color.background,
         borderRadius: 8,
