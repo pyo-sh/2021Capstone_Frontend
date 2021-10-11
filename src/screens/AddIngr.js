@@ -11,6 +11,7 @@ import { Color, DefaultFont_KR } from '~/Constant';
 
 const AddIngr = () => {
     const [name, setName] = useState('');
+    const [type, setType] = useState('');
 
     return <View style={styleSheet.wrapper}>
         <View style={styleSheet.otherwise}>
@@ -29,9 +30,71 @@ const AddIngr = () => {
             </View>
         </View>
         <View style={styleSheet.controls}>
-            
+            <View style={styleSheet.flexLine}>
+                <Text style={styleSheet.controlTitle}>
+                    식자재 명
+                </Text>
+                <SearchInput
+                    style={{flex: 1, height: 40}}
+                    text={name}
+                    onChangeText={(value) => setName(value)}
+                    placeholder={"이름 입력"}
+                    // onSubmitEditing={() => console.log(value)}
+                />
+            </View>
+            <View style={styleSheet.flexLine}>
+                <Text style={styleSheet.controlTitle}>
+                    보관 방법
+                </Text>
+                <View style={styleSheet.radioBack}>
+                    <RadioBtn
+                        nowVal={type}
+                        value={'a'}
+                        setValue={setType}
+                        text={"실온"}
+                    />
+                    <RadioBtn
+                        nowVal={type}
+                        value={'r'}
+                        setValue={setType}
+                        text={"냉장"}
+                    />
+                    <RadioBtn
+                        nowVal={type}
+                        value={'f'}
+                        setValue={setType}
+                        text={"냉동"}
+                    />
+                </View>
+            </View>
+            <View style={styleSheet.flexLine}>
+                <Text style={styleSheet.controlTitle}>
+                    유통 기한
+                </Text>
+            </View>
         </View>
     </View>
+}
+
+const RadioBtn = ({style, nowVal, value, setValue, text}) => {
+    const isClicked = nowVal === value;
+
+    return (
+        <TouchableOpacity
+            onPress={() => setValue(value)}
+            style={[
+                styleSheet.defaultBtn,
+                isClicked ? styleSheet.activeBtn : {},
+                style ?? {},
+            ]}>
+            <Text style={[
+                DefaultFont_KR,
+                {color: isClicked ? Color.primary_4 : Color.primary_2}
+            ]}>
+                {text}
+            </Text>
+        </TouchableOpacity>
+    );
 }
 
 const styleSheet = StyleSheet.create({
@@ -54,6 +117,7 @@ const styleSheet = StyleSheet.create({
         color: Color.primary_4,
     },
     flexLine: {
+        marginBottom: 15,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -82,6 +146,35 @@ const styleSheet = StyleSheet.create({
         paddingVertical: 35,
         backgroundColor: Color.white,
     },
+    controlTitle: {
+        ...DefaultFont_KR,
+        color: Color.primary_4,
+        fontSize: 15,
+        marginRight: 16,
+    },
+    defaultBtn: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    activeBtn: {
+        padding: 5,
+        margin: 1,
+        backgroundColor: Color.primary_2,
+        borderRadius: 8,
+    },
+    radioBack: {
+        height: 40,
+        flex: 1,
+        backgroundColor: Color.background,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+    }
 });
 
 export default AddIngr;
