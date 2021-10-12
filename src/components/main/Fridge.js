@@ -8,19 +8,9 @@ import {
 import { Color, DefaultFont_KR } from '~/Constant';
 import { SvgXml } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
+import PlusIcon from '~/components/icons/PlusIcon';
 
 const getDummyIngrs = (ref) => ([]);
-
-const plusButton = (color) => {
-    return `
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="35" viewBox="0 0 42 45" fill="none">
-            <path d="M21 1.97705V43.0231V1.97705Z" fill="${color}"/>
-            <path d="M21 1.97705V43.0231" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2.05701 22.5H39.942H2.05701Z" fill="${color}"/>
-            <path d="M2.05701 22.5H39.942" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    `;
-}
 
 const Fridge = ({ refInfos }) => {
     const [enrollIngrs, setEnrollIngrs] = useState([]);
@@ -36,7 +26,7 @@ const Fridge = ({ refInfos }) => {
                 onPress={() => {Actions.addingr()}}
                 style={styleSheet.addButton}
             >
-                <SvgXml xml={plusButton(Color.white)}/>
+                <PlusIcon color={Color.white}/>
             </TouchableOpacity>
             <View style={styleSheet.fridge}>
                 <Text style={[
