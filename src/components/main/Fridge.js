@@ -1,33 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     View,
     Text,
+    TouchableOpacity,
 } from 'react-native';
 import { Color, DefaultFont_KR } from '~/Constant';
 import { SvgXml } from 'react-native-svg';
+import { Actions } from 'react-native-router-flux';
+import PlusIcon from '~/components/icons/PlusIcon';
 
-const fridge = {
-    refNum : "202005060001",
-    refName : "일반냉장고",
-    explan : "주방 첫번째 냉장고",
-    refType : "h", 
-    ownerNum : "2005060001",
-    colorCode : "#F6CA50",
-    enrollIngrs: []
-}
+const getDummyIngrs = (ref) => ([]);
 
-const Fridge = ({ data }) => {
-    const { refName, colorCode } = data;
+const Fridge = ({ refInfos }) => {
+    const [enrollIngrs, setEnrollIngrs] = useState([]);
+
+    useEffect(() => {
+        setEnrollIngrs(getDummyIngrs(refInfos?.refNum));
+    }, []);
+
     return (
         <View style={styleSheet.wrapper}>
+            <TouchableOpacity
+                index={1}
+                onPress={() => {Actions.addingr()}}
+                style={styleSheet.addButton}
+            >
+                <PlusIcon color={Color.white}/>
+            </TouchableOpacity>
             <View style={styleSheet.fridge}>
                 <Text style={[
                     styleSheet.title,
-                    { backgroundColor: colorCode },
+                    { backgroundColor: refInfos?.colorCode ?? "#ffffff" },
                     DefaultFont_KR
                 ]}>
-                    {refName}
+                    {refInfos?.refName}
                 </Text>
             </View>
         </View>
@@ -42,6 +49,27 @@ const styleSheet = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Color.background,
+    },
+    addButton: {
+        width: 60,
+        height: 60,
+        position: 'absolute',
+        marginHorizontal: 'auto',
+        // right: 16,
+        bottom: 50,
+        zIndex: 50,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+        backgroundColor: Color.primary_2,
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.25,
+        elevation: 5,
     },
     fridge: {
         width: '80%',

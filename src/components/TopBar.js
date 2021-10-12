@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { Color } from '~/Constant';
 import LeftArrowIcon from '~/components/icons/LeftArrowIcon';
+import { Actions } from 'react-native-router-flux';
 
 const TopBar = (props) => {
     const { title, hasPop } = props; 
@@ -14,7 +15,7 @@ const TopBar = (props) => {
     return <View style={styleSheet.wrapper}>
         <View style={{ width:30, marginLeft: 10 }}>
             {hasPop
-            ?   <TouchableOpacity index={1} onPress={() => {}}>
+            ?   <TouchableOpacity index={1} onPress={() => {Actions.pop()}}>
                     <LeftArrowIcon color={Color.primary_1}/>
                 </TouchableOpacity>
             :   null

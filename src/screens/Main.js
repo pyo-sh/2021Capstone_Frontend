@@ -20,7 +20,6 @@ const dummyRefs = [
         refType : "h",
         ownerNum : "2005060001",
         colorCode : "#225685",
-        enrollIngrs: [],
     },
     {
         refNum : "202005060002",
@@ -29,8 +28,7 @@ const dummyRefs = [
         refType : "r",
         ownerNum : "2005060001",
         colorCode : "#9DD6EB",
-        enrollIngrs: [],
-    },
+    }
 ];
 
 const Main = () => {
@@ -72,10 +70,10 @@ const Main = () => {
                     </Text>
                 </View>,
                 /* 임박한 식자재 페이지 필요 */
-                ...refs?.map((ref, index) => {
+                ...refs?.map((refInfos, index) => {
                     return <Fridge
-                        key={ref?.refNum ?? `Fridge-${index}`}
-                        data={ref}
+                        key={refInfos?.refNum ?? `Fridge-${index}`}
+                        refInfos={refInfos}
                     />;
                 }),
                 <AddFridge

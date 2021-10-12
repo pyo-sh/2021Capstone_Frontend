@@ -11,6 +11,7 @@ import Main from '~/screens/Main';
 import Search from '~/screens/Search';
 import Recipes from '~/screens/Recipes';
 import Setting from '~/screens/Setting';
+import AddIngr from '~/screens/AddIngr';
 
 import MainTabIcon from '~/components/icons/MainTabIcon';
 import SearchTabIcon from '~/components/icons/SearchTabIcon';
@@ -27,6 +28,10 @@ const RouterComponent = () => {
                     gestureEnabled={false} panHandlers={null} />
                 <Scene key="login" hideNavBar component={Login}
                     gestureEnabled={false} panHandlers={null} />
+                <Scene key="addingr" navBar={TopBar} component={AddIngr}
+                    gestureEnabled={false} panHandlers={null}
+                    title="식자재 등록" hasPop={true}
+                    />
                 <Scene key="BottomTab" hideNavBar showLabel={false}
                     tabs={true} default="main"
                     >
