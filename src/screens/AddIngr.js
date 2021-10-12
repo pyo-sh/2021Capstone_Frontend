@@ -5,15 +5,18 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import SearchInput from '~/components/search/SearchInput';
 import CalendarInput from '~/components/add-ingr/CalendarInput';
+import RadioBtn from '~/components/add-ingr/RadioBtn';
+import PlusIcon from '~/components/icons/PlusIcon';
+import MinusIcon from '~/components/icons/MinusIcon';
 import { Color, DefaultFont_KR } from '~/Constant';
 
 const AddIngr = () => {
     const [name, setName] = useState('');
     const [type, setType] = useState('');
     const [date, setDate] = useState(new Date());
+    const [count, setCount] = useState(0);
 
     return <View style={styleSheet.wrapper}>
         <View style={styleSheet.otherwise}>
@@ -78,29 +81,52 @@ const AddIngr = () => {
                     setDate={setDate}
                 />
             </View>
+            <View style={[styleSheet.flexLine, {justifyContent: 'flex-start'}]}>
+                <View style={styleSheet.flexSquare}>
+                    <Text style={[styleSheet.controlTitle, { marginBottom: 15 }]}>
+                        수량
+                    </Text>
+                    <View style={[styleSheet.flexLine, { width: 130, paddingHorizontal: 10, justifyContent:'space-between' }]}>
+                        <TouchableOpacity
+                            style={styleSheet.countBtn}
+                            onPress={() => {setCount((prev) => {
+                                if(prev == 0) return 0;
+                                else return prev - 1;
+                            })}}
+                        >
+                            <MinusIcon
+                                color={Color.white}
+                                width={15}
+                                height={2}
+                            />
+                        </TouchableOpacity>
+                        <Text>{count}</Text>
+                        <TouchableOpacity
+                            style={styleSheet.countBtn}
+                            onPress={() => {setCount(prev => prev + 1)}}
+                        >
+                            <PlusIcon
+                                color={Color.white}
+                                width={15}
+                                height={15}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styleSheet.flexSquare}>
+                    <Text style={[styleSheet.controlTitle, { marginBottom: 15 }]}>
+                        보관할 냉장고
+                    </Text>
+                    <View style={{height: 30, marginTop: 15}}>
+
+                    </View>
+                </View>
+            </View>
         </View>
-    </View>
-}
-
-const RadioBtn = ({style, nowVal, value, setValue, text}) => {
-    const isClicked = nowVal === value;
-
-    return (
-        <TouchableOpacity
-            onPress={() => setValue(value)}
-            style={[
-                styleSheet.defaultBtn,
-                isClicked ? styleSheet.activeBtn : {},
-                style ?? {},
-            ]}>
-            <Text style={[
-                DefaultFont_KR,
-                {color: isClicked ? Color.primary_4 : Color.primary_2}
-            ]}>
-                {text}
-            </Text>
+        <TouchableOpacity style={styleSheet.submitBtn}>
+            <Text style={[styleSheet.controlTitle, { fontSize: 20, marginRight:0 }]}>등록하기</Text>
         </TouchableOpacity>
-    );
+    </View>
 }
 
 const styleSheet = StyleSheet.create({
@@ -158,19 +184,6 @@ const styleSheet = StyleSheet.create({
         fontSize: 15,
         marginRight: 16,
     },
-    defaultBtn: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    activeBtn: {
-        padding: 5,
-        margin: 1,
-        backgroundColor: Color.primary_2,
-        borderRadius: 8,
-    },
     radioBack: {
         height: 40,
         flex: 1,
@@ -180,7 +193,32 @@ const styleSheet = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 8,
-    }
+    },
+    flexSquare: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        
+    },
+    countBtn: {
+        width: 30,
+        height: 30,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+        backgroundColor: Color.primary_2,
+    },
+    submitBtn: {
+        width: '100%',
+        height: 55,
+        marginTop: 'auto',
+        marginBottom: 15,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Color.primary_2,
+    },
 });
 
 export default AddIngr;
