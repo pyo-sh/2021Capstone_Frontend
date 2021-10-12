@@ -11,7 +11,8 @@ const Splash = () => {
         
         // 메인 이동
         setTimeout(() => {
-            Actions.main();
+        //   Actions.main();
+        Actions.login();
         }, 1000);
 
         // 로그인 이동
