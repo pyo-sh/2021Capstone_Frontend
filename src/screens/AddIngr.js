@@ -7,11 +7,13 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import SearchInput from '~/components/search/SearchInput';
+import CalendarInput from '~/components/add-ingr/CalendarInput';
 import { Color, DefaultFont_KR } from '~/Constant';
 
 const AddIngr = () => {
     const [name, setName] = useState('');
     const [type, setType] = useState('');
+    const [date, setDate] = useState(new Date());
 
     return <View style={styleSheet.wrapper}>
         <View style={styleSheet.otherwise}>
@@ -71,6 +73,10 @@ const AddIngr = () => {
                 <Text style={styleSheet.controlTitle}>
                     유통 기한
                 </Text>
+                <CalendarInput
+                    date={date}
+                    setDate={setDate}
+                />
             </View>
         </View>
     </View>
