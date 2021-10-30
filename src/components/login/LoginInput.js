@@ -2,11 +2,9 @@ import React, { useRef, useEffect, Children } from 'react';
 import {
     StyleSheet,
     View,
-    TextInput,
-    TouchableOpacity 
+    TextInput
 } from 'react-native';
 import { Color } from '~/Constant';
-import { SvgXml } from 'react-native-svg';
 
 
 const LoginInput = (props) => {
@@ -33,7 +31,7 @@ const styleSheet = StyleSheet.create({
     // 로그인 아이콘 생성
     loginbuttonIcon: {
         width : "70%",
-        fontSize : 20,
+        fontSize : 17,
         fontWeight : 'bold',
         borderBottomWidth: 3,
         borderBottomColor: Color.primary_3,

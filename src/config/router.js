@@ -12,6 +12,7 @@ import Search from '~/screens/Search';
 import Recipes from '~/screens/Recipes';
 import Setting from '~/screens/Setting';
 import AddIngr from '~/screens/AddIngr';
+import SignUp  from '../components/login/SignUp';
 
 import MainTabIcon from '~/components/icons/MainTabIcon';
 import SearchTabIcon from '~/components/icons/SearchTabIcon';
@@ -27,6 +28,8 @@ const RouterComponent = () => {
                 <Scene key="splash" hideNavBar component={Splash}
                     gestureEnabled={false} panHandlers={null} />
                 <Scene key="login" hideNavBar component={Login}
+                    gestureEnabled={false} panHandlers={null} />
+                <Scene key="signup" hideNavBar component={SignUp}
                     gestureEnabled={false} panHandlers={null} />
                 <Scene key="addingr" navBar={TopBar} component={AddIngr}
                     gestureEnabled={false} panHandlers={null}

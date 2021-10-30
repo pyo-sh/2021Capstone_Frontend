@@ -28,15 +28,15 @@ const Login = () => {
 			<View style={styleSheet.wrapperalign}>
 				<View>
 					<LoginInput
-						text={id}
+						value={id}
 						onChangeText={value => setId(value)}
-						placeholder={"Id"}
+						placeholder={"ID"}
 						onSubmitEditing={() => console.log(id)}
 					/>
 				</View>
 				<View>
 					<LoginInput
-						text={pw}
+						value={pw}
 						onChangeText={value => setPw(value)}
 						placeholder={"Password"}
 						onSubmitEditing={() => console.log(pw)}
@@ -74,7 +74,7 @@ const Login = () => {
                                 <path id="패스_7725" data-name="패스 7725" d="M27.5,0h222a27.5,27.5,0,0,1,0,55H27.5a27.5,27.5,0,0,1,0-55Z" transform="translate(57 584)" fill="#b0d8e7"/>
                                 <text id="로그인" transform="translate(164 622)" fill="#075063" font-size="23" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-weight="700"><tspan x="0" y="0">로그인</tspan></text>
                             </g>
-                            </svg>
+                            </svg>               
                         `}
 						/>
 					</TouchableOpacity>
