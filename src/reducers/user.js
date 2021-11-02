@@ -1,3 +1,6 @@
+import { createAction } from "~/config/reducer";
+import { removeToken } from "~/utils/storage";
+
 // State
 const initialState = {
 	uid: "",
@@ -11,31 +14,18 @@ const initialState = {
 	loadUserErrorReason: ""
 };
 
-// Actions with createActions
-export const SET_USER_REQUEST = "SET_USER_REQUEST";
-export const Set_User_Success = data => ({
-	type: SET_USER_REQUEST,
-	payload: data
-});
-
-export const LOGIN_USER_REQUEST = "LOGIN_USER_REQUEST";
-export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
-export const LOGIN_USER_FAILURE = "LOGIN_USER_FAILURE";
-export const LogIn_User_Request = data => ({
-	type: LOGIN_USER_REQUEST,
-	payload: data
-});
-export const LogIn_User_Success = data => ({
-	type: LOGIN_USER_SUCCESS,
-	payload: data
-});
-export const LogIn_User_Failure = error => ({
-	type: LOGIN_USER_FAILURE,
-	error: error
-});
-
-export const LOGOUT_USER_REQUEST = "LOGOUT_USER_REQUEST";
-export const LogOut_User_Request = () => ({ type: LOGOUT_USER_REQUEST });
+// 유저의 정보를 가져오는 요청
+export const [SET_USER_REQUEST, setUserSuccess] = createAction("SET_USER_REQUEST");
+// 유저의 로그인을 요청
+export const [LOGIN_USER_REQUEST, logInUserRequest] = createAction("LOGIN_USER_REQUEST");
+export const [LOGIN_USER_SUCCESS, logInUserSuccess] = createAction("LOGIN_USER_SUCCESS");
+export const [LOGIN_USER_FAILURE, logInUserFailure] = createAction("LOGIN_USER_FAILURE");
+// 유저의 로그아웃을 요청 (storage, redux)
+export const [LOGOUT_USER_REQUEST, logOutUserRequest] = createAction("LOGOUT_USER_REQUEST");
+// 유저의 토큰이 유효한지 검사
+export const [VERIFY_USER_REQUEST, verifyUserRequest] = createAction("VERIFY_USER_REQUEST");
+export const [VERIFY_USER_SUCCESS, verifyUserSuccess] = createAction("VERIFY_USER_SUCCESS");
+export const [VERIFY_USER_FAILURE, verifyUserFailure] = createAction("VERIFY_USER_FAILURE");
 
 // Reducer
 function userReducer(state = initialState, action) {
@@ -51,20 +41,22 @@ function userReducer(state = initialState, action) {
 				...state,
 				isLoadingUser: true
 			};
-		case LOGIN_USER_SUCCESS:
+		case LOGIN_USER_SUCCESS: {
 			return {
 				...state,
 				...action.payload,
 				isLoadingUser: false
 			};
+		}
 		case LOGIN_USER_FAILURE:
 			return {
 				...state,
 				isLoadingUser: false,
-				loadUserErrorReason: action.error
+				loadUserErrorReason: action?.error ?? ""
 			};
 		// 로그아웃
-		case LOGOUT_USER_REQUEST:
+		case LOGOUT_USER_REQUEST: {
+			removeToken();
 			return {
 				uid: "",
 				name: "",
@@ -72,6 +64,25 @@ function userReducer(state = initialState, action) {
 				imageURL: "",
 				isLoadingUser: false,
 				loadUserErrorReason: ""
+			};
+		}
+		case VERIFY_USER_REQUEST:
+			return {
+				...state,
+				isLoadingUser: true
+			};
+		case VERIFY_USER_SUCCESS:
+			return {
+				...state,
+				...action.payload,
+				isLoadingUser: false
+			};
+		case VERIFY_USER_FAILURE:
+			return {
+				...state,
+				...action.payload,
+				isLoadingUser: false,
+				loadUserErrorReason: action?.error ?? ""
 			};
 		default:
 			return state;

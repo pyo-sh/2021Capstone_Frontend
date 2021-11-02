@@ -1,18 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Color, DefaultFont_KR } from "~/Constant";
 import { Actions } from "react-native-router-flux";
 import PlusIcon from "~/components/icons/PlusIcon";
-
-const getDummyIngrs = ref => [];
+import FridgeContent from "~/components/main/FridgeContent";
 
 const Fridge = ({ refs, refInfos }) => {
-	const [enrollIngrs, setEnrollIngrs] = useState([]);
-
-	useEffect(() => {
-		setEnrollIngrs(getDummyIngrs(refInfos?.refNum));
-	}, []);
-
 	return (
 		<View style={styleSheet.wrapper}>
 			<TouchableOpacity
@@ -34,6 +27,7 @@ const Fridge = ({ refs, refInfos }) => {
 				>
 					{refInfos?.refName}
 				</Text>
+				<FridgeContent />
 			</View>
 		</View>
 	);

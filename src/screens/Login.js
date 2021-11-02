@@ -5,7 +5,7 @@ import { SvgXml } from "react-native-svg";
 import LoginInput from "~/components/login/LoginInput";
 import { Actions } from "react-native-router-flux";
 import { useSelector, useDispatch } from "react-redux";
-import { LogIn_User_Request } from "~/reducers/user";
+import { logInUserRequest } from "~/reducers/user";
 
 const Login = () => {
 	const dispatch = useDispatch();
@@ -18,9 +18,9 @@ const Login = () => {
 			Actions.main();
 		}
 	}, [accessToken]);
+
 	const loginUser = () => {
-		// dispatch(LogIn_User_Request({ id, pw }));
-		Actions.main();
+		dispatch(logInUserRequest({ id, pw }));
 	};
 
 	return (
@@ -63,10 +63,7 @@ const Login = () => {
 						padding: "10%"
 					}}
 				>
-					<TouchableOpacity
-						onPress={loginUser}
-						style={styleSheet.button}
-					>
+					<TouchableOpacity onPress={loginUser} style={styleSheet.button}>
 						<SvgXml
 							xml={`
                             <svg xmlns="http://www.w3.org/2000/svg" width="277" height="55" viewBox="0 0 277 55">
