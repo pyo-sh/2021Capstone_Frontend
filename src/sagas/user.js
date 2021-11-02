@@ -4,23 +4,21 @@ import {
 	LogIn_User_Success,
 	LogIn_User_Failure
 } from "../reducers/user";
-import { request } from "~/apis/request";
+import { loginAPI } from "~/apis/user";
 
-function loginAPI(data) {
+function loginRequest(data) {
 	const bodyData = {
 		id: data.id,
 		pwd: data.pw
 	};
-	return request({ url: "/api/user/login", method: "POST", body: bodyData });
+	return loginAPI(bodyData);
 }
 
 function* login(action) {
 	try {
-		const result = yield call(loginAPI, action.payload);
-		console.dir(result);
+		const result = yield call(loginRequest, action.payload);
 
-		yield put(LogIn_User_Success({}));
-		yield put(loadUserRequestAction({ userNum, isMe: true }));
+		yield put(LogIn_User_Success(result));
 	} catch (e) {
 		console.error(e);
 		yield put(LogIn_User_Failure(e.response));

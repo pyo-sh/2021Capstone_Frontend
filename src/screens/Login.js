@@ -18,9 +18,9 @@ const Login = () => {
 			Actions.main();
 		}
 	}, [accessToken]);
+
 	const loginUser = () => {
-		// dispatch(LogIn_User_Request({ id, pw }));
-		Actions.main();
+		dispatch(LogIn_User_Request({ id, pw }));
 	};
 
 	return (
