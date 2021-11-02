@@ -1,5 +1,5 @@
 import { createAction } from "~/config/reducer";
-import { saveToken } from "~/utils/storage";
+import { removeToken } from "~/utils/storage";
 
 // State
 const initialState = {
@@ -41,20 +41,22 @@ function userReducer(state = initialState, action) {
 				...state,
 				isLoadingUser: true
 			};
-		case LOGIN_USER_SUCCESS:
+		case LOGIN_USER_SUCCESS: {
 			return {
 				...state,
 				...action.payload,
 				isLoadingUser: false
 			};
+		}
 		case LOGIN_USER_FAILURE:
 			return {
 				...state,
 				isLoadingUser: false,
-				loadUserErrorReason: action.error
+				loadUserErrorReason: action?.error ?? ""
 			};
 		// 로그아웃
-		case LOGOUT_USER_REQUEST:
+		case LOGOUT_USER_REQUEST: {
+			removeToken();
 			return {
 				uid: "",
 				name: "",
@@ -63,8 +65,25 @@ function userReducer(state = initialState, action) {
 				isLoadingUser: false,
 				loadUserErrorReason: ""
 			};
-		case VERIFY_USER_LOGIN:
-			return {};
+		}
+		case VERIFY_USER_REQUEST:
+			return {
+				...state,
+				isLoadingUser: true
+			};
+		case VERIFY_USER_SUCCESS:
+			return {
+				...state,
+				...action.payload,
+				isLoadingUser: false
+			};
+		case VERIFY_USER_FAILURE:
+			return {
+				...state,
+				...action.payload,
+				isLoadingUser: false,
+				loadUserErrorReason: action?.error ?? ""
+			};
 		default:
 			return state;
 	}

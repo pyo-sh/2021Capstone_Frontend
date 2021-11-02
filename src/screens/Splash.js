@@ -1,29 +1,30 @@
-import React, { useEffect } from 'react';
-import {
-    View,
-    Text
-} from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import React, { useState, useEffect } from "react";
+import { View, Text } from "react-native";
+import { Actions } from "react-native-router-flux";
+import { useSelector, useDispatch } from "react-redux";
+import { verifyUserRequest } from "~/reducers/user";
 
 const Splash = () => {
-    useEffect(() => {
-        // TODO: 로그인 관련 여부 확인
-        
-        // 메인 이동
-        setTimeout(() => {
-        //   Actions.main();
-        Actions.login();
-        }, 1000);
+	const dispatch = useDispatch();
+	const [isFirst, setIsFirst] = useState(true);
+	const { accessToken, isLoadingUser } = useSelector(state => state.user);
 
-        // 로그인 이동
-        // Actions.login();
-    }, [])
+	useEffect(() => {
+		dispatch(verifyUserRequest({}));
+		setIsFirst(false);
+	}, []);
 
-    return <View>
-        <Text>
-            Login Checking...
-        </Text>
-    </View>
-}
+	useEffect(() => {
+		if (isFirst || isLoadingUser) return;
+		if (!accessToken) Actions.login();
+		else Actions.main();
+	}, [isFirst, isLoadingUser, accessToken]);
+
+	return (
+		<View>
+			<Text>Login Checking...</Text>
+		</View>
+	);
+};
 
 export default Splash;
