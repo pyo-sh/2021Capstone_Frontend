@@ -34,7 +34,8 @@ const AddFridge = ({ setRefs }) => {
 				explan: explain,
 				refType: "h",
 				ownerNum: uid,
-				colorCode: color
+				colorCode: color,
+				enrollIngrs: []
 			}).then(ref => {
 				setRefs(prev => [...prev, ref]);
 				setIsLoading(false);
