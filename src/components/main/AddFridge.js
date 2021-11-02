@@ -1,22 +1,19 @@
 import React, { useState, useCallback, useEffect } from "react";
-import {
-	StyleSheet,
-	View,
-	Text,
-	TouchableOpacity,
-	Modal,
-	TextInput
-} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput } from "react-native";
 import { Color, DefaultFont_KR } from "~/Constant";
 import { SvgXml } from "react-native-svg";
 import ColorPickerScreen from "~/components/main/ColorPicker";
+import { useSelector } from "react-redux";
+import { createRef } from "~/apis/fridge";
 
 const AddFridge = ({ setRefs }) => {
+	const { uid } = useSelector(state => state.user);
 	const [modalVisible, setModalVisible] = useState(false);
 	const [title, setTitle] = useState("");
 	const [explain, setExplain] = useState("");
 	const [color, setColor] = useState("#225685");
 	const [canSubmit, setCanSubmit] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const openModal = useCallback(() => {
 		setModalVisible(true);
@@ -26,35 +23,31 @@ const AddFridge = ({ setRefs }) => {
 	}, []);
 
 	useEffect(() => {
-		setCanSubmit(!(!title || !explain || !color));
+		setCanSubmit(!(!title || !explain || !color || isLoading));
 	}, [title, explain, color]);
 
 	const submitRef = () => {
 		if (canSubmit) {
-			setRefs(prev => [
-				...prev,
-				{
-					refNum: (202005060002 + prev.length).toString(),
-					refName: title,
-					explan: explain,
-					refType: "r",
-					ownerNum: "2005060001",
-					colorCode: color,
-					enrollIngrs: []
-				}
-			]);
-			setTitle("");
-			setExplain("");
-			closeModal();
+			setIsLoading(true);
+			createRef({
+				refName: title,
+				explan: explain,
+				refType: "h",
+				ownerNum: uid,
+				colorCode: color
+			}).then(ref => {
+				setRefs(prev => [...prev, ref]);
+				setIsLoading(false);
+				setTitle("");
+				setExplain("");
+				closeModal();
+			});
 		}
 	};
 
 	return (
 		<View style={styleSheet.wrapper}>
-			<TouchableOpacity
-				style={[styleSheet.dotBorder, styleSheet.button]}
-				onPress={openModal}
-			>
+			<TouchableOpacity style={[styleSheet.dotBorder, styleSheet.button]} onPress={openModal}>
 				<View style={styleSheet.plus}></View>
 				<View style={[styleSheet.plus, styleSheet.rotate]}></View>
 			</TouchableOpacity>
@@ -66,24 +59,13 @@ const AddFridge = ({ setRefs }) => {
 			>
 				<View style={styleSheet.centeredView}>
 					<View style={styleSheet.modalView}>
-						<View
-							style={[
-								styleSheet.betweenView,
-								{ marginBottom: 20 }
-							]}
-						>
+						<View style={[styleSheet.betweenView, { marginBottom: 20 }]}>
 							<Text
-								style={[
-									{ fontSize: 25, color: Color.primary_4 },
-									DefaultFont_KR
-								]}
+								style={[{ fontSize: 25, color: Color.primary_4 }, DefaultFont_KR]}
 							>
 								냉장고 추가
 							</Text>
-							<TouchableOpacity
-								style={styleSheet.modalButton}
-								onPress={closeModal}
-							>
+							<TouchableOpacity style={styleSheet.modalButton} onPress={closeModal}>
 								<SvgXml
 									xml={`
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -96,10 +78,7 @@ const AddFridge = ({ setRefs }) => {
 						</View>
 						<View style={styleSheet.betweenView}>
 							<Text
-								style={[
-									{ fontSize: 17, color: Color.primary_1 },
-									DefaultFont_KR
-								]}
+								style={[{ fontSize: 17, color: Color.primary_1 }, DefaultFont_KR]}
 							>
 								별명
 							</Text>
@@ -111,24 +90,13 @@ const AddFridge = ({ setRefs }) => {
 						</View>
 						<View style={styleSheet.betweenView}>
 							<Text
-								style={[
-									{ fontSize: 17, color: Color.primary_1 },
-									DefaultFont_KR
-								]}
+								style={[{ fontSize: 17, color: Color.primary_1 }, DefaultFont_KR]}
 							>
 								색상
 							</Text>
-							<ColorPickerScreen
-								color={color}
-								setColor={setColor}
-							/>
+							<ColorPickerScreen color={color} setColor={setColor} />
 						</View>
-						<Text
-							style={[
-								{ fontSize: 17, color: Color.primary_1 },
-								DefaultFont_KR
-							]}
-						>
+						<Text style={[{ fontSize: 17, color: Color.primary_1 }, DefaultFont_KR]}>
 							냉장고 쓰임새
 						</Text>
 						<TextInput
@@ -148,9 +116,7 @@ const AddFridge = ({ setRefs }) => {
 									DefaultFont_KR,
 									{
 										fontSize: 20,
-										color: canSubmit
-											? Color.primary_4
-											: Color.gray
+										color: canSubmit ? Color.primary_4 : Color.gray
 									}
 								]}
 							>
