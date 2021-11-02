@@ -6,31 +6,22 @@ import LeftArrowIcon from "~/components/icons/LeftArrowIcon";
 import Fridge from "~/components/main/Fridge";
 import AddFridge from "~/components/main/AddFridge";
 import { Color } from "~/Constant";
-
-const dummyRefs = [
-	{
-		refNum: "202005060001",
-		refName: "일반냉장고",
-		explan: "주방 첫번째 냉장고",
-		refType: "h",
-		ownerNum: "2005060001",
-		colorCode: "#225685"
-	},
-	{
-		refNum: "202005060002",
-		refName: "비밀 냉장고",
-		explan: "아무도 모르는 냉장고",
-		refType: "r",
-		ownerNum: "2005060001",
-		colorCode: "#9DD6EB"
-	}
-];
+import { readRefsByUser } from "~/apis/fridge";
+import { useSelector } from "react-redux";
 
 const Main = () => {
+	const { uid } = useSelector(state => state.user);
 	const [refs, setRefs] = useState([]);
 
 	useEffect(() => {
-		setRefs([...dummyRefs]);
+		try {
+			readRefsByUser(uid).then(ref => {
+				if (!ref) return;
+				setRefs(ref);
+			});
+		} catch (e) {
+			console.error(e);
+		}
 	}, []);
 
 	return (
