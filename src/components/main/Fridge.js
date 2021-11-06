@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { Color, DefaultFont_KR } from "~/Constant";
 import { Actions } from "react-native-router-flux";
-import PlusIcon from "~/components/icons/PlusIcon";
-import FridgeContent from "~/components/main/FridgeContent";
+import { Color, DefaultFont_KR } from "@src/Constant";
+import PlusIcon from "@src/components/icons/PlusIcon";
+import FridgeContent from "@src/components/main/FridgeContent";
 
 const Fridge = ({ refs, refInfos }) => {
 	return (

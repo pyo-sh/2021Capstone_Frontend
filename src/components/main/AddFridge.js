@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput } from "react-native";
-import { Color, DefaultFont_KR } from "~/Constant";
-import { SvgXml } from "react-native-svg";
-import ColorPickerScreen from "~/components/main/ColorPicker";
 import { useSelector } from "react-redux";
-import { createRef } from "~/apis/fridge";
+import { SvgXml } from "react-native-svg";
+import { Color, DefaultFont_KR } from "@src/Constant";
+import ColorPickerScreen from "@src/components/main/ColorPicker";
+import { createRef } from "@src/apis/fridge";
 
 const AddFridge = ({ setRefs }) => {
 	const { uid } = useSelector(state => state.user);

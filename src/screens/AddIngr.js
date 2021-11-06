@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
-import SearchInput from "~/components/search/SearchInput";
-import CalendarInput from "~/components/add-ingr/CalendarInput";
-import RadioBtn from "~/components/add-ingr/RadioBtn";
-import PlusIcon from "~/components/icons/PlusIcon";
-import MinusIcon from "~/components/icons/MinusIcon";
-import { Color, DefaultFont_KR } from "~/Constant";
 import SelectDropdown from "react-native-select-dropdown";
-import { dateToString, isBefore } from "~/utils/date";
-import { createRefEnrollIngr } from "~/apis/ingrs";
 import { Actions } from "react-native-router-flux";
+import SearchInput from "@src/components/search/SearchInput";
+import CalendarInput from "@src/components/add-ingr/CalendarInput";
+import RadioBtn from "@src/components/add-ingr/RadioBtn";
+import PlusIcon from "@src/components/icons/PlusIcon";
+import MinusIcon from "@src/components/icons/MinusIcon";
+import { Color, DefaultFont_KR } from "@src/Constant";
+import { dateToString, isBefore } from "@src/utils/date";
+import { createRefEnrollIngr } from "@src/apis/ingrs";
 
 const AddIngr = ({ refs, refInfos }) => {
 	const [name, setName] = useState("");

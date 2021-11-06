@@ -1,5 +1,5 @@
-import { createAction } from "~/config/reducer";
-import { removeToken } from "~/utils/storage";
+import { createAction } from "@src/config/reducer";
+import { removeToken } from "@src/utils/storage";
 
 // State
 const initialState = {

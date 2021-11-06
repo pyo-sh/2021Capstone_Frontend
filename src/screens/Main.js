@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import Swiper from "react-native-swiper";
-import RightArrowIcon from "~/components/icons/RightArrowIcon";
-import LeftArrowIcon from "~/components/icons/LeftArrowIcon";
-import Fridge from "~/components/main/Fridge";
-import AddFridge from "~/components/main/AddFridge";
-import { Color } from "~/Constant";
-import { readRefsByUser } from "~/apis/fridge";
 import { useSelector } from "react-redux";
+import RightArrowIcon from "@src/components/icons/RightArrowIcon";
+import LeftArrowIcon from "@src/components/icons/LeftArrowIcon";
+import Fridge from "@src/components/main/Fridge";
+import AddFridge from "@src/components/main/AddFridge";
+import { Color } from "@src/Constant";
+import { readRefsByUser } from "@src/apis/fridge";
 
 const Main = () => {
 	const { uid } = useSelector(state => state.user);

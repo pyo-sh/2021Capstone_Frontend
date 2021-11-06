@@ -1,21 +1,21 @@
-import React from 'react';
-import {
-    View
-} from 'react-native';
-import { SvgXml } from 'react-native-svg';
+import React from "react";
+import { View } from "react-native";
+import { SvgXml } from "react-native-svg";
 
-const icon = (color) => {
-    return `
+const icon = color => {
+	return `
         <svg width="28" height="21" viewBox="0 0 28 21" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill="${color}" d="M27.744 2.61193L25.26 0.245934C25.0918 0.087947 24.8698 0 24.639 0C24.4083 0 24.1862 0.087947 24.018 0.245934L11.318 13.0149L4.03801 6.07893C3.86729 5.91964 3.64249 5.83106 3.40901 5.83106C3.17552 5.83106 2.95072 5.91964 2.78001 6.07893L0.263005 8.47893C0.180501 8.55559 0.114693 8.64843 0.0696918 8.75167C0.0246909 8.85491 0.00146484 8.96632 0.00146484 9.07893C0.00146484 9.19155 0.0246909 9.30296 0.0696918 9.4062C0.114693 9.50943 0.180501 9.60228 0.263005 9.67893L10.616 19.7649C10.7138 19.8548 10.8305 19.9217 10.9575 19.9606C11.0845 19.9996 11.2186 20.0096 11.35 19.9899C11.4855 20.0129 11.6244 20.0046 11.7561 19.9656C11.8878 19.9266 12.0089 19.858 12.11 19.7649L27.744 3.79493C27.8251 3.71924 27.8898 3.62767 27.934 3.52591C27.9783 3.42415 28.0011 3.31439 28.0011 3.20343C28.0011 3.09248 27.9783 2.98271 27.934 2.88096C27.8898 2.7792 27.8251 2.68763 27.744 2.61193Z"/>
         </svg>
     `;
-}
+};
 
-const CheckIcon = (props) => {
-    return <View style={props?.style ?? {}}>
-        <SvgXml xml={icon(props.color)}/>
-    </View>
-}
+const CheckIcon = props => {
+	return (
+		<View style={props?.style ?? {}}>
+			<SvgXml xml={icon(props.color)} />
+		</View>
+	);
+};
 
 export default CheckIcon;

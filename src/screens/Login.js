@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { Color } from "~/Constant";
-import { SvgXml } from "react-native-svg";
-import LoginInput from "~/components/login/LoginInput";
 import { Actions } from "react-native-router-flux";
 import { useSelector, useDispatch } from "react-redux";
-import { logInUserRequest } from "~/reducers/user";
+import { SvgXml } from "react-native-svg";
+import { Color } from "@src/Constant";
+import LoginInput from "@src/components/login/LoginInput";
+import { logInUserRequest } from "@src/reducers/user";
 
 const Login = () => {
 	const dispatch = useDispatch();

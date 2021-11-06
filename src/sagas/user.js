@@ -6,9 +6,9 @@ import {
 	VERIFY_USER_REQUEST,
 	verifyUserSuccess,
 	verifyUserFailure
-} from "../reducers/user";
-import { loginAPI } from "~/apis/user";
-import { saveToken, getToken } from "~/utils/storage";
+} from "@src/reducers/user";
+import { loginAPI } from "@src/apis/user";
+import { saveToken, getToken } from "@src/utils/storage";
 
 function loginRequest(data) {
 	const bodyData = {

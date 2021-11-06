@@ -1,5 +1,5 @@
 import axios from "axios";
-import { baseURL } from "~/Constant";
+import { baseURL } from "@src/Constant";
 
 export const createRef = async body => {
 	const response = await axios.post(`${baseURL}/api/ref`, body);
