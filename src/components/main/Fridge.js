@@ -27,7 +27,7 @@ const Fridge = ({ refs, refInfos }) => {
 				>
 					{refInfos?.refName}
 				</Text>
-				<FridgeContent />
+				<FridgeContent refNum={refInfos?.refNum} enrollIngrs={refInfos?.enrollIngrs} />
 			</View>
 		</View>
 	);
