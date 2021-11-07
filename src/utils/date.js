@@ -12,3 +12,13 @@ export const isBefore = (targetDate, comparisonDate) => {
 	b.setHours(0, 0, 0, 0);
 	return a <= b;
 };
+
+export const getDateRemaining = string => {
+	const targetDate = new Date(string);
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
+
+	const gap = today.getTime() - targetDate.getTime();
+	const result = Math.ceil(gap / (1000 * 60 * 60 * 24));
+	return result;
+};
