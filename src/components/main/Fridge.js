@@ -4,6 +4,7 @@ import { Actions } from "react-native-router-flux";
 import { Color, DefaultFont_KR } from "@src/Constant";
 import PlusIcon from "@src/components/icons/PlusIcon";
 import FridgeContent from "@src/components/main/FridgeContent";
+import { getTextColorByBackgroundColor } from "@src/utils/color";
 
 const Fridge = ({ refs, refInfos }) => {
 	return (
@@ -21,13 +22,16 @@ const Fridge = ({ refs, refInfos }) => {
 				<Text
 					style={[
 						styleSheet.title,
-						{ backgroundColor: refInfos?.colorCode ?? "#ffffff" },
+						{
+							backgroundColor: refInfos?.colorCode ?? "#ffffff",
+							color: getTextColorByBackgroundColor(refInfos?.colorCode ?? "#ffffff")
+						},
 						DefaultFont_KR
 					]}
 				>
 					{refInfos?.refName}
 				</Text>
-				<FridgeContent refNum={refInfos?.refNum} enrollIngrs={refInfos?.enrollIngrs} />
+				<FridgeContent refInfos={refInfos} enrollIngrs={refInfos?.enrollIngrs} />
 			</View>
 		</View>
 	);
