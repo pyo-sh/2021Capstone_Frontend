@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { getDateRemaining } from "@src/utils/date";
 import { getTextColorByBackgroundColor } from "@src/utils/color";
 import PencilIcon from "@src/components/icons/PencilIcon";
 import PlusIcon from "@src/components/icons/PlusIcon";
 import { Color, DefaultFont_EN } from "@src/Constant";
+import { deleteRefEnrollIngr } from "@src/apis/ingrs";
 
-const EnrollIngr = ({ ingrs, refColor, isSameDate }) => {
-	const dDay = getDateRemaining(ingrs.expyDate);
+const EnrollIngr = ({ ingr, refNum, refColor, isSameDate, deleteIngrItem }) => {
+	const [isLoading, setIsLoading] = useState(false);
+	const dDay = getDateRemaining(ingr.expyDate);
 	const isPlus = dDay >= 0;
+
+	const deleteSelf = () => {
+		if (isLoading) return;
+		setIsLoading(true);
+		const ingrOrnu = ingr.ingrOrnu;
+		console.log(refNum, ingrOrnu);
+		deleteRefEnrollIngr({ refNum, ingrOrnu })
+			.then(() => {
+				deleteIngrItem(ingrOrnu);
+				setIsLoading(false);
+			})
+			.catch(e => {
+				console.error(e);
+				setIsLoading(false);
+			});
+	};
+
 	return (
 		<>
 			{isSameDate ? (
@@ -28,13 +47,15 @@ const EnrollIngr = ({ ingrs, refColor, isSameDate }) => {
 				</View>
 			)}
 			<View style={styleSheet.ingrWrapper}>
-				<Text>{ingrs.ingrName}</Text>
-				<Text>{ingrs.quantity}</Text>
+				<Text style={{ flex: 2 }}>{ingr.ingrName}</Text>
+				<Text style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+					{ingr.quantity}
+				</Text>
 				<View style={styleSheet.flexView}>
-					<TouchableOpacity>
+					<TouchableOpacity style={{ marginRight: 10 }}>
 						<PencilIcon color={Color.gray} width={15} height={16} />
 					</TouchableOpacity>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={deleteSelf}>
 						<PlusIcon
 							style={{ transform: [{ rotate: "45deg" }] }}
 							color={Color.primary_1}
@@ -50,7 +71,8 @@ const EnrollIngr = ({ ingrs, refColor, isSameDate }) => {
 
 const styleSheet = StyleSheet.create({
 	dayWrapper: {
-		marginVertical: 15
+		marginTop: 15,
+		marginBottom: 8
 	},
 	dayCircle: color => ({
 		width: 70,
@@ -66,7 +88,9 @@ const styleSheet = StyleSheet.create({
 		color: Color.black
 	},
 	flexView: {
+		flex: 1,
 		display: "flex",
+		justifyContent: "flex-end",
 		flexDirection: "row",
 		alignItems: "center"
 	},
