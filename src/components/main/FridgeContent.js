@@ -11,8 +11,7 @@ const FridgeContent = ({ refInfos, enrollIngrs }) => {
 	const deleteIngrItem = ingrOrnu => {
 		setIngrs(prev => prev.filter(i => i.ingrOrnu !== ingrOrnu));
 	};
-	console.log(ingrs);
-	console.log(refInfos);
+
 	return (
 		<View style={styleSheet.wrapper}>
 			<View style={styleSheet.header(refColor)}>

@@ -16,7 +16,6 @@ const EnrollIngr = ({ ingr, refNum, refColor, isSameDate, deleteIngrItem }) => {
 		if (isLoading) return;
 		setIsLoading(true);
 		const ingrOrnu = ingr.ingrOrnu;
-		console.log(refNum, ingrOrnu);
 		deleteRefEnrollIngr({ refNum, ingrOrnu })
 			.then(() => {
 				deleteIngrItem(ingrOrnu);
