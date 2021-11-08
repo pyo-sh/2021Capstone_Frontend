@@ -4,16 +4,24 @@ import { useSelector } from "react-redux";
 import { SvgXml } from "react-native-svg";
 import { Color, DefaultFont_KR } from "@src/Constant";
 import ColorPickerScreen from "@src/components/main/ColorPicker";
-import { createRef } from "@src/apis/fridge";
+import { createRef, updateRef, deleteRef } from "@src/apis/fridge";
 
-const ModifyFridge = ({ setRefs, closeModal, refNum }) => {
+const ModifyFridge = ({ setRefs, closeModal, refInfos }) => {
+	const { refNum, colorCode, explan, refName } = refInfos;
 	const { uid } = useSelector(state => state.user);
-	const [title, setTitle] = useState("");
-	const [explain, setExplain] = useState("");
-	const [color, setColor] = useState("#225685");
+	const [title, setTitle] = useState(refName ?? "");
+	const [explain, setExplain] = useState(explan ?? "");
+	const [color, setColor] = useState(colorCode ?? "#225685");
 	const [canSubmit, setCanSubmit] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const isNew = !refNum;
+	const isNew = !refInfos;
+
+	useEffect(
+		() => () => {
+			setIsLoading(false);
+		},
+		[]
+	);
 
 	useEffect(() => {
 		setCanSubmit(!(!title || !explain || !color || isLoading));
@@ -21,22 +29,50 @@ const ModifyFridge = ({ setRefs, closeModal, refNum }) => {
 
 	const submitRef = () => {
 		if (!canSubmit) return;
+		if (isLoading) return;
 		setIsLoading(true);
 
-		createRef({
+		const requestBody = {
 			refName: title,
 			explan: explain,
 			refType: "h",
 			ownerNum: uid,
-			colorCode: color,
-			enrollIngrs: []
-		}).then(ref => {
-			setRefs(prev => [...prev, ref]);
-			setIsLoading(false);
-			setTitle("");
-			setExplain("");
-			closeModal();
-		});
+			colorCode: color
+		};
+		if (isNew) {
+			createRef(requestBody).then(ref => {
+				setRefs(prev => [...prev, ref]);
+				setTitle("");
+				setExplain("");
+				closeModal();
+			});
+		} else {
+			updateRef({ ...requestBody, refNum }).then(ref => {
+				setRefs(prev => {
+					const nowIndex = prev.findIndex(obj => obj.refNum === refNum);
+					const newData = [...prev];
+					newData[nowIndex] = ref;
+					return newData;
+				});
+				closeModal();
+			});
+		}
+	};
+
+	const deleteRefByNum = () => {
+		if (isNew) return;
+		if (isLoading) return;
+		setIsLoading(true);
+
+		const { refNum } = refInfos;
+		deleteRef(refNum)
+			.then(() => {
+				setRefs(prev => prev.filter(obj => obj.refNum !== refNum));
+				closeModal();
+			})
+			.catch(() => {
+				closeModal();
+			});
 	};
 
 	return (
@@ -78,7 +114,11 @@ const ModifyFridge = ({ setRefs, closeModal, refNum }) => {
 				multiline
 				numberOfLines={4}
 			/>
-			<TouchableOpacity disabled={!canSubmit} style={styleSheet.submit} onPress={submitRef}>
+			<TouchableOpacity
+				disabled={!canSubmit}
+				style={[styleSheet.bigBtn, { backgroundColor: Color.primary_2 }]}
+				onPress={submitRef}
+			>
 				<Text
 					style={[
 						DefaultFont_KR,
@@ -91,6 +131,26 @@ const ModifyFridge = ({ setRefs, closeModal, refNum }) => {
 					저장하기
 				</Text>
 			</TouchableOpacity>
+			{isNew ? (
+				<></>
+			) : (
+				<TouchableOpacity
+					style={[styleSheet.bigBtn, { backgroundColor: Color.pointed_red }]}
+					onPress={deleteRefByNum}
+				>
+					<Text
+						style={[
+							DefaultFont_KR,
+							{
+								fontSize: 20,
+								color: Color.white
+							}
+						]}
+					>
+						삭제하기
+					</Text>
+				</TouchableOpacity>
+			)}
 		</View>
 	);
 };
@@ -133,14 +193,13 @@ const styleSheet = StyleSheet.create({
 		height: 90,
 		marginVertical: 15
 	},
-	submit: {
+	bigBtn: {
 		padding: 10,
 		marginTop: 10,
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: Color.primary_2,
-		borderRadius: 50
+		borderRadius: 6
 	}
 });
 

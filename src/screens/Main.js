@@ -63,6 +63,7 @@ const Main = () => {
 					return (
 						<Fridge
 							key={refInfos?.refNum ?? `Fridge-${index}`}
+							setRefs={setRefs}
 							refs={refs}
 							refInfos={refInfos}
 						/>

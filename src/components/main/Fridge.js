@@ -3,21 +3,15 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { Color, DefaultFont_KR } from "@src/Constant";
 import PlusIcon from "@src/components/icons/PlusIcon";
+import PencilIcon from "@src/components/icons/PencilIcon";
 import FridgeContent from "@src/components/main/FridgeContent";
 import { getTextColorByBackgroundColor } from "@src/utils/color";
+import EasyModal from "@src/components/custom/EasyModal";
+import ModifyFridge from "@src/components/main/ModifyFridge";
 
-const Fridge = ({ refs, refInfos }) => {
+const Fridge = ({ setRefs, refs, refInfos }) => {
 	return (
 		<View style={styleSheet.wrapper}>
-			<TouchableOpacity
-				index={1}
-				onPress={() => {
-					Actions.addingr({ refs, refInfos });
-				}}
-				style={styleSheet.addButton}
-			>
-				<PlusIcon color={Color.white} />
-			</TouchableOpacity>
 			<View style={styleSheet.fridge}>
 				<Text
 					style={[
@@ -32,6 +26,35 @@ const Fridge = ({ refs, refInfos }) => {
 					{refInfos?.refName}
 				</Text>
 				<FridgeContent refInfos={refInfos} enrollIngrs={refInfos?.enrollIngrs} />
+				<View style={styleSheet.controlSection}>
+					<EasyModal
+						renderModalButton={({ openModal }) => (
+							<TouchableOpacity
+								index={1}
+								onPress={openModal}
+								style={styleSheet.bigBtn}
+							>
+								<PencilIcon color={Color.white} />
+							</TouchableOpacity>
+						)}
+						renderModalContent={({ closeModal }) => (
+							<ModifyFridge
+								closeModal={closeModal}
+								setRefs={setRefs}
+								refInfos={refInfos}
+							/>
+						)}
+					/>
+					<TouchableOpacity
+						index={1}
+						onPress={() => {
+							Actions.addingr({ refs, refInfos });
+						}}
+						style={[styleSheet.bigBtn, { marginLeft: 10 }]}
+					>
+						<PlusIcon color={Color.white} />
+					</TouchableOpacity>
+				</View>
 			</View>
 		</View>
 	);
@@ -45,27 +68,6 @@ const styleSheet = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: Color.background
-	},
-	addButton: {
-		width: 60,
-		height: 60,
-		position: "absolute",
-		marginHorizontal: "auto",
-		// right: 16,
-		bottom: 50,
-		zIndex: 50,
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		borderRadius: 50,
-		backgroundColor: Color.primary_2,
-		shadowColor: "#000000",
-		shadowOffset: {
-			width: 0,
-			height: 4
-		},
-		shadowOpacity: 0.25,
-		elevation: 5
 	},
 	fridge: {
 		width: "80%",
@@ -90,6 +92,35 @@ const styleSheet = StyleSheet.create({
 		textAlign: "center",
 		fontSize: 24,
 		borderRadius: 12
+	},
+	controlSection: {
+		position: "absolute",
+		marginHorizontal: "auto",
+		right: 0,
+		bottom: -25,
+
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "center",
+		alignContent: "center"
+	},
+	bigBtn: {
+		width: 50,
+		height: 50,
+		position: "relative",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+
+		backgroundColor: Color.primary_2,
+		borderRadius: 50,
+		shadowColor: "#000000",
+		shadowOffset: {
+			width: 0,
+			height: 4
+		},
+		shadowOpacity: 0.25,
+		elevation: 5
 	}
 });
 
