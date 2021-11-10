@@ -51,18 +51,12 @@ const RouterComponent = () => {
 					title="식자재 등록"
 					hasPop={true}
 				/>
-				<Scene
-					key="BottomTab"
-					hideNavBar
-					showLabel={false}
-					tabs={true}
-					wrap={false}
-					default="main"
-				>
+				<Scene key="BottomTab" hideNavBar showLabel={false} tabs={true} default="main">
 					<Scene
 						key="main"
 						hideNavBar
 						component={Main}
+						wrap={false}
 						gestureEnabled={false}
 						panHandlers={null}
 						icon={MainTabIcon}
