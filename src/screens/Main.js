@@ -9,8 +9,9 @@ import EasyModal from "@src/components/custom/EasyModal";
 import ModifyFridge from "@src/components/main/ModifyFridge";
 import { Color } from "@src/Constant";
 import { readRefsByUser } from "@src/apis/fridge";
+import { set } from "react-native-reanimated";
 
-const Main = () => {
+const Main = ({ addedIngr }) => {
 	const { uid } = useSelector(state => state.user);
 	const [refs, setRefs] = useState([]);
 
@@ -24,6 +25,21 @@ const Main = () => {
 			console.error(e);
 		}
 	}, []);
+
+	useEffect(() => {
+		// 식자재 추가
+		if (!addedIngr) return;
+		const newRefs = [...refs];
+		const targetIndex = newRefs.findIndex(obj => obj.refNum === addedIngr.refNum);
+		// 냉장고 수정
+		if (targetIndex === -1) return;
+		const newRef = {
+			...newRefs[targetIndex],
+			enrollIngrs: [...newRefs[targetIndex].enrollIngrs, addedIngr]
+		};
+		newRefs[targetIndex] = newRef;
+		setRefs(newRefs);
+	}, [addedIngr]);
 
 	return (
 		<Swiper
@@ -60,9 +76,10 @@ const Main = () => {
 				</View>,
 				/* 임박한 식자재 페이지 필요 */
 				...refs?.map((refInfos, index) => {
+					const { refNum, enrollIngrs } = refInfos;
 					return (
 						<Fridge
-							key={refInfos?.refNum ?? `Fridge-${index}`}
+							key={`${refNum}-${enrollIngrs?.length}` ?? `Fridge-${index}`}
 							setRefs={setRefs}
 							refs={refs}
 							refInfos={refInfos}

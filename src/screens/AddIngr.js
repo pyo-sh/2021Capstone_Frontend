@@ -40,8 +40,8 @@ const AddIngr = ({ refs, refInfos }) => {
 			storageMthdType: type
 		};
 		createRefEnrollIngr(data)
-			.then(() => {
-				Actions.main();
+			.then(body => {
+				Actions.main({ addedIngr: body });
 			})
 			.catch(() => {
 				setIsLoading(false);
