@@ -18,8 +18,8 @@ const EnrollIngr = ({ ingr, refNum, refColor, isSameDate, deleteIngrItem }) => {
 		const ingrOrnu = ingr.ingrOrnu;
 		deleteRefEnrollIngr({ refNum, ingrOrnu })
 			.then(() => {
-				deleteIngrItem(ingrOrnu);
 				setIsLoading(false);
+				deleteIngrItem(ingrOrnu);
 			})
 			.catch(e => {
 				console.error(e);

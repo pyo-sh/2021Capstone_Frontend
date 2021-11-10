@@ -9,7 +9,6 @@ import EasyModal from "@src/components/custom/EasyModal";
 import ModifyFridge from "@src/components/main/ModifyFridge";
 import { Color } from "@src/Constant";
 import { readRefsByUser } from "@src/apis/fridge";
-import { set } from "react-native-reanimated";
 
 const Main = ({ addedIngr }) => {
 	const { uid } = useSelector(state => state.user);
@@ -79,7 +78,7 @@ const Main = ({ addedIngr }) => {
 					const { refNum, enrollIngrs } = refInfos;
 					return (
 						<Fridge
-							key={`${refNum}-${enrollIngrs?.length}` ?? `Fridge-${index}`}
+							key={`Fridge-${refNum}-${enrollIngrs?.length}` ?? `Fridge-${index}`}
 							setRefs={setRefs}
 							refs={refs}
 							refInfos={refInfos}

@@ -9,7 +9,9 @@ const FridgeContent = ({ refInfos, enrollIngrs }) => {
 	const [ingrs, setIngrs] = useState(enrollIngrs ?? []);
 
 	const deleteIngrItem = ingrOrnu => {
-		setIngrs(prev => prev.filter(i => i.ingrOrnu !== ingrOrnu));
+		const newIngrs = ingrs.filter(i => i.ingrOrnu !== ingrOrnu);
+		setIngrs(newIngrs);
+		refInfos.enrollIngrs = newIngrs;
 	};
 
 	return (
@@ -24,11 +26,11 @@ const FridgeContent = ({ refInfos, enrollIngrs }) => {
 				<View style={{ flex: 1 }}></View>
 			</View>
 			{ingrs.map((ingr, index) => {
-				const beforeDate = ingrs[index - 1] ?? "";
-				const isSameDate = beforeDate === ingr.exprDate;
+				const beforeDate = ingrs[index - 1]?.expyDate ?? "";
+				const isSameDate = beforeDate === ingr.expyDate;
 				return (
 					<EnrollIngr
-						key={`${refInfos?.refNum}-${ingr.ingrOrnu}`}
+						key={`Enroll-${refInfos?.refNum}-${ingr.ingrOrnu}`}
 						ingr={ingr}
 						refNum={refNum}
 						refColor={refColor}
