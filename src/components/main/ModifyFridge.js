@@ -7,7 +7,7 @@ import ColorPickerScreen from "@src/components/main/ColorPicker";
 import { createRef, updateRef, deleteRef } from "@src/apis/fridge";
 
 const ModifyFridge = ({ setRefs, closeModal, refInfos }) => {
-	const { refNum, colorCode, explan, refName } = refInfos;
+	const { refNum, colorCode, explan, refName } = refInfos || {};
 	const { uid } = useSelector(state => state.user);
 	const [title, setTitle] = useState(refName ?? "");
 	const [explain, setExplain] = useState(explan ?? "");
