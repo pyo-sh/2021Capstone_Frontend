@@ -5,11 +5,12 @@ import {
     TextInput,
     TouchableOpacity 
 } from 'react-native';
-import { Color } from '~/Constant';
+import { Color, DefaultFont_KR } from '~/Constant';
 import { SvgXml } from 'react-native-svg';
 
-
 const LoginInput = (props) => {
+
+
     const { text, onChangeText, placeholder, onSubmitEditing } = props;
 
     return <View style={styleSheet.alignIcon}>
@@ -33,11 +34,12 @@ const styleSheet = StyleSheet.create({
     // 로그인 아이콘 생성
     loginbuttonIcon: {
         width : "70%",
-        fontSize : 20,
+        fontSize : 17,
         fontWeight : 'bold',
         borderBottomWidth: 3,
         borderBottomColor: Color.primary_3,
         color : Color.primary_1,
+        ...DefaultFont_KR,
     },
 
     textAlign : {

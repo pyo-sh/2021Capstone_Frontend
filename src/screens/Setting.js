@@ -7,6 +7,8 @@ import {
 } from 'react-native';
 import { Color, DefaultFont_KR } from '~/Constant';
 import { useSelector } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
+
 import PersonIcon from '~/components/icons/PersonIcon';
 import PencilIcon from '~/components/icons/PencilIcon';
 import EmailIcon from '~/components/icons/EmailIcon';
@@ -46,7 +48,9 @@ const Setting = () => {
             <View style={styleSheet.listItem}>
                 <ShippingIcon style={styleSheet.listIcon} color={Color.primary_1}/>
                 <Text style={styleSheet.listTitle}>쇼핑몰 연동</Text>
-                <RightArrowIcon style={{marginHorizontal: 15}} color={Color.primary_1}/>
+                <TouchableOpacity onPress={()=>Actions.interlock()}>
+                    <RightArrowIcon style={{marginHorizontal: 15}} color={Color.primary_1}/>
+                </TouchableOpacity>
             </View>
             <View style={styleSheet.listItem}>
                 <CheckIcon style={styleSheet.listIcon} color={Color.primary_1}/>

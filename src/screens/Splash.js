@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {
     View,
-    Text
+    Image
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -11,18 +11,21 @@ const Splash = () => {
         
         // 메인 이동
         setTimeout(() => {
-        //   Actions.main();
-        Actions.login();
-        }, 1000);
+            Actions.login();
+        }, 2000);
 
         // 로그인 이동
-        // Actions.login();
+
     }, [])
 
     return <View>
-        <Text>
-            Login Checking...
-        </Text>
+        <Image 
+            source={require('../components/icons/splash.png')}
+            resizeMode = 'stretch'
+            style={[{width:'100%',
+            height: '100%',}
+            ]}
+            />
     </View>
 }
 

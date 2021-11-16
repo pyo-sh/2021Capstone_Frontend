@@ -5,7 +5,7 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
-import { Color } from '~/Constant';
+import { Color, DefaultFont_KR } from '~/Constant';
 import { SvgXml } from 'react-native-svg';
 import LoginInput from '~/components/login/LoginInput';
 import { Actions } from 'react-native-router-flux';
@@ -33,12 +33,15 @@ const Login = () => {
                 />
             </View>
             <View>
-                <TouchableOpacity style={{
+                <TouchableOpacity 
+                onPress={()=>Actions.signup()}
+                style={{
                     padding : 5,
                     paddingLeft : 190,
                 }}>
                     <Text style={{
                         color : Color.primary_1,
+                        DefaultFont_KR
                     }}>
                         가입한적이 없으신가요?
                     </Text>
