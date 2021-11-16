@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Actions } from "react-native-router-flux";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import PersonIcon from "@src/components/icons/PersonIcon";
 import PencilIcon from "@src/components/icons/PencilIcon";
@@ -10,7 +11,7 @@ import RightArrowIcon from "@src/components/icons/RightArrowIcon";
 import LogoutIcon from "@src/components/icons/LogoutIcon";
 import { Color, DefaultFont_KR } from "@src/Constant";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserRequest } from "@src/reducers/user";
+import { setUserRequest, logOutUserRequest } from "@src/reducers/user";
 
 const Setting = () => {
 	const dispatch = useDispatch();
@@ -21,7 +22,10 @@ const Setting = () => {
 		dispatch(setUserRequest({ id: uid }));
 	}, []);
 
-	const logoutUser = () => {};
+	const pressLogout = () => {
+		dispatch(logOutUserRequest());
+		Actions.login();
+	};
 
 	return (
 		<View style={styleSheet.wrapper}>
@@ -69,7 +73,10 @@ const Setting = () => {
 					<Text style={styleSheet.listTitle}>설정</Text>
 					<RightArrowIcon style={{ marginHorizontal: 15 }} color={Color.primary_1} />
 				</TouchableOpacity>
-				<TouchableOpacity style={[styleSheet.listItem, { borderBottomWidth: 0 }]}>
+				<TouchableOpacity
+					onPress={pressLogout}
+					style={[styleSheet.listItem, { borderBottomWidth: 0 }]}
+				>
 					<LogoutIcon style={styleSheet.listIcon} color={Color.primary_1} />
 					<Text style={styleSheet.listTitle}>로그아웃</Text>
 					<RightArrowIcon style={{ marginHorizontal: 15 }} color={Color.primary_1} />
