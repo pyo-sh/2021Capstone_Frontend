@@ -18,6 +18,7 @@ const Splash = () => {
 		if (isFirst || isLoadingUser) return;
 		if (!accessToken) Actions.login();
 		else Actions.main();
+		setIsFirst(true);
 	}, [isFirst, isLoadingUser, accessToken]);
 
 	return (

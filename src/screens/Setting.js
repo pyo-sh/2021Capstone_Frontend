@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { useSelector } from "react-redux";
 import PersonIcon from "@src/components/icons/PersonIcon";
 import PencilIcon from "@src/components/icons/PencilIcon";
 import EmailIcon from "@src/components/icons/EmailIcon";
@@ -9,9 +8,17 @@ import CheckIcon from "@src/components/icons/CheckIcon";
 import SettingIcon from "@src/components/icons/SettingIcon";
 import RightArrowIcon from "@src/components/icons/RightArrowIcon";
 import { Color, DefaultFont_KR } from "@src/Constant";
+import { useSelector, useDispatch } from "react-redux";
+import { setUserRequest } from "@src/reducers/user";
 
 const Setting = () => {
-	const { name, email, nick_name } = useSelector(state => state.user);
+	const dispatch = useDispatch();
+	const { uid, name, nickname, email } = useSelector(state => state.user);
+
+	useEffect(() => {
+		if (!uid) console.error("no user");
+		dispatch(setUserRequest({ id: uid }));
+	}, []);
 
 	return (
 		<View style={styleSheet.wrapper}>
@@ -24,7 +31,7 @@ const Setting = () => {
 						{name}
 					</Text>
 					<Text style={[DefaultFont_KR, { fontSize: 16, color: Color.primary_3 }]}>
-						{nick_name}
+						{nickname}
 					</Text>
 				</View>
 				<TouchableOpacity style={{ marginRight: 35, marginLeft: 10 }}>
