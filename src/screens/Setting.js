@@ -7,6 +7,7 @@ import ShippingIcon from "@src/components/icons/ShippingIcon";
 import CheckIcon from "@src/components/icons/CheckIcon";
 import SettingIcon from "@src/components/icons/SettingIcon";
 import RightArrowIcon from "@src/components/icons/RightArrowIcon";
+import LogoutIcon from "@src/components/icons/LogoutIcon";
 import { Color, DefaultFont_KR } from "@src/Constant";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserRequest } from "@src/reducers/user";
@@ -19,6 +20,8 @@ const Setting = () => {
 		if (!uid) console.error("no user");
 		dispatch(setUserRequest({ id: uid }));
 	}, []);
+
+	const logoutUser = () => {};
 
 	return (
 		<View style={styleSheet.wrapper}>
@@ -51,21 +54,26 @@ const Setting = () => {
 						{email}
 					</Text>
 				</View>
-				<View style={styleSheet.listItem}>
+				<TouchableOpacity style={styleSheet.listItem}>
 					<ShippingIcon style={styleSheet.listIcon} color={Color.primary_1} />
 					<Text style={styleSheet.listTitle}>쇼핑몰 연동</Text>
 					<RightArrowIcon style={{ marginHorizontal: 15 }} color={Color.primary_1} />
-				</View>
-				<View style={styleSheet.listItem}>
+				</TouchableOpacity>
+				<TouchableOpacity style={styleSheet.listItem}>
 					<CheckIcon style={styleSheet.listIcon} color={Color.primary_1} />
 					<Text style={styleSheet.listTitle}>문의 및 안내</Text>
 					<RightArrowIcon style={{ marginHorizontal: 15 }} color={Color.primary_1} />
-				</View>
-				<View style={[styleSheet.listItem, { borderBottomWidth: 0 }]}>
+				</TouchableOpacity>
+				<TouchableOpacity style={[styleSheet.listItem]}>
 					<SettingIcon style={styleSheet.listIcon} color={Color.primary_1} />
 					<Text style={styleSheet.listTitle}>설정</Text>
 					<RightArrowIcon style={{ marginHorizontal: 15 }} color={Color.primary_1} />
-				</View>
+				</TouchableOpacity>
+				<TouchableOpacity style={[styleSheet.listItem, { borderBottomWidth: 0 }]}>
+					<LogoutIcon style={styleSheet.listIcon} color={Color.primary_1} />
+					<Text style={styleSheet.listTitle}>로그아웃</Text>
+					<RightArrowIcon style={{ marginHorizontal: 15 }} color={Color.primary_1} />
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
