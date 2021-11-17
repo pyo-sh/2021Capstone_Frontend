@@ -88,7 +88,6 @@ function userReducer(state = initialState, action) {
 				isLoadingUser: true
 			};
 		case VERIFY_USER_SUCCESS: {
-			console.log(action.payload);
 			return {
 				...state,
 				...action.payload,

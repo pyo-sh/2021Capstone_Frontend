@@ -68,7 +68,7 @@ const RouterComponent = () => {
 						gestureEnabled={false}
 						panHandlers={null}
 						icon={SearchTabIcon}
-						title="카테고리"
+						title="식자재 검색"
 						hasPop={false}
 					/>
 					<Scene

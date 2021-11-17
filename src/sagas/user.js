@@ -45,12 +45,12 @@ function* verify() {
 		if (!storageData) throw "No Storage";
 
 		const result = yield call(verifyRequest, storageData);
-		// yield put(verifyUserSuccess(result));
 
 		const { userNum, accessToken, refreshToken } = result;
+		console.log(result);
 		yield put(verifyUserSuccess({ uid: userNum, accessToken, refreshToken }));
 	} catch (e) {
-		console.log(e);
+		console.error(e);
 		yield put(verifyUserFailure(e));
 	}
 }
@@ -67,9 +67,11 @@ function* getUser(action) {
 		const result = yield call(getUserRequest, action.payload.id);
 		const { userNum, id, nickname, email, linkId } = result;
 
-		yield put(setUserSuccess({ uid: userNum, name: id, nickname, email, linkId }));
+		yield put(
+			setUserSuccess({ uid: userNum ?? 2110250001, name: id, nickname, email, linkId })
+		);
 	} catch (e) {
-		console.log(e);
+		console.error(e);
 		yield put(setUserFailure(e));
 	}
 }

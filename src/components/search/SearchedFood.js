@@ -8,14 +8,14 @@ const SearchInput = props => {
 
 	return (
 		<View style={styleSheet.wrapper}>
-			<Text style={styleSheet.title}>{data?.name ?? ""}</Text>
+			<Text style={styleSheet.title}>{data?.presetIngrName ?? ""}</Text>
 			<TouchableOpacity style={styleSheet.button}>
 				<SvgXml
 					xml={`
-                    <svg xmlns="http://www.w3.org/2000/svg" width="9" height="10" viewBox="0 0 9 10" fill="none">
-                    <path d="M9 5.192H5.143V9.049H3.857V5.192H0V3.906H3.857V0.048996H5.143V3.906H9V5.192Z" fill="white"/>
-                    </svg>
-                `}
+            <svg xmlns="http://www.w3.org/2000/svg" width="9" height="10" viewBox="0 0 9 10" fill="none">
+              <path d="M9 5.192H5.143V9.049H3.857V5.192H0V3.906H3.857V0.048996H5.143V3.906H9V5.192Z" fill="white"/>
+            </svg>
+          `}
 				/>
 			</TouchableOpacity>
 		</View>
