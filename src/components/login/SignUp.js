@@ -1,31 +1,40 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { Color, DefaultFont_KR } from "@src/Constant";
 import { SvgXml } from "react-native-svg";
-import { Actions } from "react-native-router-flux";
-import { Color } from "@src/Constant";
 import LoginInput from "@src/components/login/LoginInput";
+import { Actions } from "react-native-router-flux";
 
 const SignUp = () => {
 	const [textid, setTextid] = useState("");
-	const [textnickname, setTextnickname] = useState("");
 	const [textpw, setTextpw] = useState("");
-	const [textcheckpw, setTextcheckpw] = useState("");
+	const [nickname, setNickname] = useState("");
+	const [checkpw, setCheckpw] = useState("");
 	const [textemail, setTextemail] = useState("");
 	const [passwordError, setPasswordError] = useState(false);
 
 	const onSubmit = e => {
 		e.preventDefault();
-
-		if (textpw !== textcheckpw) {
+		/**검증 로직 만들기
+		 * 1. 비밀번호와 비밀번호 체크가 다를 경우를 검증한다
+		 * 2. 약관 동의를 확인한다.
+		 */
+		if (textpw !== checkpw) {
 			return setPasswordError(true);
 		}
+		console.log({
+			id,
+			nick,
+			password,
+			passwordCheck
+		});
 	};
 
 	const onChangeId = e => {
 		setTextid(e.target.value);
 	};
 	const onChangeNick = e => {
-		setTextnickname(e.target.value);
+		setNickname(e.target.value);
 	};
 	const onChangePassword = e => {
 		setTextpw(e.target.value);
@@ -33,53 +42,53 @@ const SignUp = () => {
 	const onChangePasswordChk = e => {
 		//비밀번호를 입력할때마다 password 를 검증하는 함수
 		setPasswordError(e.target.value !== textpw);
-		setTextcheckpw(e.target.value);
+		setCheckpw(e.target.value);
 	};
 
 	return (
 		<View style={styleSheet.wrapper}>
-			<View style={styleSheet.wrapperalign} onSubmit={onSubmit}>
+			<View onSubmit={onSubmit} style={styleSheet.wrapperalign}>
 				<View>
 					<LoginInput
-						value={textid}
+						text={textid}
 						onChangeText={value => setTextid(value)}
 						placeholder={"ID"}
 						onSubmitEditing={() => console.log(textid)}
-						onChange={onChangeId}
 					/>
 				</View>
 				<View>
 					<LoginInput
-						value={textnickname}
-						onChangeText={value => setTextnickname(value)}
+						text={nickname}
+						onChangeText={value => setNickname(value)}
 						placeholder={"닉네임 입력"}
-						onSubmitEditing={() => console.log(textnickname)}
-						onChange={onChangeNick}
+						onSubmitEditing={() => console.log(nickname)}
 					/>
 				</View>
 				<View>
 					<LoginInput
-						value={textpw}
+						text={textpw}
 						onChangeText={value => setTextpw(value)}
 						placeholder={"비밀번호 입력(8~15자)"}
 						onSubmitEditing={() => console.log(textpw)}
+						value={textpw}
+						required
 						onChange={onChangePassword}
 					/>
 				</View>
 				<View>
 					<LoginInput
-						value={textcheckpw}
-						onChangeText={value => setTextcheckpw(value)}
+						text={checkpw}
+						onChangeText={value => setCheckpw(value)}
 						placeholder={"비밀번호 확인"}
-						onSubmitEditing={() => console.log(textcheckpw)}
+						onSubmitEditing={() => console.log(checkpw)}
+						value={checkpw}
+						required
 						onChange={onChangePasswordChk}
 					/>
 					{passwordError && (
 						<Text
 							style={{
-								color: Color.pointed_red,
-								padding: 5,
-								paddingLeft: 155
+								color: Color.primary_1
 							}}
 						>
 							비밀번호가 일치하지 않습니다.
@@ -88,7 +97,7 @@ const SignUp = () => {
 				</View>
 				<View>
 					<LoginInput
-						value={textemail}
+						text={textemail}
 						onChangeText={value => setTextemail(value)}
 						placeholder={"이메일 입력"}
 						onSubmitEditing={() => console.log(textemail)}
@@ -96,7 +105,7 @@ const SignUp = () => {
 				</View>
 				<View>
 					<TouchableOpacity
-						onPress={() => Actions.main()}
+						onPress={() => Actions.signup()}
 						style={{
 							padding: 5,
 							paddingLeft: 190
@@ -104,7 +113,8 @@ const SignUp = () => {
 					>
 						<Text
 							style={{
-								color: Color.primary_1
+								color: Color.primary_1,
+								DefaultFont_KR
 							}}
 						>
 							가입한적이 없으신가요?
@@ -119,13 +129,13 @@ const SignUp = () => {
 					<TouchableOpacity onPress={() => Actions.main()} style={styleSheet.button}>
 						<SvgXml
 							xml={`
-                            <svg xmlns="http://www.w3.org/2000/svg" width="277" height="55" viewBox="0 0 277 55">
-                            <g id="회원가입_버튼" data-name="회원가입 버튼" transform="translate(-57 -584)">
-                            <path id="패스_7725" data-name="패스 7725" d="M27.5,0h222a27.5,27.5,0,0,1,0,55H27.5a27.5,27.5,0,0,1,0-55Z" transform="translate(57 584)" fill="#b0d8e7"/>
-                            <text id="회원가입" transform="translate(153 622)" fill="#075063" font-size="23" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-weight="700"><tspan x="0" y="0">회원가입</tspan></text>
-                            </g>
-                            </svg>
-                        `}
+                <svg xmlns="http://www.w3.org/2000/svg" width="277" height="55" viewBox="0 0 277 55">
+                <g id="회원가입_버튼" data-name="회원가입 버튼" transform="translate(-57 -584)">
+                <path id="패스_7725" data-name="패스 7725" d="M27.5,0h222a27.5,27.5,0,0,1,0,55H27.5a27.5,27.5,0,0,1,0-55Z" transform="translate(57 584)" fill="#b0d8e7"/>
+                <text id="회원가입" transform="translate(153 622)" fill="#075063" font-size="23" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-weight="700"><tspan x="0" y="0">회원가입</tspan></text>
+                </g>
+                </svg>
+              `}
 						/>
 					</TouchableOpacity>
 				</View>
@@ -148,7 +158,7 @@ const styleSheet = StyleSheet.create({
 
 	Message: {
 		color: Color.primary_1,
-		fontSize: 12,
+		fontSize: 10,
 		flexDirection: "row"
 	},
 

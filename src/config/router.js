@@ -9,7 +9,7 @@ import Recipes from "@src/screens/Recipes";
 import Setting from "@src/screens/Setting";
 import AddIngr from "@src/screens/AddIngr";
 import SignUp from "@src/components/login/SignUp";
-
+import Interlock from "@src/components/shoppingmall/Interlock";
 import MainTabIcon from "@src/components/icons/MainTabIcon";
 import SearchTabIcon from "@src/components/icons/SearchTabIcon";
 import RecipesTabIcon from "@src/components/icons/RecipesTabIcon";
@@ -30,17 +30,31 @@ const RouterComponent = () => {
 				/>
 				<Scene
 					key="login"
-					hideNavBar
+					navBar={TopBar}
+					title="로그인"
+					hasPop={false}
+					icon={SettingTabIcon}
 					component={Login}
 					gestureEnabled={false}
 					panHandlers={null}
 				/>
 				<Scene
 					key="signup"
-					hideNavBar
+					navBar={TopBar}
 					component={SignUp}
+					title="회원가입"
+					hasPop={true}
 					gestureEnabled={false}
 					panHandlers={null}
+				/>
+				<Scene
+					key="interlock"
+					navBar={TopBar}
+					component={Interlock}
+					gestureEnabled={false}
+					panHandlers={null}
+					title="쇼핑몰 연동"
+					hasPop={true}
 				/>
 				<Scene
 					key="addingr"

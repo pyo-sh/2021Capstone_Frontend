@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { useSelector, useDispatch } from "react-redux";
 import { SvgXml } from "react-native-svg";
-import { Color } from "@src/Constant";
+import { Color, DefaultFont_KR } from "@src/Constant";
 import LoginInput from "@src/components/login/LoginInput";
 import { logInUserRequest } from "@src/reducers/user";
 
@@ -28,22 +28,23 @@ const Login = () => {
 			<View style={styleSheet.wrapperalign}>
 				<View>
 					<LoginInput
-						value={id}
+						text={id}
 						onChangeText={value => setId(value)}
-						placeholder={"ID"}
-						onSubmitEditing={() => console.log(id)}
+						placeholder={"Id"}
+						onSubmitEditing={() => console.log(textid)}
 					/>
 				</View>
 				<View>
 					<LoginInput
-						value={pw}
+						text={pw}
 						onChangeText={value => setPw(value)}
 						placeholder={"Password"}
-						onSubmitEditing={() => console.log(pw)}
+						onSubmitEditing={() => console.log(textpw)}
 					/>
 				</View>
 				<View>
 					<TouchableOpacity
+						onPress={() => Actions.signup()}
 						style={{
 							padding: 5,
 							paddingLeft: 190
@@ -51,7 +52,8 @@ const Login = () => {
 					>
 						<Text
 							style={{
-								color: Color.primary_1
+								color: Color.primary_1,
+								...DefaultFont_KR
 							}}
 						>
 							가입한적이 없으신가요?
@@ -66,13 +68,13 @@ const Login = () => {
 					<TouchableOpacity onPress={loginUser} style={styleSheet.button}>
 						<SvgXml
 							xml={`
-                            <svg xmlns="http://www.w3.org/2000/svg" width="277" height="55" viewBox="0 0 277 55">
-                            <g id="loginButton" transform="translate(-57 -584)">
-                                <path id="패스_7725" data-name="패스 7725" d="M27.5,0h222a27.5,27.5,0,0,1,0,55H27.5a27.5,27.5,0,0,1,0-55Z" transform="translate(57 584)" fill="#b0d8e7"/>
-                                <text id="로그인" transform="translate(164 622)" fill="#075063" font-size="23" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-weight="700"><tspan x="0" y="0">로그인</tspan></text>
-                            </g>
-                            </svg>               
-                        `}
+                <svg xmlns="http://www.w3.org/2000/svg" width="277" height="55" viewBox="0 0 277 55">
+                <g id="loginButton" transform="translate(-57 -584)">
+                    <path id="패스_7725" data-name="패스 7725" d="M27.5,0h222a27.5,27.5,0,0,1,0,55H27.5a27.5,27.5,0,0,1,0-55Z" transform="translate(57 584)" fill="#b0d8e7"/>
+                    <text id="로그인" transform="translate(164 622)" fill="#075063" font-size="23" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-weight="700"><tspan x="0" y="0">로그인</tspan></text>
+                </g>
+                </svg>               
+              `}
 						/>
 					</TouchableOpacity>
 					<TouchableOpacity style={styleSheet.button}>

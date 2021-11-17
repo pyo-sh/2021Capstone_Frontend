@@ -58,7 +58,7 @@ const Setting = () => {
 						{email}
 					</Text>
 				</View>
-				<TouchableOpacity style={styleSheet.listItem}>
+				<TouchableOpacity onPress={() => Actions.interlock()} style={styleSheet.listItem}>
 					<ShippingIcon style={styleSheet.listIcon} color={Color.primary_1} />
 					<Text style={styleSheet.listTitle}>쇼핑몰 연동</Text>
 					<RightArrowIcon style={{ marginHorizontal: 15 }} color={Color.primary_1} />

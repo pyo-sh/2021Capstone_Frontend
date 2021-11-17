@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Image } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { useSelector, useDispatch } from "react-redux";
 import { verifyUserRequest } from "@src/reducers/user";
@@ -23,7 +23,11 @@ const Splash = () => {
 
 	return (
 		<View>
-			<Text>Login Checking...</Text>
+			<Image
+				source={require("../components/icons/splash.png")}
+				resizeMode="stretch"
+				style={[{ width: "100%", height: "100%" }]}
+			/>
 		</View>
 	);
 };

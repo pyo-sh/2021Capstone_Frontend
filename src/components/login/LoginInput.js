@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, TextInput } from "react-native";
-import { Color } from "@src/Constant";
+import { Color, DefaultFont_KR } from "@src/Constant";
 
 const LoginInput = props => {
 	const { text, onChangeText, placeholder, onSubmitEditing } = props;
@@ -32,7 +32,8 @@ const styleSheet = StyleSheet.create({
 		fontWeight: "bold",
 		borderBottomWidth: 3,
 		borderBottomColor: Color.primary_3,
-		color: Color.primary_1
+		color: Color.primary_1,
+		...DefaultFont_KR
 	},
 
 	textAlign: {
