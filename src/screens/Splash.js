@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { useSelector, useDispatch } from "react-redux";
-import { verifyUserRequest } from "~/reducers/user";
+import { verifyUserRequest } from "@src/reducers/user";
 
 const Splash = () => {
 	const dispatch = useDispatch();
@@ -18,6 +18,7 @@ const Splash = () => {
 		if (isFirst || isLoadingUser) return;
 		if (!accessToken) Actions.login();
 		else Actions.main();
+		setIsFirst(true);
 	}, [isFirst, isLoadingUser, accessToken]);
 
 	return (

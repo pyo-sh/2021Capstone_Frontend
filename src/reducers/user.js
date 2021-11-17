@@ -1,12 +1,13 @@
-import { createAction } from "~/config/reducer";
-import { removeToken } from "~/utils/storage";
+import { createAction } from "@src/config/reducer";
+import { removeToken } from "@src/utils/storage";
 
 // State
 const initialState = {
 	uid: "",
-	name: "my_id",
-	email: "my_email@email.com",
-	nick_name: "my_nickname",
+	name: "",
+	email: "",
+	nickname: "",
+	linkId: "",
 	imageURL: "",
 	accessToken: "",
 	refreshToken: "",
@@ -15,7 +16,9 @@ const initialState = {
 };
 
 // 유저의 정보를 가져오는 요청
-export const [SET_USER_REQUEST, setUserSuccess] = createAction("SET_USER_REQUEST");
+export const [SET_USER_REQUEST, setUserRequest] = createAction("SET_USER_REQUEST");
+export const [SET_USER_SUCCESS, setUserSuccess] = createAction("SET_USER_SUCCESS");
+export const [SET_USER_FAILURE, setUserFailure] = createAction("SET_USER_FAILURE");
 // 유저의 로그인을 요청
 export const [LOGIN_USER_REQUEST, logInUserRequest] = createAction("LOGIN_USER_REQUEST");
 export const [LOGIN_USER_SUCCESS, logInUserSuccess] = createAction("LOGIN_USER_SUCCESS");
@@ -33,7 +36,20 @@ function userReducer(state = initialState, action) {
 		case SET_USER_REQUEST:
 			return {
 				...state,
-				...action.payload
+				...action.payload,
+				isLoadingUser: true
+			};
+		case SET_USER_SUCCESS:
+			return {
+				...state,
+				...action.payload,
+				isLoadingUser: false
+			};
+		case SET_USER_FAILURE:
+			return {
+				...state,
+				isLoadingUser: false,
+				loadUserErrorReason: action.payload
 			};
 		// 로그인
 		case LOGIN_USER_REQUEST:
@@ -71,12 +87,13 @@ function userReducer(state = initialState, action) {
 				...state,
 				isLoadingUser: true
 			};
-		case VERIFY_USER_SUCCESS:
+		case VERIFY_USER_SUCCESS: {
 			return {
 				...state,
 				...action.payload,
 				isLoadingUser: false
 			};
+		}
 		case VERIFY_USER_FAILURE:
 			return {
 				...state,

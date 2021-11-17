@@ -6,7 +6,7 @@ module.exports = {
 			node: {
 				paths: ["src"],
 				alias: {
-					"~": "./src"
+					"@src": "./src"
 				}
 			}
 		}

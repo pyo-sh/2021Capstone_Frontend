@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import SearchInput from "~/components/search/SearchInput";
-import CalendarInput from "~/components/add-ingr/CalendarInput";
-import RadioBtn from "~/components/add-ingr/RadioBtn";
-import PlusIcon from "~/components/icons/PlusIcon";
-import MinusIcon from "~/components/icons/MinusIcon";
-import { Color, DefaultFont_KR } from "~/Constant";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
+import { Actions } from "react-native-router-flux";
+import SearchInput from "@src/components/search/SearchInput";
+import CalendarInput from "@src/components/add-ingr/CalendarInput";
+import RadioBtn from "@src/components/add-ingr/RadioBtn";
+import PlusIcon from "@src/components/icons/PlusIcon";
+import MinusIcon from "@src/components/icons/MinusIcon";
+import { Color, DefaultFont_KR } from "@src/Constant";
+import { dateToString, isBefore } from "@src/utils/date";
+import { createRefEnrollIngr } from "@src/apis/ingrs";
 
 const AddIngr = ({ refs, refInfos }) => {
 	const [name, setName] = useState("");
@@ -14,13 +17,42 @@ const AddIngr = ({ refs, refInfos }) => {
 	const [date, setDate] = useState(new Date());
 	const [count, setCount] = useState(0);
 	const [refNum, setRefNum] = useState(refInfos.refNum);
+	const [canSubmit, setCanSubmit] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		const hasName = name !== "";
+		const hasType = type !== "";
+		const canDate = isBefore(Date.now(), date);
+		const hasCount = count !== 0;
+		const hasRef = refs.findIndex(obj => obj.refNum === refNum) !== -1;
+		setCanSubmit(hasName && hasType && canDate && hasCount && hasRef && !isLoading);
+	}, [name, type, date, count, refNum, isLoading]);
+
+	const onPressAdd = () => {
+		if (!canSubmit) return;
+		setIsLoading(true);
+		const data = {
+			refNum,
+			ingrName: name,
+			expyDate: dateToString(date),
+			quantity: count,
+			storageMthdType: type
+		};
+		createRefEnrollIngr(data)
+			.then(body => {
+				Actions.main({ addedIngr: body });
+			})
+			.catch(() => {
+				setIsLoading(false);
+				Alert.alert("연결 문제", "다시 시도 해주세요!");
+			});
+	};
 
 	return (
 		<View style={styleSheet.wrapper}>
 			<View style={styleSheet.otherwise}>
-				<Text style={[styleSheet.title, { fontSize: 16 }]}>
-					식자재 가져오기
-				</Text>
+				<Text style={[styleSheet.title, { fontSize: 16 }]}>식자재 가져오기</Text>
 				<View style={styleSheet.flexLine}>
 					<TouchableOpacity style={styleSheet.otherBtn}>
 						<Text style={styleSheet.otherText}>쇼핑몰</Text>
@@ -48,45 +80,18 @@ const AddIngr = ({ refs, refInfos }) => {
 				<View style={styleSheet.flexLine}>
 					<Text style={styleSheet.controlTitle}>보관 방법</Text>
 					<View style={styleSheet.radioBack}>
-						<RadioBtn
-							nowVal={type}
-							value={"a"}
-							setValue={setType}
-							text={"실온"}
-						/>
-						<RadioBtn
-							nowVal={type}
-							value={"r"}
-							setValue={setType}
-							text={"냉장"}
-						/>
-						<RadioBtn
-							nowVal={type}
-							value={"f"}
-							setValue={setType}
-							text={"냉동"}
-						/>
+						<RadioBtn nowVal={type} value={"a"} setValue={setType} text={"실온"} />
+						<RadioBtn nowVal={type} value={"r"} setValue={setType} text={"냉장"} />
+						<RadioBtn nowVal={type} value={"f"} setValue={setType} text={"냉동"} />
 					</View>
 				</View>
 				<View style={styleSheet.flexLine}>
 					<Text style={styleSheet.controlTitle}>유통 기한</Text>
 					<CalendarInput date={date} setDate={setDate} />
 				</View>
-				<View
-					style={[
-						styleSheet.flexLine,
-						{ justifyContent: "space-between" }
-					]}
-				>
+				<View style={[styleSheet.flexLine, { justifyContent: "space-between" }]}>
 					<View style={styleSheet.flexSquare}>
-						<Text
-							style={[
-								styleSheet.controlTitle,
-								{ marginBottom: 15 }
-							]}
-						>
-							수량
-						</Text>
+						<Text style={[styleSheet.controlTitle, { marginBottom: 15 }]}>수량</Text>
 						<View
 							style={[
 								styleSheet.flexLine,
@@ -106,11 +111,7 @@ const AddIngr = ({ refs, refInfos }) => {
 									});
 								}}
 							>
-								<MinusIcon
-									color={Color.white}
-									width={15}
-									height={2}
-								/>
+								<MinusIcon color={Color.white} width={15} height={2} />
 							</TouchableOpacity>
 							<Text>{count}</Text>
 							<TouchableOpacity
@@ -119,21 +120,12 @@ const AddIngr = ({ refs, refInfos }) => {
 									setCount(prev => prev + 1);
 								}}
 							>
-								<PlusIcon
-									color={Color.white}
-									width={15}
-									height={15}
-								/>
+								<PlusIcon color={Color.white} width={15} height={15} />
 							</TouchableOpacity>
 						</View>
 					</View>
 					<View style={styleSheet.flexSquare}>
-						<Text
-							style={[
-								styleSheet.controlTitle,
-								{ marginBottom: 15 }
-							]}
-						>
+						<Text style={[styleSheet.controlTitle, { marginBottom: 15 }]}>
 							보관할 냉장고
 						</Text>
 						<View>
@@ -143,9 +135,7 @@ const AddIngr = ({ refs, refInfos }) => {
 								buttonTextStyle={styleSheet.dropdownText}
 								rowTextStyle={styleSheet.dropdownText}
 								data={refs}
-								defaultValueByIndex={refs.findIndex(
-									ref => ref?.refNum === refNum
-								)}
+								defaultValueByIndex={refs.findIndex(ref => ref?.refNum === refNum)}
 								onSelect={selectedItem => {
 									setRefNum(selectedItem?.refNum ?? -1);
 								}}
@@ -160,11 +150,19 @@ const AddIngr = ({ refs, refInfos }) => {
 					</View>
 				</View>
 			</View>
-			<TouchableOpacity style={styleSheet.submitBtn}>
+			<TouchableOpacity
+				style={styleSheet.submitBtn}
+				onPress={onPressAdd}
+				disabled={!canSubmit}
+			>
 				<Text
 					style={[
 						styleSheet.controlTitle,
-						{ fontSize: 20, marginRight: 0 }
+						{
+							fontSize: 20,
+							marginRight: 0,
+							color: canSubmit ? Color.primary_4 : Color.gray
+						}
 					]}
 				>
 					등록하기
@@ -225,7 +223,6 @@ const styleSheet = StyleSheet.create({
 	},
 	controlTitle: {
 		...DefaultFont_KR,
-		color: Color.primary_4,
 		fontSize: 15,
 		marginRight: 16
 	},

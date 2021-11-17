@@ -1,21 +1,21 @@
-import React from 'react';
-import {
-    View
-} from 'react-native';
-import { Color } from '~/Constant';
-import { SvgXml } from 'react-native-svg';
+import React from "react";
+import { View } from "react-native";
+import { SvgXml } from "react-native-svg";
+import { Color } from "@src/Constant";
 
-const icon = (color) => {
-    return `
+const icon = color => {
+	return `
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill="${color}" d="M23.693 21.7454L17.982 16.1514C19.3114 14.4865 20.0369 12.4199 20.04 10.2894C20.0112 7.71752 18.9631 5.26212 17.1257 3.46226C15.2884 1.66239 12.8119 0.66513 10.24 0.689398C7.66806 0.66513 5.19155 1.66239 3.35419 3.46226C1.51682 5.26212 0.468764 7.71752 0.440002 10.2894C0.468764 12.8613 1.51682 15.3167 3.35419 17.1165C5.19155 18.9164 7.66806 19.9137 10.24 19.8894C12.3094 19.8907 14.3268 19.2415 16.007 18.0334L21.746 23.6544L23.693 21.7454ZM3.19299 10.2884C3.21489 8.43985 3.96891 6.67542 5.28973 5.38196C6.61056 4.08851 8.39035 3.37159 10.239 3.3884C12.0876 3.37159 13.8676 4.08847 15.1886 5.3819C16.5096 6.67533 17.2638 8.43976 17.2859 10.2884C17.2641 12.1371 16.5099 13.9017 15.1889 15.1952C13.8679 16.4887 12.0877 17.2055 10.239 17.1884C8.39104 17.2041 6.61226 16.4868 5.2923 15.1934C3.97234 13.9001 3.21886 12.1362 3.19696 10.2884H3.19299Z"/>
         </svg>
-    `
-}
-const SearchTabIcon = (props) => {
-    return <View style={props?.style ?? {}}>
-        <SvgXml xml={icon(Color.primary_1)}/>
-    </View>
-}
+    `;
+};
+const SearchTabIcon = props => {
+	return (
+		<View style={props?.style ?? {}}>
+			<SvgXml xml={icon(Color.primary_1)} />
+		</View>
+	);
+};
 
 export default SearchTabIcon;

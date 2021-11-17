@@ -1,14 +1,7 @@
 import React, { useCallback, useState } from "react";
-import {
-	ScrollView,
-	Text,
-	View,
-	StyleSheet,
-	Modal,
-	TouchableOpacity
-} from "react-native";
-import { Color, DefaultFont_KR } from "~/Constant";
+import { ScrollView, Text, View, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import { CromaColorPicker as ColorPicker } from "croma-color-picker";
+import { Color, DefaultFont_KR } from "@src/Constant";
 
 const ColorPickerScreen = ({ color, setColor }) => {
 	const [modalVisible, setModalVisible] = useState(false);
@@ -42,9 +35,7 @@ const ColorPickerScreen = ({ color, setColor }) => {
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={styleSheet.wrapper}>
 						<View style={styleSheet.container}>
-							<Text style={[DefaultFont_KR, styleSheet.title]}>
-								색상 선택
-							</Text>
+							<Text style={[DefaultFont_KR, styleSheet.title]}>색상 선택</Text>
 							<ColorPicker
 								onChangeColor={color => {
 									setTempColor(color);
@@ -59,12 +50,7 @@ const ColorPickerScreen = ({ color, setColor }) => {
 									}}
 									style={styleSheet.selectButton}
 								>
-									<Text
-										style={[
-											DefaultFont_KR,
-											styleSheet.buttonText
-										]}
-									>
+									<Text style={[DefaultFont_KR, styleSheet.buttonText]}>
 										선택
 									</Text>
 								</TouchableOpacity>
@@ -72,12 +58,7 @@ const ColorPickerScreen = ({ color, setColor }) => {
 									onPress={closeModal}
 									style={styleSheet.selectButton}
 								>
-									<Text
-										style={[
-											DefaultFont_KR,
-											styleSheet.buttonText
-										]}
-									>
+									<Text style={[DefaultFont_KR, styleSheet.buttonText]}>
 										취소
 									</Text>
 								</TouchableOpacity>

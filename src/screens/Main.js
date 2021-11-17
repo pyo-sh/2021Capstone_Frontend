@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import Swiper from "react-native-swiper";
-import RightArrowIcon from "~/components/icons/RightArrowIcon";
-import LeftArrowIcon from "~/components/icons/LeftArrowIcon";
-import Fridge from "~/components/main/Fridge";
-import AddFridge from "~/components/main/AddFridge";
-import { Color } from "~/Constant";
-import { readRefsByUser } from "~/apis/fridge";
 import { useSelector } from "react-redux";
+import RightArrowIcon from "@src/components/icons/RightArrowIcon";
+import LeftArrowIcon from "@src/components/icons/LeftArrowIcon";
+import Fridge from "@src/components/main/Fridge";
+import EasyModal from "@src/components/custom/EasyModal";
+import ModifyFridge from "@src/components/main/ModifyFridge";
+import { Color } from "@src/Constant";
+import { readRefsByUser } from "@src/apis/fridge";
 
-const Main = () => {
+const Main = ({ addedIngr }) => {
 	const { uid } = useSelector(state => state.user);
 	const [refs, setRefs] = useState([]);
 
@@ -23,6 +24,21 @@ const Main = () => {
 			console.error(e);
 		}
 	}, []);
+
+	useEffect(() => {
+		// 식자재 추가
+		if (!addedIngr) return;
+		const newRefs = [...refs];
+		const targetIndex = newRefs.findIndex(obj => obj.refNum === addedIngr.refNum);
+		// 냉장고 수정
+		if (targetIndex === -1) return;
+		const newRef = {
+			...newRefs[targetIndex],
+			enrollIngrs: [...newRefs[targetIndex].enrollIngrs, addedIngr]
+		};
+		newRefs[targetIndex] = newRef;
+		setRefs(newRefs);
+	}, [addedIngr]);
 
 	return (
 		<Swiper
@@ -59,20 +75,74 @@ const Main = () => {
 				</View>,
 				/* 임박한 식자재 페이지 필요 */
 				...refs?.map((refInfos, index) => {
+					const { refNum, enrollIngrs } = refInfos;
 					return (
 						<Fridge
-							key={refInfos?.refNum ?? `Fridge-${index}`}
+							key={`Fridge-${refNum}-${enrollIngrs?.length}` ?? `Fridge-${index}`}
+							setRefs={setRefs}
 							refs={refs}
 							refInfos={refInfos}
 						/>
 					);
 				}),
-				<AddFridge setRefs={setRefs} key="Additional-Page" />
+				<EasyModal
+					key="Additional-Page"
+					renderModalButton={({ openModal }) => (
+						<View style={styleSheet.addBtnWrapper}>
+							<TouchableOpacity style={styleSheet.dotButton} onPress={openModal}>
+								<View style={styleSheet.plus}></View>
+								<View style={[styleSheet.plus, styleSheet.rotate]}></View>
+							</TouchableOpacity>
+						</View>
+					)}
+					renderModalContent={({ closeModal }) => (
+						<ModifyFridge closeModal={closeModal} setRefs={setRefs} />
+					)}
+				/>
 			]}
 		</Swiper>
 	);
 };
 
-const styleSheet = StyleSheet.create({});
+const styleSheet = StyleSheet.create({
+	addBtnWrapper: {
+		paddingTop: 35,
+		paddingBottom: 70,
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: Color.background
+	},
+	dotButton: {
+		width: "80%",
+		height: "100%",
+		paddingVertical: 20,
+		paddingHorizontal: 15,
+
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+
+		borderRadius: 35,
+		borderWidth: 4,
+		borderStyle: "dotted",
+		borderColor: "#cccccc"
+	},
+	plus: {
+		width: 60,
+		height: 0,
+		borderWidth: 2,
+		borderColor: "#cccccc"
+	},
+	rotate: {
+		position: "relative",
+		bottom: 4,
+		transform: [
+			{
+				rotate: "90deg"
+			}
+		]
+	}
+});
 
 export default Main;
