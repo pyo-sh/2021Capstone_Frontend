@@ -12,3 +12,12 @@ export const deleteRefEnrollIngr = async ({ refNum, ingrOrnu }) => {
 	);
 	return response?.data;
 };
+
+export const searchPresetIngrs = async ({ keyword, page } = {}) => {
+	const wordQuery = keyword ? `keyword=${keyword}` : "";
+	const pageQuery = page ? `page=${page}` : "";
+	const response = await axios.get(
+		`${baseURL}/api/preset-ingr/search-list?${wordQuery}&${pageQuery}`
+	);
+	return response?.data;
+};
