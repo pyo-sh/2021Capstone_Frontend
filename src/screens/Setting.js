@@ -18,9 +18,9 @@ const Setting = () => {
 	const { uid, name, nickname, email } = useSelector(state => state.user);
 
 	useEffect(() => {
-		if (!uid) console.error("no user");
-		dispatch(setUserRequest({ id: uid }));
-	}, []);
+		if (!uid) return console.error("no user");
+		if (!name) dispatch(setUserRequest({ id: uid }));
+	}, [uid]);
 
 	const pressLogout = () => {
 		dispatch(logOutUserRequest());
