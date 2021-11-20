@@ -23,7 +23,7 @@ const Main = ({ addedIngr }) => {
 		} catch (e) {
 			console.error(e);
 		}
-	}, []);
+	}, [uid]);
 
 	useEffect(() => {
 		// 식자재 추가
