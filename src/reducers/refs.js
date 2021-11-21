@@ -38,6 +38,7 @@ function refsReducer(state = initialState, action) {
 		case SET_REFS_REQUEST: {
 			return {
 				...state,
+				refs: [],
 				isRefsLoading: true,
 				loadRefsErrorReason: ""
 			};

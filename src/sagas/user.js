@@ -1,4 +1,4 @@
-import { all, fork, takeLatest, call, put } from "redux-saga/effects";
+import { all, fork, takeLatest, call, put, select } from "redux-saga/effects";
 import {
 	LOGIN_USER_REQUEST,
 	logInUserSuccess,
@@ -61,9 +61,11 @@ async function getUserRequest(id) {
 	const request = await readUser(id);
 	return request;
 }
-function* getUser(action) {
+function* getUser() {
 	try {
-		const result = yield call(getUserRequest, action.payload.id);
+		const uid = yield select(state => state.user.uid);
+		if (!uid) throw "No ID!";
+		const result = yield call(getUserRequest, uid);
 		const { userNum, id, nickname, email, linkId } = result;
 
 		yield put(setUserSuccess({ uid: userNum, name: id, nickname, email, linkId }));

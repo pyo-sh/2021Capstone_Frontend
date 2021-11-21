@@ -15,7 +15,7 @@ const Login = () => {
 
 	useEffect(() => {
 		if (accessToken) {
-			Actions.main();
+			Actions.splash();
 		}
 	}, [accessToken]);
 

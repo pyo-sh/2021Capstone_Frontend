@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import Swiper from "react-native-swiper";
-import { useSelector, useDispatch } from "react-redux";
-import { setRefsRequest } from "@src/reducers/refs";
+import { useSelector } from "react-redux";
 import RightArrowIcon from "@src/components/icons/RightArrowIcon";
 import LeftArrowIcon from "@src/components/icons/LeftArrowIcon";
 import Fridge from "@src/components/main/Fridge";
@@ -11,12 +10,7 @@ import ModifyFridge from "@src/components/main/ModifyFridge";
 import { Color } from "@src/Constant";
 
 const Main = () => {
-	const dispatch = useDispatch();
 	const refs = useSelector(state => state.refs.refs);
-
-	useEffect(() => {
-		dispatch(setRefsRequest());
-	}, []);
 
 	return (
 		<Swiper
