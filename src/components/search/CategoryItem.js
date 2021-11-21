@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { TouchableOpacity, Text } from "react-native";
+import { Color } from "@src/Constant";
 
-const CategoryItem = ({ title, Icon }) => {
-	console.log(title);
+const CategoryItem = ({ isSelected, onClickCategory, title, Icon }) => {
 	return (
-		<View
+		<TouchableOpacity
+			onPress={onClickCategory}
 			style={{
 				width: 58,
 				height: 58,
@@ -13,13 +14,15 @@ const CategoryItem = ({ title, Icon }) => {
 				flexDirection: "column",
 				justifyContent: "flex-end",
 				alignItems: "center",
-				backgroundColor: "#fff",
+				backgroundColor: isSelected ? Color.primary_3 : Color.white,
 				borderRadius: 10
 			}}
 		>
-			<Icon />
-			<Text style={{ fontSize: 11 }}>{title ?? ""}</Text>
-		</View>
+			<Icon color={isSelected ? Color.white : Color.black} />
+			<Text style={{ color: isSelected ? Color.white : "#394847", fontSize: 11 }}>
+				{title ?? ""}
+			</Text>
+		</TouchableOpacity>
 	);
 };
 

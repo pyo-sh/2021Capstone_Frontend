@@ -13,11 +13,12 @@ export const deleteRefEnrollIngr = async ({ refNum, ingrOrnu }) => {
 	return response?.data;
 };
 
-export const searchPresetIngrs = async ({ keyword, page } = {}) => {
+export const searchPresetIngrs = async ({ keyword, type, page } = {}) => {
 	const wordQuery = keyword ? `keyword=${keyword}` : "";
+	const typeQuery = type ? `type=${type}` : "";
 	const pageQuery = page ? `page=${page}` : "";
 	const response = await axios.get(
-		`${baseURL}/api/preset-ingr/search-list?${wordQuery}&${pageQuery}`
+		`${baseURL}/api/preset-ingr/search-list?${wordQuery ? wordQuery : typeQuery}&${pageQuery}`
 	);
 	return response?.data;
 };

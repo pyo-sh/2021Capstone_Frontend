@@ -13,24 +13,31 @@ import GrainIcon from "@src/components/icons/GrainIcon";
 import OtherIcon from "@src/components/icons/OtherIcon";
 
 const CATEGORIES = [
-	{ id: 1, name: "Vegetable", icon: VegetableIcon },
-	{ id: 2, name: "Fruit", icon: FruitIcon },
-	{ id: 3, name: "Meat", icon: MeatIcon },
-	{ id: 4, name: "Seafood", icon: SeafoodIcon },
-	{ id: 5, name: "Sauce", icon: SauceIcon },
-	{ id: 6, name: "Condiment", icon: CondimentIcon },
-	{ id: 7, name: "Dairy", icon: DairyIcon },
-	{ id: 8, name: "Grain", icon: GrainIcon },
-	{ id: 9, name: "Others", icon: OtherIcon }
+	{ id: 1, type: "v", name: "Vegetable", icon: VegetableIcon },
+	{ id: 2, type: "f", name: "Fruit", icon: FruitIcon },
+	{ id: 3, type: "m", name: "Meat", icon: MeatIcon },
+	{ id: 4, type: "a", name: "Seafood", icon: SeafoodIcon },
+	{ id: 5, type: "s", name: "Sauce", icon: SauceIcon },
+	{ id: 6, type: "c", name: "Condiment", icon: CondimentIcon },
+	{ id: 7, type: "d", name: "Dairy", icon: DairyIcon },
+	{ id: 8, type: "g", name: "Grain", icon: GrainIcon },
+	{ id: 9, type: "e", name: "Others", icon: OtherIcon }
 ];
 
-const SearchCategories = () => {
+const SearchCategories = ({ type, onClickCategory }) => {
 	return (
 		<View>
 			<SafeAreaView style={styleSheet.categories}>
 				<FlatList
 					data={CATEGORIES}
-					renderItem={({ item }) => <CategoryItem title={item?.name} Icon={item?.icon} />}
+					renderItem={({ item }) => (
+						<CategoryItem
+							isSelected={item.type === type}
+							onClickCategory={onClickCategory(item.type)}
+							title={item?.name}
+							Icon={item?.icon}
+						/>
+					)}
 					keyExtractor={item => item.id}
 					horizontal={true}
 					ItemSeparatorComponent={() => {
