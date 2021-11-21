@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Alert } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import { Actions } from "react-native-router-flux";
+import { useSelector, useDispatch } from "react-redux";
+import { addIngrRequest } from "@src/reducers/refs";
 import OtherButtons from "@src/components/add-ingr/OtherButtons";
 import SubmitButton from "@src/components/add-ingr/SubmitButton";
 import FormName from "@src/components/add-ingr/FormName";
@@ -10,16 +12,19 @@ import FormCount from "@src/components/add-ingr/FormCount";
 import FormRef from "@src/components/add-ingr/FormRef";
 import { Color } from "@src/Constant";
 import { dateToString, isBefore } from "@src/utils/date";
-import { createRefEnrollIngr } from "@src/apis/ingrs";
 
-const AddIngr = ({ refs, refInfos }) => {
+const AddIngr = ({ refInfos }) => {
+	const dispatch = useDispatch();
+	const refs = useSelector(state => state.refs.refs);
+	const isIngrLoading = useSelector(state => state.refs.isIngrLoading);
+	const loadIngrErrorReason = useSelector(state => state.refs.loadIngrErrorReason);
+	const [isPressed, setIsPressed] = useState(false);
 	const [name, setName] = useState("");
 	const [type, setType] = useState("");
 	const [date, setDate] = useState(new Date());
 	const [count, setCount] = useState(0);
 	const [refNum, setRefNum] = useState(refInfos.refNum);
 	const [canSubmit, setCanSubmit] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		const hasName = name !== "";
@@ -27,12 +32,22 @@ const AddIngr = ({ refs, refInfos }) => {
 		const canDate = isBefore(Date.now(), date);
 		const hasCount = count !== 0;
 		const hasRef = refs.findIndex(obj => obj.refNum === refNum) !== -1;
-		setCanSubmit(hasName && hasType && canDate && hasCount && hasRef && !isLoading);
-	}, [name, type, date, count, refNum, isLoading]);
+		setCanSubmit(hasName && hasType && canDate && hasCount && hasRef && !isPressed);
+	}, [name, type, date, count, refNum, isPressed]);
+
+	useEffect(() => {
+		if (isIngrLoading || !isPressed) return;
+		if (!loadIngrErrorReason) {
+			Actions.main();
+		} else {
+			setIsPressed(false);
+			Alert.alert("연결 문제", "다시 시도 해주세요!");
+		}
+	}, [isIngrLoading]);
 
 	const onPressAdd = () => {
 		if (!canSubmit) return;
-		setIsLoading(true);
+		setIsPressed(true);
 		const data = {
 			refNum,
 			ingrName: name,
@@ -40,14 +55,7 @@ const AddIngr = ({ refs, refInfos }) => {
 			quantity: count,
 			storageMthdType: type
 		};
-		createRefEnrollIngr(data)
-			.then(body => {
-				Actions.main({ addedIngr: body });
-			})
-			.catch(() => {
-				setIsLoading(false);
-				Alert.alert("연결 문제", "다시 시도 해주세요!");
-			});
+		dispatch(addIngrRequest({ ingr: data }));
 	};
 
 	return (
