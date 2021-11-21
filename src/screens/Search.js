@@ -53,6 +53,8 @@ const Search = () => {
 		try {
 			searchPresetIngrs().then(data => {
 				setFoods(data);
+				setText("");
+				setSelectedType("");
 			});
 		} catch (e) {
 			console.error("error", e);
