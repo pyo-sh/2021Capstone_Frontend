@@ -36,20 +36,27 @@ const Search = () => {
 	};
 
 	const onClickCategory = useCallback(
-		type => () => {
-			searchPresetIngrs({ type }).then(data => {
+		type => async () => {
+			try {
+				const data = await searchPresetIngrs({ type });
 				setText("");
 				setSelectedType(type);
 				setFoods(data);
-			});
+			} catch (e) {
+				console.error("error", e);
+			}
 		},
 		[]
 	);
 
 	useEffect(() => {
-		searchPresetIngrs().then(data => {
-			setFoods(data);
-		});
+		try {
+			searchPresetIngrs().then(data => {
+				setFoods(data);
+			});
+		} catch (e) {
+			console.error("error", e);
+		}
 	}, []);
 
 	return (
