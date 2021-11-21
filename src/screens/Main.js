@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import Swiper from "react-native-swiper";
 import { useSelector } from "react-redux";
@@ -8,37 +8,9 @@ import Fridge from "@src/components/main/Fridge";
 import EasyModal from "@src/components/custom/EasyModal";
 import ModifyFridge from "@src/components/main/ModifyFridge";
 import { Color } from "@src/Constant";
-import { readRefsByUser } from "@src/apis/fridge";
 
-const Main = ({ addedIngr }) => {
-	const { uid } = useSelector(state => state.user);
-	const [refs, setRefs] = useState([]);
-
-	useEffect(() => {
-		try {
-			readRefsByUser(uid).then(ref => {
-				if (!ref) return;
-				setRefs(ref);
-			});
-		} catch (e) {
-			console.error(e);
-		}
-	}, []);
-
-	useEffect(() => {
-		// 식자재 추가
-		if (!addedIngr) return;
-		const newRefs = [...refs];
-		const targetIndex = newRefs.findIndex(obj => obj.refNum === addedIngr.refNum);
-		// 냉장고 수정
-		if (targetIndex === -1) return;
-		const newRef = {
-			...newRefs[targetIndex],
-			enrollIngrs: [...newRefs[targetIndex].enrollIngrs, addedIngr]
-		};
-		newRefs[targetIndex] = newRef;
-		setRefs(newRefs);
-	}, [addedIngr]);
+const Main = () => {
+	const refs = useSelector(state => state.refs.refs);
 
 	return (
 		<Swiper
@@ -79,8 +51,6 @@ const Main = ({ addedIngr }) => {
 					return (
 						<Fridge
 							key={`Fridge-${refNum}-${enrollIngrs?.length}` ?? `Fridge-${index}`}
-							setRefs={setRefs}
-							refs={refs}
 							refInfos={refInfos}
 						/>
 					);
@@ -96,7 +66,7 @@ const Main = ({ addedIngr }) => {
 						</View>
 					)}
 					renderModalContent={({ closeModal }) => (
-						<ModifyFridge closeModal={closeModal} setRefs={setRefs} />
+						<ModifyFridge closeModal={closeModal} />
 					)}
 				/>
 			]}

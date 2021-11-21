@@ -1,46 +1,43 @@
 import React from "react";
 import { StyleSheet, SafeAreaView, View, Text, FlatList } from "react-native";
 import { Color } from "@src/Constant";
+import CategoryItem from "@src/components/search/CategoryItem";
+import VegetableIcon from "@src/components/icons/VegetableIcon";
+import FruitIcon from "@src/components/icons/FruitIcon";
+import MeatIcon from "@src/components/icons/MeatIcon";
+import SeafoodIcon from "@src/components/icons/SeafoodIcon";
+import CondimentIcon from "@src/components/icons/CondimentIcon";
+import SauceIcon from "@src/components/icons/SauceIcon";
+import DairyIcon from "@src/components/icons/DairyIcon";
+import GrainIcon from "@src/components/icons/GrainIcon";
+import OtherIcon from "@src/components/icons/OtherIcon";
 
-const tempIcon = ({ title, color }) => {
-	return (
-		<View
-			style={{
-				width: 58,
-				height: 58,
-				paddingBottom: 5,
-				display: "flex",
-				flexDirection: "column",
-				justifyContent: "flex-end",
-				alignItems: "center",
-				backgroundColor: "#fff",
-				borderRadius: 10
-			}}
-		>
-			<Text style={{ fontSize: 11 }}>{title}</Text>
-		</View>
-	);
-};
-
-const categories = [
-	{ id: 1, name: "Vegetable", icon: tempIcon },
-	{ id: 2, name: "Fruit", icon: tempIcon },
-	{ id: 3, name: "Meat", icon: tempIcon },
-	{ id: 4, name: "Seafood", icon: tempIcon },
-	{ id: 5, name: "Sauce", icon: tempIcon },
-	{ id: 6, name: "Condiment", icon: tempIcon },
-	{ id: 7, name: "Dairy", icon: tempIcon },
-	{ id: 8, name: "Grain", icon: tempIcon },
-	{ id: 9, name: "Others", icon: tempIcon }
+const CATEGORIES = [
+	{ id: 1, type: "v", name: "Vegetable", icon: VegetableIcon },
+	{ id: 2, type: "f", name: "Fruit", icon: FruitIcon },
+	{ id: 3, type: "m", name: "Meat", icon: MeatIcon },
+	{ id: 4, type: "a", name: "Seafood", icon: SeafoodIcon },
+	{ id: 5, type: "s", name: "Sauce", icon: SauceIcon },
+	{ id: 6, type: "c", name: "Condiment", icon: CondimentIcon },
+	{ id: 7, type: "d", name: "Dairy", icon: DairyIcon },
+	{ id: 8, type: "g", name: "Grain", icon: GrainIcon },
+	{ id: 9, type: "e", name: "Others", icon: OtherIcon }
 ];
 
-const SearchCategories = () => {
+const SearchCategories = ({ type, onClickCategory }) => {
 	return (
 		<View>
 			<SafeAreaView style={styleSheet.categories}>
 				<FlatList
-					data={categories}
-					renderItem={({ item }) => <item.icon title={item.name}></item.icon>}
+					data={CATEGORIES}
+					renderItem={({ item }) => (
+						<CategoryItem
+							isSelected={item.type === type}
+							onClickCategory={onClickCategory(item.type)}
+							title={item?.name}
+							Icon={item?.icon}
+						/>
+					)}
 					keyExtractor={item => item.id}
 					horizontal={true}
 					ItemSeparatorComponent={() => {

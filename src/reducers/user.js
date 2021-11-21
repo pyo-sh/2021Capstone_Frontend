@@ -36,7 +36,6 @@ function userReducer(state = initialState, action) {
 		case SET_USER_REQUEST:
 			return {
 				...state,
-				...action.payload,
 				isLoadingUser: true
 			};
 		case SET_USER_SUCCESS:
@@ -54,6 +53,7 @@ function userReducer(state = initialState, action) {
 		// 로그인
 		case LOGIN_USER_REQUEST:
 			return {
+				uid: "",
 				...state,
 				isLoadingUser: true
 			};

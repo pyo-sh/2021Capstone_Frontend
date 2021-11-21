@@ -52,4 +52,4 @@ const styleSheet = StyleSheet.create({
 	}
 });
 
-export default SearchInput;
+export default React.memo(SearchInput);

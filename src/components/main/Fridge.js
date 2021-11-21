@@ -9,7 +9,7 @@ import { getTextColorByBackgroundColor } from "@src/utils/color";
 import EasyModal from "@src/components/custom/EasyModal";
 import ModifyFridge from "@src/components/main/ModifyFridge";
 
-const Fridge = ({ setRefs, refs, refInfos }) => {
+const Fridge = ({ refInfos }) => {
 	return (
 		<View style={styleSheet.wrapper}>
 			<View style={styleSheet.fridge}>
@@ -38,17 +38,13 @@ const Fridge = ({ setRefs, refs, refInfos }) => {
 							</TouchableOpacity>
 						)}
 						renderModalContent={({ closeModal }) => (
-							<ModifyFridge
-								closeModal={closeModal}
-								setRefs={setRefs}
-								refInfos={refInfos}
-							/>
+							<ModifyFridge closeModal={closeModal} refInfos={refInfos} />
 						)}
 					/>
 					<TouchableOpacity
 						index={1}
 						onPress={() => {
-							Actions.addingr({ refs, refInfos });
+							Actions.addingr({ refInfos });
 						}}
 						style={[styleSheet.bigBtn, { marginLeft: 10 }]}
 					>

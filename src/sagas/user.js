@@ -1,4 +1,4 @@
-import { all, fork, takeLatest, call, put } from "redux-saga/effects";
+import { all, fork, takeLatest, call, put, select } from "redux-saga/effects";
 import {
 	LOGIN_USER_REQUEST,
 	logInUserSuccess,
@@ -18,16 +18,16 @@ async function loginRequest(data) {
 		id: data.id,
 		pwd: data.pw
 	};
-	const { userNum, accessToken, refreshToken } = await loginAPI(bodyData);
-	return { uid: userNum, accessToken, refreshToken };
+	return await loginAPI(bodyData);
 }
 function* login(action) {
 	try {
 		const result = yield call(loginRequest, action.payload);
 		yield call(saveToken, result);
-		yield put(logInUserSuccess(result));
+
+		const { userNum, accessToken, refreshToken } = result;
+		yield put(logInUserSuccess({ uid: userNum, accessToken, refreshToken }));
 	} catch (e) {
-		console.error(e);
 		yield put(logInUserFailure(e.response));
 	}
 }
@@ -47,10 +47,9 @@ function* verify() {
 		const result = yield call(verifyRequest, storageData);
 
 		const { userNum, accessToken, refreshToken } = result;
-		console.log(result);
+
 		yield put(verifyUserSuccess({ uid: userNum, accessToken, refreshToken }));
 	} catch (e) {
-		console.error(e);
 		yield put(verifyUserFailure(e));
 	}
 }
@@ -62,14 +61,14 @@ async function getUserRequest(id) {
 	const request = await readUser(id);
 	return request;
 }
-function* getUser(action) {
+function* getUser() {
 	try {
-		const result = yield call(getUserRequest, action.payload.id);
+		const uid = yield select(state => state.user.uid);
+		if (!uid) throw "No ID!";
+		const result = yield call(getUserRequest, uid);
 		const { userNum, id, nickname, email, linkId } = result;
 
-		yield put(
-			setUserSuccess({ uid: userNum ?? 2110250001, name: id, nickname, email, linkId })
-		);
+		yield put(setUserSuccess({ uid: userNum, name: id, nickname, email, linkId }));
 	} catch (e) {
 		console.error(e);
 		yield put(setUserFailure(e));

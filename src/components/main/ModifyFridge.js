@@ -1,36 +1,39 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { createRefRequest, updateRefRequest, deleteRefRequest } from "@src/reducers/refs";
 import { SvgXml } from "react-native-svg";
 import { Color, DefaultFont_KR } from "@src/Constant";
 import ColorPickerScreen from "@src/components/main/ColorPicker";
-import { createRef, updateRef, deleteRef } from "@src/apis/fridge";
 
-const ModifyFridge = ({ setRefs, closeModal, refInfos }) => {
+const ModifyFridge = ({ closeModal, refInfos }) => {
+	const dispatch = useDispatch();
 	const { refNum, colorCode, explan, refName } = refInfos || {};
-	const { uid } = useSelector(state => state.user);
+	const uid = useSelector(state => state.user.uid);
+	const isRefsLoading = useSelector(state => state.refs.isRefsLoading);
+	const [isPressed, setIsPressed] = useState(false);
+
+	const isNew = !refInfos;
 	const [title, setTitle] = useState(refName ?? "");
 	const [explain, setExplain] = useState(explan ?? "");
 	const [color, setColor] = useState(colorCode ?? "#225685");
 	const [canSubmit, setCanSubmit] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
-	const isNew = !refInfos;
-
-	useEffect(
-		() => () => {
-			setIsLoading(false);
-		},
-		[]
-	);
 
 	useEffect(() => {
-		setCanSubmit(!(!title || !explain || !color || isLoading));
-	}, [title, explain, color]);
+		if (isRefsLoading || !isPressed) return;
+		setTitle("");
+		setExplain("");
+		setIsPressed(false);
+		closeModal();
+	}, [isRefsLoading]);
+
+	useEffect(() => {
+		setCanSubmit(!(!title || !explain || !color || isPressed));
+	}, [title, explain, color, isPressed]);
 
 	const submitRef = () => {
 		if (!canSubmit) return;
-		if (isLoading) return;
-		setIsLoading(true);
+		setIsPressed(true);
 
 		const requestBody = {
 			refName: title,
@@ -40,39 +43,19 @@ const ModifyFridge = ({ setRefs, closeModal, refInfos }) => {
 			colorCode: color
 		};
 		if (isNew) {
-			createRef(requestBody).then(ref => {
-				setRefs(prev => [...prev, ref]);
-				setTitle("");
-				setExplain("");
-				closeModal();
-			});
+			dispatch(createRefRequest({ ref: requestBody }));
 		} else {
-			updateRef({ ...requestBody, refNum }).then(ref => {
-				setRefs(prev => {
-					const nowIndex = prev.findIndex(obj => obj.refNum === refNum);
-					const newData = [...prev];
-					newData[nowIndex] = ref;
-					return newData;
-				});
-				closeModal();
-			});
+			dispatch(updateRefRequest({ ref: { ...requestBody, refNum } }));
 		}
 	};
 
 	const deleteRefByNum = () => {
 		if (isNew) return;
-		if (isLoading) return;
-		setIsLoading(true);
+		if (isPressed) return;
+		setIsPressed(true);
 
 		const { refNum } = refInfos;
-		deleteRef(refNum)
-			.then(() => {
-				setRefs(prev => prev.filter(obj => obj.refNum !== refNum));
-				closeModal();
-			})
-			.catch(() => {
-				closeModal();
-			});
+		dispatch(deleteRefRequest({ refNum }));
 	};
 
 	return (

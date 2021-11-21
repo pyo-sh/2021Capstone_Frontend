@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Actions } from "react-native-router-flux";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import PersonIcon from "@src/components/icons/PersonIcon";
@@ -11,16 +11,11 @@ import RightArrowIcon from "@src/components/icons/RightArrowIcon";
 import LogoutIcon from "@src/components/icons/LogoutIcon";
 import { Color, DefaultFont_KR } from "@src/Constant";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserRequest, logOutUserRequest } from "@src/reducers/user";
+import { logOutUserRequest } from "@src/reducers/user";
 
 const Setting = () => {
 	const dispatch = useDispatch();
-	const { uid, name, nickname, email } = useSelector(state => state.user);
-
-	useEffect(() => {
-		if (!uid) console.error("no user");
-		dispatch(setUserRequest({ id: uid }));
-	}, []);
+	const { name, nickname, email } = useSelector(state => state.user);
 
 	const pressLogout = () => {
 		dispatch(logOutUserRequest());

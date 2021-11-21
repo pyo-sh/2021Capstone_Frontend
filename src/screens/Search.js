@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View, FlatList, Text } from "react-native";
 import { Color } from "@src/Constant";
 import SearchInput from "@src/components/search/SearchInput";
@@ -10,6 +10,7 @@ const Search = () => {
 	const [text, setText] = useState("");
 	const [schedule, setSchedule] = useState(null);
 	const [foods, setFoods] = useState([]);
+	const [selectedType, setSelectedType] = useState("");
 
 	const onChangeInputs = async value => {
 		// 사용자에게 보여지는 Text는 바로 변경
@@ -26,6 +27,7 @@ const Search = () => {
 				const data = await searchPresetIngrs({ keyword: value });
 				setFoods(data);
 				setSchedule(null);
+				setSelectedType("");
 			} catch (e) {
 				console.error("error", e);
 			}
@@ -33,10 +35,30 @@ const Search = () => {
 		setSchedule(newschedule);
 	};
 
+	const onClickCategory = useCallback(
+		type => async () => {
+			try {
+				const data = await searchPresetIngrs({ type });
+				setText("");
+				setSelectedType(type);
+				setFoods(data);
+			} catch (e) {
+				console.error("error", e);
+			}
+		},
+		[]
+	);
+
 	useEffect(() => {
-		searchPresetIngrs().then(data => {
-			setFoods(data);
-		});
+		try {
+			searchPresetIngrs().then(data => {
+				setFoods(data);
+				setText("");
+				setSelectedType("");
+			});
+		} catch (e) {
+			console.error("error", e);
+		}
 	}, []);
 
 	return (
@@ -49,7 +71,7 @@ const Search = () => {
 					onSubmitEditing={() => console.log(text)}
 				/>
 			</View>
-			<SearchCategories />
+			<SearchCategories type={selectedType} onClickCategory={onClickCategory} />
 			<View style={styleSheet.content}>
 				<Text style={styleSheet.info}>
 					- - {text ? `' ${text} '로 검색한 결과` : "검색 결과"} - - - - - - - - - - - - -
