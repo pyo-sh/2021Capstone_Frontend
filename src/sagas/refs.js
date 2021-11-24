@@ -136,9 +136,11 @@ async function deleteIngrRequest(body) {
 }
 function* deleteIngr(action) {
 	try {
+		console.log(action.payload);
 		yield call(deleteIngrRequest, action.payload);
 		yield put(deleteIngrSuccess(action.payload));
 	} catch (e) {
+		console.log(e);
 		yield put(deleteIngrFailure({ message: e.response }));
 	}
 }

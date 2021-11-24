@@ -9,6 +9,7 @@ const SearchInput = ({ data }) => {
 		// shelfLife?
 		Actions.addingr({
 			pName: data.presetIngrName,
+			pDate: data.shelfLife,
 			pIngrNum: data.presetIngrName
 		});
 	};

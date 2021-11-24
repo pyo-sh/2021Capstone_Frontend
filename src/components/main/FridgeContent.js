@@ -5,7 +5,7 @@ import { DefaultFont_KR } from "@src/Constant";
 
 const FridgeContent = ({ refInfos, enrollIngrs }) => {
 	const refColor = refInfos?.colorCode ?? "#ffffff";
-	const refNum = refInfos.refNum;
+	const refNum = refInfos?.refNum;
 
 	return (
 		<View style={styleSheet.wrapper}>
@@ -18,7 +18,7 @@ const FridgeContent = ({ refInfos, enrollIngrs }) => {
 				</Text>
 				<View style={{ flex: 1 }}></View>
 			</View>
-			{enrollIngrs.map((ingr, index) => {
+			{enrollIngrs?.map((ingr, index) => {
 				const beforeDate = enrollIngrs[index - 1]?.expyDate ?? "";
 				const isSameDate = beforeDate === ingr.expyDate;
 				return (

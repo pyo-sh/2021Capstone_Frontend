@@ -58,7 +58,7 @@ const EnrollIngr = ({ ingr, refInfos, refNum, refColor, isSameDate }) => {
 					<TouchableOpacity style={{ marginRight: 10 }} onPress={updateSelf}>
 						<PencilIcon color={Color.gray} width={15} height={16} />
 					</TouchableOpacity>
-					<TouchableOpacity onPress={deleteSelf}>
+					<TouchableOpacity onPress={deleteSelf} disabled={isRefsLoading}>
 						<PlusIcon
 							style={{ transform: [{ rotate: "45deg" }] }}
 							color={Color.primary_1}

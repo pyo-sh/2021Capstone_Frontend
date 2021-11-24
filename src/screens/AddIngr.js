@@ -11,9 +11,9 @@ import FormDate from "@src/components/add-ingr/FormDate";
 import FormCount from "@src/components/add-ingr/FormCount";
 import FormRef from "@src/components/add-ingr/FormRef";
 import { Color } from "@src/Constant";
-import { dateToString, isBefore } from "@src/utils/date";
+import { dateToString, isBefore, addDate } from "@src/utils/date";
 
-const AddIngr = ({ refInfos, pName, pType, pIngrNum, updateNum }) => {
+const AddIngr = ({ refInfos, pName, pType, pDate, pIngrNum, updateNum }) => {
 	const dispatch = useDispatch();
 	const refs = useSelector(state => state.refs.refs);
 	const isIngrLoading = useSelector(state => state.refs.isIngrLoading);
@@ -21,7 +21,7 @@ const AddIngr = ({ refInfos, pName, pType, pIngrNum, updateNum }) => {
 	const [isPressed, setIsPressed] = useState(false);
 	const [name, setName] = useState(pName ?? "");
 	const [type, setType] = useState(pType ?? "");
-	const [date, setDate] = useState(new Date());
+	const [date, setDate] = useState(addDate(pDate));
 	const [count, setCount] = useState(1);
 	const [refNum, setRefNum] = useState(refInfos?.refNum ?? null);
 	const [canSubmit, setCanSubmit] = useState(false);
@@ -57,7 +57,6 @@ const AddIngr = ({ refInfos, pName, pType, pIngrNum, updateNum }) => {
 			storageMthdType: type
 		};
 		if (pIngrNum) data.presetIngrNum = pIngrNum;
-
 		if (!updateNum) dispatch(addIngrRequest({ ingr: data }));
 		else {
 			data.ingrOrnu = updateNum;

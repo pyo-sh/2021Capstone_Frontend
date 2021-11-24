@@ -5,6 +5,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Router from "@src/config/router";
 import store from "@src/config/store";
 
+console.disableYellowBox = true;
+
 const App = () => {
 	return (
 		<>

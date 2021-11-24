@@ -22,3 +22,10 @@ export const getDateRemaining = string => {
 	const result = Math.ceil(gap / (1000 * 60 * 60 * 24));
 	return result;
 };
+
+export const addDate = amount => {
+	const today = new Date();
+	if (!amount) return today;
+	today.setDate(today.getDate() + parseInt(amount));
+	return today;
+};
