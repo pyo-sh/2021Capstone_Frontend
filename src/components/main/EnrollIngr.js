@@ -16,10 +16,12 @@ const EnrollIngr = ({ ingr, refInfos, refNum, refColor, isSameDate }) => {
 	const isPlus = dDay >= 0;
 
 	const updateSelf = () => {
+		console.log(ingr.expyDate);
 		Actions.addingr({
 			refInfos,
 			pName: ingr.ingrName,
 			pType: ingr?.storageMthdType,
+			pDate: ingr.expyDate,
 			pIngrNum: ingr?.presetIngrNum,
 			updateNum: ingr.ingrOrnu
 		});
