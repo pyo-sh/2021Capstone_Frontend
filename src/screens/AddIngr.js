@@ -23,7 +23,7 @@ const AddIngr = ({ refInfos }) => {
 	const [type, setType] = useState("");
 	const [date, setDate] = useState(new Date());
 	const [count, setCount] = useState(0);
-	const [refNum, setRefNum] = useState(refInfos.refNum);
+	const [refNum, setRefNum] = useState(refInfos?.refNum ?? null);
 	const [canSubmit, setCanSubmit] = useState(false);
 
 	useEffect(() => {
