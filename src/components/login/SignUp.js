@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
 import { Color, DefaultFont_KR } from "@src/Constant";
+import { createUser } from "@src/apis/user";
 import { SvgXml } from "react-native-svg";
 import LoginInput from "@src/components/login/LoginInput";
 import { Actions } from "react-native-router-flux";
 
 const SignUp = () => {
+	const [loading, setLoading] = useState(false);
 	const [textid, setTextid] = useState("");
 	const [textpw, setTextpw] = useState("");
 	const [nickname, setNickname] = useState("");
@@ -15,19 +17,23 @@ const SignUp = () => {
 
 	const onSubmit = e => {
 		e.preventDefault();
-		/**검증 로직 만들기
-		 * 1. 비밀번호와 비밀번호 체크가 다를 경우를 검증한다
-		 * 2. 약관 동의를 확인한다.
-		 */
-		if (textpw !== checkpw) {
-			return setPasswordError(true);
-		}
-		console.log({
-			id,
-			nick,
-			password,
-			passwordCheck
-		});
+		if (textpw !== checkpw) return setPasswordError(true);
+		const body = {
+			id: textid,
+			pwd: textpw,
+			nickname: nickname,
+			email: textemail
+		};
+		setLoading(true);
+		createUser(body)
+			.then(() => {
+				setLoading(false);
+				Actions.login();
+			})
+			.catch(e => {
+				setLoading(false);
+				Alert.alert("로그인 실패", "다시 시도해주세요");
+			});
 	};
 
 	const onChangeId = e => {
@@ -114,7 +120,7 @@ const SignUp = () => {
 						<Text
 							style={{
 								color: Color.primary_1,
-								DefaultFont_KR
+								...DefaultFont_KR
 							}}
 						>
 							가입한적이 없으신가요?
@@ -126,7 +132,11 @@ const SignUp = () => {
 						padding: "10%"
 					}}
 				>
-					<TouchableOpacity onPress={() => Actions.main()} style={styleSheet.button}>
+					<TouchableOpacity
+						disabled={loading}
+						onPress={onSubmit}
+						style={styleSheet.button}
+					>
 						<SvgXml
 							xml={`
                 <svg xmlns="http://www.w3.org/2000/svg" width="277" height="55" viewBox="0 0 277 55">

@@ -8,7 +8,7 @@ const FormName = ({ name, setName }) => {
 			<Text style={styleSheet.title}>식자재 명</Text>
 			<TextInput
 				style={styleSheet.input}
-				text={name}
+				value={name}
 				onChangeText={value => setName(value)}
 				placeholder={"이름 입력"}
 			/>

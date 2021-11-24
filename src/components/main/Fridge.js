@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Actions } from "react-native-router-flux";
+import { useSelector } from "react-redux";
 import { Color, DefaultFont_KR } from "@src/Constant";
 import PlusIcon from "@src/components/icons/PlusIcon";
 import PencilIcon from "@src/components/icons/PencilIcon";
@@ -9,7 +10,10 @@ import { getTextColorByBackgroundColor } from "@src/utils/color";
 import EasyModal from "@src/components/custom/EasyModal";
 import ModifyFridge from "@src/components/main/ModifyFridge";
 
-const Fridge = ({ refInfos }) => {
+const Fridge = ({ refIndex }) => {
+	const refs = useSelector(state => state.refs.refs);
+	const refInfos = refs[refIndex];
+
 	return (
 		<View style={styleSheet.wrapper}>
 			<View style={styleSheet.fridge}>
@@ -26,31 +30,27 @@ const Fridge = ({ refInfos }) => {
 					{refInfos?.refName}
 				</Text>
 				<FridgeContent refInfos={refInfos} enrollIngrs={refInfos?.enrollIngrs} />
-				<View style={styleSheet.controlSection}>
-					<EasyModal
-						renderModalButton={({ openModal }) => (
-							<TouchableOpacity
-								index={1}
-								onPress={openModal}
-								style={styleSheet.bigBtn}
-							>
-								<PencilIcon color={Color.white} />
-							</TouchableOpacity>
-						)}
-						renderModalContent={({ closeModal }) => (
-							<ModifyFridge closeModal={closeModal} refInfos={refInfos} />
-						)}
-					/>
-					<TouchableOpacity
-						index={1}
-						onPress={() => {
-							Actions.addingr({ refInfos });
-						}}
-						style={[styleSheet.bigBtn, { marginLeft: 10 }]}
-					>
-						<PlusIcon color={Color.white} />
-					</TouchableOpacity>
-				</View>
+			</View>
+			<View style={styleSheet.controlSection}>
+				<EasyModal
+					renderModalButton={({ openModal }) => (
+						<TouchableOpacity index={1} onPress={openModal} style={styleSheet.bigBtn}>
+							<PencilIcon color={Color.white} />
+						</TouchableOpacity>
+					)}
+					renderModalContent={({ closeModal }) => (
+						<ModifyFridge closeModal={closeModal} refInfos={refInfos} />
+					)}
+				/>
+				<TouchableOpacity
+					index={1}
+					onPress={() => {
+						Actions.addingr({ refInfos });
+					}}
+					style={[styleSheet.bigBtn, { marginLeft: 10 }]}
+				>
+					<PlusIcon color={Color.white} />
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
@@ -80,7 +80,8 @@ const styleSheet = StyleSheet.create({
 		},
 		shadowOpacity: 0.25,
 		shadowRadius: 4,
-		elevation: 4
+		elevation: 4,
+		overflow: "hidden"
 	},
 	title: {
 		padding: 17,
@@ -92,8 +93,8 @@ const styleSheet = StyleSheet.create({
 	controlSection: {
 		position: "absolute",
 		marginHorizontal: "auto",
-		right: 0,
-		bottom: -25,
+		right: 35,
+		bottom: 50,
 
 		display: "flex",
 		flexDirection: "row",

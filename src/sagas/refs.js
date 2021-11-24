@@ -14,10 +14,16 @@ import {
 	deleteRefFailure,
 	ADD_INGR_REQUEST,
 	addIngrSuccess,
-	addIngrFailure
+	addIngrFailure,
+	UPDATE_INGR_REQUEST,
+	updateIngrSuccess,
+	updateIngrFailure,
+	DELETE_INGR_REQUEST,
+	deleteIngrSuccess,
+	deleteIngrFailure
 } from "@src/reducers/refs";
 import { createRef, updateRef, deleteRef, readRefsByUser } from "@src/apis/fridge";
-import { createRefEnrollIngr } from "@src/apis/ingrs";
+import { createRefEnrollIngr, updateRefEnrollIngr, deleteRefEnrollIngr } from "@src/apis/ingrs";
 
 // 전체 냉장고 불러오기
 async function getAllRefsRequest(uid) {
@@ -94,7 +100,7 @@ async function addIngrRequest(ingr) {
 	const datas = await createRefEnrollIngr(ingr);
 	return datas;
 }
-function* addIngr() {
+function* addIngr(action) {
 	try {
 		const result = yield call(addIngrRequest, action.payload.ingr);
 		yield put(addIngrSuccess({ ingr: result }));
@@ -106,12 +112,50 @@ function* watchAddIngr() {
 	yield takeLatest(ADD_INGR_REQUEST, addIngr);
 }
 
+// 식자재 수정하기
+async function updateIngrRequest(ingr) {
+	const datas = await updateRefEnrollIngr(ingr);
+	return datas;
+}
+function* updateIngr(action) {
+	try {
+		const result = yield call(updateIngrRequest, action.payload.ingr);
+		yield put(updateIngrSuccess({ ingr: result }));
+	} catch (e) {
+		yield put(updateIngrFailure({ message: e.response }));
+	}
+}
+function* watchUpdateIngr() {
+	yield takeLatest(UPDATE_INGR_REQUEST, updateIngr);
+}
+
+// 식자재 삭제하기
+async function deleteIngrRequest(body) {
+	const datas = await deleteRefEnrollIngr(body);
+	return datas;
+}
+function* deleteIngr(action) {
+	try {
+		console.log(action.payload);
+		yield call(deleteIngrRequest, action.payload);
+		yield put(deleteIngrSuccess(action.payload));
+	} catch (e) {
+		console.log(e);
+		yield put(deleteIngrFailure({ message: e.response }));
+	}
+}
+function* watchDeleteIngr() {
+	yield takeLatest(DELETE_INGR_REQUEST, deleteIngr);
+}
+
 export default function* refsSaga() {
 	yield all([
 		fork(watchGetAll),
 		fork(watchCreateRef),
 		fork(watchUpdateRef),
 		fork(watchDeleteRef),
-		fork(watchAddIngr)
+		fork(watchAddIngr),
+		fork(watchUpdateIngr),
+		fork(watchDeleteIngr)
 	]);
 }

@@ -9,6 +9,7 @@ const FormRef = ({ refs, refNum, setRefNum }) => {
 			<Text style={styleSheet.title}>보관할 냉장고</Text>
 			<View>
 				<SelectDropdown
+					defaultButtonText="냉장고 선택"
 					buttonStyle={styleSheet.dropdown}
 					rowStyle={styleSheet.dropdown}
 					buttonTextStyle={styleSheet.dropdownText}

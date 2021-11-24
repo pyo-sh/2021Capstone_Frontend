@@ -6,6 +6,11 @@ export const createRefEnrollIngr = async body => {
 	return response.data;
 };
 
+export const updateRefEnrollIngr = async body => {
+	const response = await axios.put(`${baseURL}/api/ref-enroll-ingr`, body);
+	return response.data;
+};
+
 export const deleteRefEnrollIngr = async ({ refNum, ingrOrnu }) => {
 	const response = await axios.delete(
 		`${baseURL}/api/ref-enroll-ingr?refNum=${refNum}&ingrOrnu=${ingrOrnu}`
@@ -20,5 +25,10 @@ export const searchPresetIngrs = async ({ keyword, type, page } = {}) => {
 	const response = await axios.get(
 		`${baseURL}/api/preset-ingr/search-list?${wordQuery ? wordQuery : typeQuery}&${pageQuery}`
 	);
+	return response?.data;
+};
+
+export const readImnIngrs = async userNum => {
+	const response = await axios.get(`${baseURL}/api/user/${userNum}/imn-ingrs`);
 	return response?.data;
 };

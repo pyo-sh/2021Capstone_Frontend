@@ -1,30 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
+import { Actions } from "react-native-router-flux";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteIngrRequest } from "@src/reducers/refs";
 import { getDateRemaining } from "@src/utils/date";
 import { getTextColorByBackgroundColor } from "@src/utils/color";
 import PencilIcon from "@src/components/icons/PencilIcon";
 import PlusIcon from "@src/components/icons/PlusIcon";
 import { Color, DefaultFont_EN } from "@src/Constant";
-import { deleteRefEnrollIngr } from "@src/apis/ingrs";
 
-const EnrollIngr = ({ ingr, refNum, refColor, isSameDate, deleteIngrItem }) => {
-	const [isLoading, setIsLoading] = useState(false);
+const EnrollIngr = ({ ingr, refInfos, refNum, refColor, isSameDate }) => {
+	const isRefsLoading = useSelector(state => state.refs.isRefsLoading);
+	const dispatch = useDispatch();
 	const dDay = getDateRemaining(ingr.expyDate);
 	const isPlus = dDay >= 0;
 
+	const updateSelf = () => {
+		Actions.addingr({
+			refInfos,
+			pName: ingr.ingrName,
+			pType: ingr?.storageMthdType,
+			pDate: ingr.expyDate,
+			pIngrNum: ingr?.presetIngrNum,
+			updateNum: ingr.ingrOrnu
+		});
+	};
+
 	const deleteSelf = () => {
-		if (isLoading) return;
-		setIsLoading(true);
+		if (isRefsLoading) return;
 		const ingrOrnu = ingr.ingrOrnu;
-		deleteRefEnrollIngr({ refNum, ingrOrnu })
-			.then(() => {
-				setIsLoading(false);
-				deleteIngrItem(ingrOrnu);
-			})
-			.catch(e => {
-				console.error(e);
-				setIsLoading(false);
-			});
+		dispatch(deleteIngrRequest({ refNum, ingrOrnu }));
 	};
 
 	return (
@@ -51,10 +56,10 @@ const EnrollIngr = ({ ingr, refNum, refColor, isSameDate, deleteIngrItem }) => {
 					{ingr.quantity}
 				</Text>
 				<View style={styleSheet.flexView}>
-					<TouchableOpacity style={{ marginRight: 10 }}>
+					<TouchableOpacity style={{ marginRight: 10 }} onPress={updateSelf}>
 						<PencilIcon color={Color.gray} width={15} height={16} />
 					</TouchableOpacity>
-					<TouchableOpacity onPress={deleteSelf}>
+					<TouchableOpacity onPress={deleteSelf} disabled={isRefsLoading}>
 						<PlusIcon
 							style={{ transform: [{ rotate: "45deg" }] }}
 							color={Color.primary_1}
@@ -95,6 +100,7 @@ const styleSheet = StyleSheet.create({
 	},
 	ingrWrapper: {
 		padding: 10,
+		marginBottom: 10,
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",

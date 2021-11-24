@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { useSelector, useDispatch } from "react-redux";
-import { addIngrRequest } from "@src/reducers/refs";
+import { addIngrRequest, updateIngrRequest } from "@src/reducers/refs";
 import OtherButtons from "@src/components/add-ingr/OtherButtons";
 import SubmitButton from "@src/components/add-ingr/SubmitButton";
 import FormName from "@src/components/add-ingr/FormName";
@@ -11,19 +11,19 @@ import FormDate from "@src/components/add-ingr/FormDate";
 import FormCount from "@src/components/add-ingr/FormCount";
 import FormRef from "@src/components/add-ingr/FormRef";
 import { Color } from "@src/Constant";
-import { dateToString, isBefore } from "@src/utils/date";
+import { dateToString, isBefore, addDate } from "@src/utils/date";
 
-const AddIngr = ({ refInfos }) => {
+const AddIngr = ({ refInfos, pName, pType, pDate, pCount, pIngrNum, updateNum }) => {
 	const dispatch = useDispatch();
 	const refs = useSelector(state => state.refs.refs);
 	const isIngrLoading = useSelector(state => state.refs.isIngrLoading);
 	const loadIngrErrorReason = useSelector(state => state.refs.loadIngrErrorReason);
 	const [isPressed, setIsPressed] = useState(false);
-	const [name, setName] = useState("");
-	const [type, setType] = useState("");
-	const [date, setDate] = useState(new Date());
-	const [count, setCount] = useState(0);
-	const [refNum, setRefNum] = useState(refInfos.refNum);
+	const [name, setName] = useState(pName ?? "");
+	const [type, setType] = useState(pType ?? "");
+	const [date, setDate] = useState(addDate(pDate));
+	const [count, setCount] = useState(parseInt(pCount) || 0);
+	const [refNum, setRefNum] = useState(refInfos?.refNum ?? null);
 	const [canSubmit, setCanSubmit] = useState(false);
 
 	useEffect(() => {
@@ -38,8 +38,10 @@ const AddIngr = ({ refInfos }) => {
 	useEffect(() => {
 		if (isIngrLoading || !isPressed) return;
 		if (!loadIngrErrorReason) {
+			setIsPressed(false);
 			Actions.main();
 		} else {
+			console.log(loadIngrErrorReason);
 			setIsPressed(false);
 			Alert.alert("연결 문제", "다시 시도 해주세요!");
 		}
@@ -55,7 +57,12 @@ const AddIngr = ({ refInfos }) => {
 			quantity: count,
 			storageMthdType: type
 		};
-		dispatch(addIngrRequest({ ingr: data }));
+		if (pIngrNum) data.presetIngrNum = pIngrNum;
+		if (!updateNum) dispatch(addIngrRequest({ ingr: data }));
+		else {
+			data.ingrOrnu = updateNum;
+			dispatch(updateIngrRequest({ ingr: data }));
+		}
 	};
 
 	return (

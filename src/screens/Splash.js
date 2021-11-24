@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Image } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { useSelector, useDispatch } from "react-redux";
-import { verifyUserRequest } from "@src/reducers/user";
+import { verifyUserRequest, setUserRequest, logOutUserRequest } from "@src/reducers/user";
 import { setRefsRequest } from "@src/reducers/refs";
-import { setUserRequest, logOutUserRequest } from "@src/reducers/user";
+import { setRecRecipesRequest } from "@src/reducers/recipe";
+import Loading from "@src/components/Loading";
 
 const Splash = () => {
 	const dispatch = useDispatch();
@@ -12,6 +12,7 @@ const Splash = () => {
 	const [hasUID, setHasUID] = useState(false);
 	const { accessToken, isLoadingUser, loadUserErrorReason } = useSelector(state => state.user);
 	const { isRefsLoading, loadRefsErrorReason } = useSelector(state => state.refs);
+	const { isRecipeLoading, loadRecipeErrorReason } = useSelector(state => state.recipe);
 
 	// 로그인 로직
 	useEffect(() => {
@@ -28,14 +29,14 @@ const Splash = () => {
 		if (!hasUID) {
 			dispatch(setRefsRequest());
 			dispatch(setUserRequest());
+			dispatch(setRecRecipesRequest());
 			setHasUID(true);
 		}
 	}, [isFirst, isLoadingUser, isRefsLoading, accessToken]);
 
-	// 데이터 불러오기
 	useEffect(() => {
-		if (!hasUID || isLoadingUser || isRefsLoading) return;
-		if (loadRefsErrorReason || loadUserErrorReason) {
+		if (!hasUID || isLoadingUser || isRefsLoading || isRecipeLoading) return;
+		if (loadRefsErrorReason || loadUserErrorReason || loadRecipeErrorReason) {
 			dispatch(logOutUserRequest());
 			Actions.login();
 			return;
@@ -43,17 +44,17 @@ const Splash = () => {
 		setIsFirst(true);
 		setHasUID(false);
 		Actions.main();
-	}, [hasUID, isLoadingUser, isRefsLoading, loadUserErrorReason, loadRefsErrorReason]);
+	}, [
+		hasUID,
+		isLoadingUser,
+		isRefsLoading,
+		isRecipeLoading,
+		loadUserErrorReason,
+		loadRefsErrorReason,
+		loadRecipeErrorReason
+	]);
 
-	return (
-		<View>
-			<Image
-				source={require("../components/icons/splash.png")}
-				resizeMode="stretch"
-				style={[{ width: "100%", height: "100%" }]}
-			/>
-		</View>
-	);
+	return <Loading />;
 };
 
 export default Splash;

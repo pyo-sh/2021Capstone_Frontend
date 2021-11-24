@@ -8,6 +8,7 @@ import Fridge from "@src/components/main/Fridge";
 import EasyModal from "@src/components/custom/EasyModal";
 import ModifyFridge from "@src/components/main/ModifyFridge";
 import { Color } from "@src/Constant";
+import RecRecipe from "@src/components/recipe/RecRecipe";
 
 const Main = () => {
 	const refs = useSelector(state => state.refs.refs);
@@ -26,33 +27,12 @@ const Main = () => {
 			{/* React 와 배열을 받으면 배열이 하나의 Component로 인식 */}
 			{/* -> 배열 하나만 있으면 각 요소를 렌더링 */}
 			{[
-				<View
-					key="Recommended-Recipe"
-					style={{
-						flex: 1,
-						justifyContent: "center",
-						alignItems: "center",
-						backgroundColor: "#9DD6EB"
-					}}
-				>
-					<Text
-						style={{
-							color: "#fff",
-							fontSize: 30,
-							fontWeight: "bold"
-						}}
-					>
-						추천 레시피 페이지
-					</Text>
-				</View>,
+				<RecRecipe key="RecRecipe" />,
 				/* 임박한 식자재 페이지 필요 */
 				...refs?.map((refInfos, index) => {
-					const { refNum, enrollIngrs } = refInfos;
+					const { refNum } = refInfos;
 					return (
-						<Fridge
-							key={`Fridge-${refNum}-${enrollIngrs?.length}` ?? `Fridge-${index}`}
-							refInfos={refInfos}
-						/>
+						<Fridge key={`Fridge-${refNum}` ?? `Fridge-${index}`} refIndex={index} />
 					);
 				}),
 				<EasyModal

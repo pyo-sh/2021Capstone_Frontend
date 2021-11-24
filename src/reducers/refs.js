@@ -32,6 +32,16 @@ export const [ADD_INGR_REQUEST, addIngrRequest] = createAction("ADD_INGR_REQUEST
 export const [ADD_INGR_SUCCESS, addIngrSuccess] = createAction("ADD_INGR_SUCCESS");
 export const [ADD_INGR_FAILURE, addIngrFailure] = createAction("ADD_INGR_FAILURE");
 
+// 식자재 수정하기
+export const [UPDATE_INGR_REQUEST, updateIngrRequest] = createAction("UPDATE_INGR_REQUEST");
+export const [UPDATE_INGR_SUCCESS, updateIngrSuccess] = createAction("UPDATE_INGR_SUCCESS");
+export const [UPDATE_INGR_FAILURE, updateIngrFailure] = createAction("UPDATE_INGR_FAILURE");
+
+// 식자재 삭제하기
+export const [DELETE_INGR_REQUEST, deleteIngrRequest] = createAction("DELETE_INGR_REQUEST");
+export const [DELETE_INGR_SUCCESS, deleteIngrSuccess] = createAction("DELETE_INGR_SUCCESS");
+export const [DELETE_INGR_FAILURE, deleteIngrFailure] = createAction("DELETE_INGR_FAILURE");
+
 function refsReducer(state = initialState, action) {
 	switch (action.type) {
 		// 냉장고 전체 정보를 가져오기
@@ -163,6 +173,84 @@ function refsReducer(state = initialState, action) {
 				...state,
 				isIngrLoading: false,
 				loadIngrErrorReason: action.payload.message
+			};
+		}
+		// 식자재 추가하기
+		case UPDATE_INGR_REQUEST: {
+			return {
+				...state,
+				isIngrLoading: true,
+				loadIngrErrorReason: ""
+			};
+		}
+		case UPDATE_INGR_SUCCESS: {
+			// 해당 냉장고 찾기
+			const newIngr = action.payload.ingr;
+			const newRefs = [...state.refs];
+			const targetIndex = newRefs.findIndex(obj => obj.refNum === newIngr.refNum);
+			if (targetIndex === -1) return { ...state };
+			// 냉장고에서 재료 찾기
+			const nowIndex = newRefs[targetIndex].enrollIngrs.findIndex(
+				obj => obj.ingrOrnu === newIngr.ingrOrnu
+			);
+			if (nowIndex === -1) return { ...state };
+			const newEnrollIngrs = [...newRefs[targetIndex].enrollIngrs];
+			newEnrollIngrs[nowIndex] = newIngr;
+			// 냉장고에 재료 추가하기
+			const newRef = {
+				...newRefs[targetIndex],
+				enrollIngrs: newEnrollIngrs
+			};
+			newRefs[targetIndex] = newRef;
+			return {
+				...state,
+				refs: newRefs,
+				isIngrLoading: false
+			};
+		}
+		case UPDATE_INGR_FAILURE: {
+			return {
+				...state,
+				isIngrLoading: false,
+				loadIngrErrorReason: action.payload.message
+			};
+		}
+		// 식자재 삭제하기
+		case DELETE_INGR_REQUEST: {
+			return {
+				...state,
+				isRefsLoading: true,
+				loadRefsErrorReason: ""
+			};
+		}
+		case DELETE_INGR_SUCCESS: {
+			const refNum = action.payload.refNum;
+			const ingrOrnu = action.payload.ingrOrnu;
+			// 해당 냉장고 찾기
+			const newRefs = [...state.refs];
+			const targetIndex = newRefs.findIndex(obj => obj.refNum === refNum);
+			if (targetIndex === -1) return { ...state };
+			// 냉장고에서 재료 찾아 삭제
+			const newEnrollIngrs = newRefs[targetIndex].enrollIngrs.filter(
+				obj => obj.ingrOrnu !== ingrOrnu
+			);
+			// 냉장고에 재료 업데이트
+			const newRef = {
+				...newRefs[targetIndex],
+				enrollIngrs: newEnrollIngrs
+			};
+			newRefs[targetIndex] = newRef;
+			return {
+				...state,
+				refs: newRefs,
+				isRefsLoading: false
+			};
+		}
+		case DELETE_INGR_FAILURE: {
+			return {
+				...state,
+				isRefsLoading: false,
+				loadRefsErrorReason: action.payload.message
 			};
 		}
 		default:
