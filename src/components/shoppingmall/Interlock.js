@@ -1,9 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Alert, Modal, TextInput } from "react-native";
 import { Color, DefaultFont_KR } from "@src/Constant";
 import { SvgXml } from "react-native-svg";
 import PersonIcon from "@src/components/icons/PersonIcon";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setLinkId } from "@src/reducers/user";
+import { linkUser } from "@src/apis/user";
 
 const Interlock = ({ setRefs }) => {
 	const [modalVisible, setModalVisible] = useState(false);
@@ -13,36 +15,21 @@ const Interlock = ({ setRefs }) => {
 	const [color, setColor] = useState("#225685");
 	const [canSubmit, setCanSubmit] = useState(false);
 
-	const openModal = useCallback(() => {
-		setModalVisible(true);
-	}, []);
-	const closeModal = useCallback(() => {
-		setModalVisible(false);
-	}, []);
-	const { name, email, nick_name } = useSelector(state => state.user);
+	const { uid, name, email, nick_name, linkId } = useSelector(state => state.user);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		setCanSubmit(!(!title || !explain || !color));
 	}, [title, explain, color]);
 
-	const submitRef = () => {
-		if (canSubmit) {
-			setRefs(prev => [
-				...prev,
-				{
-					refNum: (202005060002 + prev.length).toString(),
-					refName: title,
-					explan: explain,
-					refType: "r",
-					ownerNum: "2005060001",
-					colorCode: color,
-					enrollIngrs: []
-				}
-			]);
-			setTitle("");
-			setExplain("");
-			closeModal();
-		}
+	const onPress = () => {
+		linkUser(uid)
+			.then(() => {
+				dispatch(setLinkId());
+			})
+			.catch(e => {
+				Alert.alert("연동 실패하였습니다.");
+			});
 	};
 
 	return (
@@ -56,74 +43,35 @@ const Interlock = ({ setRefs }) => {
 						XX 쇼핑몰
 					</Text>
 					<Text style={[DefaultFont_KR, { fontSize: 15, color: Color.pointed_red }]}>
-						연동 필요
+						{linkId === null ? "연동 필요" : ""}
 					</Text>
 				</View>
-				<TouchableOpacity style={{ marginRight: 10, marginLeft: 1 }} onPress={openModal}>
-					<Text style={([DefaultFont_KR], styleSheet.button)}>연동</Text>
-				</TouchableOpacity>
-			</View>
-			<Modal
-				animationType="fade"
-				transparent={true}
-				visible={modalVisible}
-				onRequestClose={closeModal}
-			>
-				<View style={styleSheet.centeredView}>
-					<View style={styleSheet.modalView}>
-						<View style={[styleSheet.betweenView, { marginBottom: 20 }]}>
-							<Text
-								style={[{ fontSize: 25, color: Color.primary_4 }, DefaultFont_KR]}
-							>
-								연동하기
-							</Text>
-							<TouchableOpacity style={styleSheet.modalButton} onPress={closeModal}>
-								<SvgXml
-									xml={`
-                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 2L20 20" stroke="#4C7885" stroke-width="3"/>
-                        <path d="M20 2L2 20" stroke="#4C7885" stroke-width="3"/>
-                    </svg>
-                  `}
-								/>
-							</TouchableOpacity>
-						</View>
-						<View style={styleSheet.betweenView}>
-							<TextInput
-								value={title}
-								onChangeText={setTitle}
-								style={[{ width: 270 }, styleSheet.modalInput]}
-								placeholder={"ID"}
-							/>
-						</View>
-						<View style={styleSheet.betweenView}>
-							<TextInput
-								value={title}
-								onChangeText={setTitle}
-								style={[{ width: 270 }, styleSheet.modalInput]}
-								placeholder={"Password"}
-							/>
-						</View>
-						<TouchableOpacity
-							disabled={canSubmit}
-							style={styleSheet.submit}
-							onPress={closeModal}
+				{linkId === null ? (
+					<TouchableOpacity style={{ marginRight: 10, marginLeft: 1 }} onPress={onPress}>
+						<Text
+							style={[
+								DefaultFont_KR,
+								styleSheet.button,
+								{ backgroundColor: Color.primary_4 }
+							]}
 						>
-							<Text
-								style={[
-									DefaultFont_KR,
-									{
-										fontSize: 20,
-										color: canSubmit ? Color.primary_3 : Color.primary_4
-									}
-								]}
-							>
-								로그인
-							</Text>
-						</TouchableOpacity>
+							연동
+						</Text>
+					</TouchableOpacity>
+				) : (
+					<View style={{ marginRight: 10, marginLeft: 1 }}>
+						<Text
+							style={[
+								DefaultFont_KR,
+								styleSheet.button,
+								{ backgroundColor: Color.pointed_red }
+							]}
+						>
+							해지
+						</Text>
 					</View>
-				</View>
-			</Modal>
+				)}
+			</View>
 		</View>
 	);
 };

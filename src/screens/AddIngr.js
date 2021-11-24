@@ -13,7 +13,7 @@ import FormRef from "@src/components/add-ingr/FormRef";
 import { Color } from "@src/Constant";
 import { dateToString, isBefore, addDate } from "@src/utils/date";
 
-const AddIngr = ({ refInfos, pName, pType, pDate, pIngrNum, updateNum }) => {
+const AddIngr = ({ refInfos, pName, pType, pDate, pCount, pIngrNum, updateNum }) => {
 	const dispatch = useDispatch();
 	const refs = useSelector(state => state.refs.refs);
 	const isIngrLoading = useSelector(state => state.refs.isIngrLoading);
@@ -22,7 +22,7 @@ const AddIngr = ({ refInfos, pName, pType, pDate, pIngrNum, updateNum }) => {
 	const [name, setName] = useState(pName ?? "");
 	const [type, setType] = useState(pType ?? "");
 	const [date, setDate] = useState(addDate(pDate));
-	const [count, setCount] = useState(1);
+	const [count, setCount] = useState(parseInt(pCount) || 0);
 	const [refNum, setRefNum] = useState(refInfos?.refNum ?? null);
 	const [canSubmit, setCanSubmit] = useState(false);
 
@@ -41,6 +41,7 @@ const AddIngr = ({ refInfos, pName, pType, pDate, pIngrNum, updateNum }) => {
 			setIsPressed(false);
 			Actions.main();
 		} else {
+			console.log(loadIngrErrorReason);
 			setIsPressed(false);
 			Alert.alert("연결 문제", "다시 시도 해주세요!");
 		}

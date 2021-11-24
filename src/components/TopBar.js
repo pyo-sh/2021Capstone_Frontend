@@ -9,7 +9,7 @@ const TopBar = props => {
 
 	return (
 		<View style={styleSheet.wrapper}>
-			<View style={{ width: 30, marginLeft: 10 }}>
+			<View style={{ width: 40, marginLeft: 10 }}>
 				{hasPop ? (
 					<TouchableOpacity
 						index={1}
@@ -22,7 +22,7 @@ const TopBar = props => {
 				) : null}
 			</View>
 			<Text style={styleSheet.title}>{title}</Text>
-			<View style={{ width: 30, marginRight: 10 }}>{/* Empty Space */}</View>
+			<View style={{ width: 40, marginRight: 10 }}></View>
 		</View>
 	);
 };
@@ -53,6 +53,25 @@ const styleSheet = StyleSheet.create({
 		color: Color.primary_1,
 		fontSize: 23,
 		fontFamily: "NotoSansKR"
+	},
+	mark: {
+		width: 35,
+		height: 35,
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		// borderWidth: 1,
+		// borderColor: Color.primary_1,
+		borderRadius: 10,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 2
+		},
+		shadowOpacity: 1,
+		shadowRadius: 5,
+		elevation: 5,
+		backgroundColor: "#FFEE81"
 	}
 });
 

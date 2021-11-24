@@ -9,11 +9,14 @@ import Recipes from "@src/screens/Recipes";
 import Setting from "@src/screens/Setting";
 import AddIngr from "@src/screens/AddIngr";
 import SignUp from "@src/components/login/SignUp";
+import RecipeInfo from "@src/screens/RecipeInfo";
+import Bookmark from "@src/screens/Bookmark";
 import Interlock from "@src/components/shoppingmall/Interlock";
 import MainTabIcon from "@src/components/icons/MainTabIcon";
 import SearchTabIcon from "@src/components/icons/SearchTabIcon";
 import RecipesTabIcon from "@src/components/icons/RecipesTabIcon";
 import SettingTabIcon from "@src/components/icons/SettingTabIcon";
+import StarTabIcon from "@src/components/icons/StarTabIcon";
 
 import TopBar from "@src/components/TopBar";
 
@@ -65,6 +68,15 @@ const RouterComponent = () => {
 					title="식자재 등록"
 					hasPop={true}
 				/>
+				<Scene
+					key="recipeinfo"
+					navBar={TopBar}
+					component={RecipeInfo}
+					gestureEnabled={false}
+					panHandlers={null}
+					title="레시피"
+					hasPop={true}
+				/>
 				<Scene key="BottomTab" hideNavBar showLabel={false} tabs={true} default="main">
 					<Scene
 						key="main"
@@ -93,6 +105,16 @@ const RouterComponent = () => {
 						panHandlers={null}
 						icon={RecipesTabIcon}
 						title="레시피"
+						hasPop={false}
+					/>
+					<Scene
+						key="bookmark"
+						navBar={TopBar}
+						component={Bookmark}
+						gestureEnabled={false}
+						panHandlers={null}
+						icon={StarTabIcon}
+						title="즐겨찾기 레시피"
 						hasPop={false}
 					/>
 					<Scene

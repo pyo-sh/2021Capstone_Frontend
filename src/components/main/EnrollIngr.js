@@ -16,7 +16,6 @@ const EnrollIngr = ({ ingr, refInfos, refNum, refColor, isSameDate }) => {
 	const isPlus = dDay >= 0;
 
 	const updateSelf = () => {
-		console.log(ingr.expyDate);
 		Actions.addingr({
 			refInfos,
 			pName: ingr.ingrName,
@@ -101,6 +100,7 @@ const styleSheet = StyleSheet.create({
 	},
 	ingrWrapper: {
 		padding: 10,
+		marginBottom: 10,
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",

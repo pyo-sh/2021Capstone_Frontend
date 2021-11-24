@@ -1,16 +1,24 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
 import { Color, DefaultFont_KR } from "@src/Constant";
+import OrderIngrs from "@src/components/shoppingmall/OrderIngrs";
+import EasyModal from "@src/components/custom/EasyModal";
 
 const OtherButtons = () => {
 	return (
 		<View style={styleSheet.wrapper}>
 			<Text style={[styleSheet.title, { fontSize: 16 }]}>식자재 가져오기</Text>
 			<View style={styleSheet.flexLine}>
-				<TouchableOpacity style={styleSheet.Button}>
-					<Text style={styleSheet.Text}>쇼핑몰</Text>
-					<Text style={styleSheet.Text}>주문목록</Text>
-				</TouchableOpacity>
+				<EasyModal
+					key="Order-Page"
+					renderModalButton={({ openModal }) => (
+						<TouchableOpacity style={styleSheet.Button} onPress={openModal}>
+							<Text style={styleSheet.Text}>쇼핑몰</Text>
+							<Text style={styleSheet.Text}>주문목록</Text>
+						</TouchableOpacity>
+					)}
+					renderModalContent={({ closeModal }) => <OrderIngrs closeModal={closeModal} />}
+				/>
 				<TouchableOpacity style={styleSheet.Button}>
 					<Text style={styleSheet.Text}>영수증</Text>
 				</TouchableOpacity>

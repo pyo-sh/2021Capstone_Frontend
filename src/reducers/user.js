@@ -30,6 +30,8 @@ export const [VERIFY_USER_REQUEST, verifyUserRequest] = createAction("VERIFY_USE
 export const [VERIFY_USER_SUCCESS, verifyUserSuccess] = createAction("VERIFY_USER_SUCCESS");
 export const [VERIFY_USER_FAILURE, verifyUserFailure] = createAction("VERIFY_USER_FAILURE");
 
+export const [SET_LINK_ID, setLinkId] = createAction("LINK_USER");
+
 // Reducer
 function userReducer(state = initialState, action) {
 	switch (action.type) {
@@ -100,6 +102,11 @@ function userReducer(state = initialState, action) {
 				...action.payload,
 				isLoadingUser: false,
 				loadUserErrorReason: action?.error ?? ""
+			};
+		case SET_LINK_ID:
+			return {
+				...state,
+				linkId: state.uid
 			};
 		default:
 			return state;

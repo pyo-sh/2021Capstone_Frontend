@@ -4,14 +4,12 @@ import { Actions } from "react-native-router-flux";
 import { SvgXml } from "react-native-svg";
 import { Color } from "@src/Constant";
 
-const SearchedFood = ({ data }) => {
+const OrderFood = ({ data }) => {
 	const goAdd = () => {
-		// shelfLife?
 		Actions.addingr({
 			pName: data.presetIngrName,
-			pDate: data?.shelfLife,
-			pCount: data?.quantity,
-			pIngrNum: data?.presetIngrNum
+			pDate: data.shelfLife,
+			pIngrNum: data.presetIngrNum
 		});
 	};
 
@@ -61,4 +59,4 @@ const styleSheet = StyleSheet.create({
 	}
 });
 
-export default React.memo(SearchedFood);
+export default React.memo(OrderFood);

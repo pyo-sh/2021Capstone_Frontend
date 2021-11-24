@@ -27,3 +27,8 @@ export const searchPresetIngrs = async ({ keyword, type, page } = {}) => {
 	);
 	return response?.data;
 };
+
+export const readImnIngrs = async userNum => {
+	const response = await axios.get(`${baseURL}/api/user/${userNum}/imn-ingrs`);
+	return response?.data;
+};

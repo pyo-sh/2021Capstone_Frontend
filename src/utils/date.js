@@ -25,8 +25,8 @@ export const getDateRemaining = string => {
 
 export const addDate = amount => {
 	const today = new Date();
-	if (amount.includes("-")) return new Date(amount);
 	if (!amount) return today;
+	if (amount.includes("-")) return new Date(amount);
 	today.setDate(today.getDate() + parseInt(amount));
 	return today;
 };
