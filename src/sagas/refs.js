@@ -17,10 +17,13 @@ import {
 	addIngrFailure,
 	UPDATE_INGR_REQUEST,
 	updateIngrSuccess,
-	updateIngrFailure
+	updateIngrFailure,
+	DELETE_INGR_REQUEST,
+	deleteIngrSuccess,
+	deleteIngrFailure
 } from "@src/reducers/refs";
 import { createRef, updateRef, deleteRef, readRefsByUser } from "@src/apis/fridge";
-import { createRefEnrollIngr, updateRefEnrollIngr } from "@src/apis/ingrs";
+import { createRefEnrollIngr, updateRefEnrollIngr, deleteRefEnrollIngr } from "@src/apis/ingrs";
 
 // 전체 냉장고 불러오기
 async function getAllRefsRequest(uid) {
@@ -99,9 +102,7 @@ async function addIngrRequest(ingr) {
 }
 function* addIngr(action) {
 	try {
-		console.log(action.payload.ingr);
 		const result = yield call(addIngrRequest, action.payload.ingr);
-		console.log(result);
 		yield put(addIngrSuccess({ ingr: result }));
 	} catch (e) {
 		yield put(addIngrFailure({ message: e.response }));
@@ -118,9 +119,7 @@ async function updateIngrRequest(ingr) {
 }
 function* updateIngr(action) {
 	try {
-		console.log(action.payload.ingr);
 		const result = yield call(updateIngrRequest, action.payload.ingr);
-		console.log(result);
 		yield put(updateIngrSuccess({ ingr: result }));
 	} catch (e) {
 		yield put(updateIngrFailure({ message: e.response }));
@@ -130,6 +129,23 @@ function* watchUpdateIngr() {
 	yield takeLatest(UPDATE_INGR_REQUEST, updateIngr);
 }
 
+// 식자재 삭제하기
+async function deleteIngrRequest(body) {
+	const datas = await deleteRefEnrollIngr(body);
+	return datas;
+}
+function* deleteIngr(action) {
+	try {
+		yield call(deleteIngrRequest, action.payload);
+		yield put(deleteIngrSuccess(action.payload));
+	} catch (e) {
+		yield put(deleteIngrFailure({ message: e.response }));
+	}
+}
+function* watchDeleteIngr() {
+	yield takeLatest(DELETE_INGR_REQUEST, deleteIngr);
+}
+
 export default function* refsSaga() {
 	yield all([
 		fork(watchGetAll),
@@ -137,6 +153,7 @@ export default function* refsSaga() {
 		fork(watchUpdateRef),
 		fork(watchDeleteRef),
 		fork(watchAddIngr),
-		fork(watchUpdateIngr)
+		fork(watchUpdateIngr),
+		fork(watchDeleteIngr)
 	]);
 }

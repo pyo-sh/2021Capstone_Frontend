@@ -37,6 +37,11 @@ export const [UPDATE_INGR_REQUEST, updateIngrRequest] = createAction("UPDATE_ING
 export const [UPDATE_INGR_SUCCESS, updateIngrSuccess] = createAction("UPDATE_INGR_SUCCESS");
 export const [UPDATE_INGR_FAILURE, updateIngrFailure] = createAction("UPDATE_INGR_FAILURE");
 
+// 식자재 삭제하기
+export const [DELETE_INGR_REQUEST, deleteIngrRequest] = createAction("DELETE_INGR_REQUEST");
+export const [DELETE_INGR_SUCCESS, deleteIngrSuccess] = createAction("DELETE_INGR_SUCCESS");
+export const [DELETE_INGR_FAILURE, deleteIngrFailure] = createAction("DELETE_INGR_FAILURE");
+
 function refsReducer(state = initialState, action) {
 	switch (action.type) {
 		// 냉장고 전체 정보를 가져오기
@@ -208,6 +213,44 @@ function refsReducer(state = initialState, action) {
 				...state,
 				isIngrLoading: false,
 				loadIngrErrorReason: action.payload.message
+			};
+		}
+		// 식자재 삭제하기
+		case DELETE_INGR_REQUEST: {
+			return {
+				...state,
+				isRefsLoading: true,
+				loadRefsErrorReason: ""
+			};
+		}
+		case DELETE_INGR_SUCCESS: {
+			const refNum = action.payload.refNum;
+			const ingrOrnu = action.payload.ingrOrnu;
+			// 해당 냉장고 찾기
+			const newRefs = [...state.refs];
+			const targetIndex = newRefs.findIndex(obj => obj.refNum === refNum);
+			if (targetIndex === -1) return { ...state };
+			// 냉장고에서 재료 찾아 삭제
+			const newEnrollIngrs = newRefs[targetIndex].enrollIngrs.filter(
+				obj => obj.ingrOrnu !== ingrOrnu
+			);
+			// 냉장고에 재료 업데이트
+			const newRef = {
+				...newRefs[targetIndex],
+				enrollIngrs: newEnrollIngrs
+			};
+			newRefs[targetIndex] = newRef;
+			return {
+				...state,
+				refs: newRefs,
+				isRefsLoading: false
+			};
+		}
+		case DELETE_INGR_FAILURE: {
+			return {
+				...state,
+				isRefsLoading: false,
+				loadRefsErrorReason: action.payload.message
 			};
 		}
 		default:

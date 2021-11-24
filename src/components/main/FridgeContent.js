@@ -6,14 +6,6 @@ import { DefaultFont_KR } from "@src/Constant";
 const FridgeContent = ({ refInfos, enrollIngrs }) => {
 	const refColor = refInfos?.colorCode ?? "#ffffff";
 	const refNum = refInfos.refNum;
-	const [ingrs, setIngrs] = useState(enrollIngrs ?? []);
-	console.log(enrollIngrs);
-
-	const deleteIngrItem = ingrOrnu => {
-		const newIngrs = ingrs.filter(i => i.ingrOrnu !== ingrOrnu);
-		setIngrs(newIngrs);
-		refInfos.enrollIngrs = newIngrs;
-	};
 
 	return (
 		<View style={styleSheet.wrapper}>
@@ -26,8 +18,8 @@ const FridgeContent = ({ refInfos, enrollIngrs }) => {
 				</Text>
 				<View style={{ flex: 1 }}></View>
 			</View>
-			{ingrs.map((ingr, index) => {
-				const beforeDate = ingrs[index - 1]?.expyDate ?? "";
+			{enrollIngrs.map((ingr, index) => {
+				const beforeDate = enrollIngrs[index - 1]?.expyDate ?? "";
 				const isSameDate = beforeDate === ingr.expyDate;
 				return (
 					<EnrollIngr
@@ -37,7 +29,6 @@ const FridgeContent = ({ refInfos, enrollIngrs }) => {
 						refNum={refNum}
 						refColor={refColor}
 						isSameDate={isSameDate}
-						deleteIngrItem={deleteIngrItem}
 					/>
 				);
 			})}

@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import { Actions } from "react-native-router-flux";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteIngrRequest } from "@src/reducers/refs";
 import { getDateRemaining } from "@src/utils/date";
 import { getTextColorByBackgroundColor } from "@src/utils/color";
 import PencilIcon from "@src/components/icons/PencilIcon";
 import PlusIcon from "@src/components/icons/PlusIcon";
 import { Color, DefaultFont_EN } from "@src/Constant";
-import { deleteRefEnrollIngr } from "@src/apis/ingrs";
 
-const EnrollIngr = ({ ingr, refInfos, refNum, refColor, isSameDate, deleteIngrItem }) => {
-	const [isLoading, setIsLoading] = useState(false);
+const EnrollIngr = ({ ingr, refInfos, refNum, refColor, isSameDate }) => {
+	const isRefsLoading = useSelector(state => state.refs.isRefsLoading);
+	const dispatch = useDispatch();
 	const dDay = getDateRemaining(ingr.expyDate);
 	const isPlus = dDay >= 0;
 
 	const updateSelf = () => {
-		console.log(ingr);
 		Actions.addingr({
 			refInfos,
 			pName: ingr.ingrName,
@@ -25,18 +26,9 @@ const EnrollIngr = ({ ingr, refInfos, refNum, refColor, isSameDate, deleteIngrIt
 	};
 
 	const deleteSelf = () => {
-		if (isLoading) return;
-		setIsLoading(true);
+		if (isRefsLoading) return;
 		const ingrOrnu = ingr.ingrOrnu;
-		deleteRefEnrollIngr({ refNum, ingrOrnu })
-			.then(() => {
-				setIsLoading(false);
-				deleteIngrItem(ingrOrnu);
-			})
-			.catch(e => {
-				console.error(e);
-				setIsLoading(false);
-			});
+		dispatch(deleteIngrRequest({ refNum, ingrOrnu }));
 	};
 
 	return (
