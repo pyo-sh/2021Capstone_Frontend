@@ -1,15 +1,22 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { Actions } from "react-native-router-flux";
 import { SvgXml } from "react-native-svg";
 import { Color } from "@src/Constant";
 
-const SearchInput = props => {
-	const { data } = props;
+const SearchInput = ({ data }) => {
+	const goAdd = () => {
+		// shelfLife?
+		Actions.addingr({
+			pName: data.presetIngrName,
+			pIngrNum: data.presetIngrName
+		});
+	};
 
 	return (
 		<View style={styleSheet.wrapper}>
 			<Text style={styleSheet.title}>{data?.presetIngrName ?? ""}</Text>
-			<TouchableOpacity style={styleSheet.button}>
+			<TouchableOpacity style={styleSheet.button} onPress={goAdd}>
 				<SvgXml
 					xml={`
             <svg xmlns="http://www.w3.org/2000/svg" width="9" height="10" viewBox="0 0 9 10" fill="none">
