@@ -7,6 +7,7 @@ const FridgeContent = ({ refInfos, enrollIngrs }) => {
 	const refColor = refInfos?.colorCode ?? "#ffffff";
 	const refNum = refInfos.refNum;
 	const [ingrs, setIngrs] = useState(enrollIngrs ?? []);
+	console.log(enrollIngrs);
 
 	const deleteIngrItem = ingrOrnu => {
 		const newIngrs = ingrs.filter(i => i.ingrOrnu !== ingrOrnu);
@@ -32,6 +33,7 @@ const FridgeContent = ({ refInfos, enrollIngrs }) => {
 					<EnrollIngr
 						key={`Enroll-${refInfos?.refNum}-${ingr.ingrOrnu}`}
 						ingr={ingr}
+						refInfos={refInfos}
 						refNum={refNum}
 						refColor={refColor}
 						isSameDate={isSameDate}

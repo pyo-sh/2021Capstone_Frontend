@@ -6,6 +6,11 @@ export const createRefEnrollIngr = async body => {
 	return response.data;
 };
 
+export const updateRefEnrollIngr = async body => {
+	const response = await axios.put(`${baseURL}/api/ref-enroll-ingr`, body);
+	return response.data;
+};
+
 export const deleteRefEnrollIngr = async ({ refNum, ingrOrnu }) => {
 	const response = await axios.delete(
 		`${baseURL}/api/ref-enroll-ingr?refNum=${refNum}&ingrOrnu=${ingrOrnu}`

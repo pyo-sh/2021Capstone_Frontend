@@ -14,10 +14,13 @@ import {
 	deleteRefFailure,
 	ADD_INGR_REQUEST,
 	addIngrSuccess,
-	addIngrFailure
+	addIngrFailure,
+	UPDATE_INGR_REQUEST,
+	updateIngrSuccess,
+	updateIngrFailure
 } from "@src/reducers/refs";
 import { createRef, updateRef, deleteRef, readRefsByUser } from "@src/apis/fridge";
-import { createRefEnrollIngr } from "@src/apis/ingrs";
+import { createRefEnrollIngr, updateRefEnrollIngr } from "@src/apis/ingrs";
 
 // 전체 냉장고 불러오기
 async function getAllRefsRequest(uid) {
@@ -94,9 +97,11 @@ async function addIngrRequest(ingr) {
 	const datas = await createRefEnrollIngr(ingr);
 	return datas;
 }
-function* addIngr() {
+function* addIngr(action) {
 	try {
+		console.log(action.payload.ingr);
 		const result = yield call(addIngrRequest, action.payload.ingr);
+		console.log(result);
 		yield put(addIngrSuccess({ ingr: result }));
 	} catch (e) {
 		yield put(addIngrFailure({ message: e.response }));
@@ -106,12 +111,32 @@ function* watchAddIngr() {
 	yield takeLatest(ADD_INGR_REQUEST, addIngr);
 }
 
+// 식자재 수정하기
+async function updateIngrRequest(ingr) {
+	const datas = await updateRefEnrollIngr(ingr);
+	return datas;
+}
+function* updateIngr(action) {
+	try {
+		console.log(action.payload.ingr);
+		const result = yield call(updateIngrRequest, action.payload.ingr);
+		console.log(result);
+		yield put(updateIngrSuccess({ ingr: result }));
+	} catch (e) {
+		yield put(updateIngrFailure({ message: e.response }));
+	}
+}
+function* watchUpdateIngr() {
+	yield takeLatest(UPDATE_INGR_REQUEST, updateIngr);
+}
+
 export default function* refsSaga() {
 	yield all([
 		fork(watchGetAll),
 		fork(watchCreateRef),
 		fork(watchUpdateRef),
 		fork(watchDeleteRef),
-		fork(watchAddIngr)
+		fork(watchAddIngr),
+		fork(watchUpdateIngr)
 	]);
 }

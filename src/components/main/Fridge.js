@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Actions } from "react-native-router-flux";
+import { useSelector } from "react-redux";
 import { Color, DefaultFont_KR } from "@src/Constant";
 import PlusIcon from "@src/components/icons/PlusIcon";
 import PencilIcon from "@src/components/icons/PencilIcon";
@@ -9,7 +10,10 @@ import { getTextColorByBackgroundColor } from "@src/utils/color";
 import EasyModal from "@src/components/custom/EasyModal";
 import ModifyFridge from "@src/components/main/ModifyFridge";
 
-const Fridge = ({ refInfos }) => {
+const Fridge = ({ refIndex }) => {
+	const refs = useSelector(state => state.refs.refs);
+	const refInfos = refs[refIndex];
+
 	return (
 		<View style={styleSheet.wrapper}>
 			<View style={styleSheet.fridge}>

@@ -47,12 +47,9 @@ const Main = () => {
 				</View>,
 				/* 임박한 식자재 페이지 필요 */
 				...refs?.map((refInfos, index) => {
-					const { refNum, enrollIngrs } = refInfos;
+					const { refNum } = refInfos;
 					return (
-						<Fridge
-							key={`Fridge-${refNum}-${enrollIngrs?.length}` ?? `Fridge-${index}`}
-							refInfos={refInfos}
-						/>
+						<Fridge key={`Fridge-${refNum}` ?? `Fridge-${index}`} refIndex={index} />
 					);
 				}),
 				<EasyModal

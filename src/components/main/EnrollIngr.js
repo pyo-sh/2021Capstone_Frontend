@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Actions } from "react-native-router-flux";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { getDateRemaining } from "@src/utils/date";
 import { getTextColorByBackgroundColor } from "@src/utils/color";
@@ -7,10 +8,21 @@ import PlusIcon from "@src/components/icons/PlusIcon";
 import { Color, DefaultFont_EN } from "@src/Constant";
 import { deleteRefEnrollIngr } from "@src/apis/ingrs";
 
-const EnrollIngr = ({ ingr, refNum, refColor, isSameDate, deleteIngrItem }) => {
+const EnrollIngr = ({ ingr, refInfos, refNum, refColor, isSameDate, deleteIngrItem }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const dDay = getDateRemaining(ingr.expyDate);
 	const isPlus = dDay >= 0;
+
+	const updateSelf = () => {
+		console.log(ingr);
+		Actions.addingr({
+			refInfos,
+			pName: ingr.ingrName,
+			pType: ingr?.storageMthdType,
+			pIngrNum: ingr?.presetIngrNum,
+			updateNum: ingr.ingrOrnu
+		});
+	};
 
 	const deleteSelf = () => {
 		if (isLoading) return;
@@ -51,7 +63,7 @@ const EnrollIngr = ({ ingr, refNum, refColor, isSameDate, deleteIngrItem }) => {
 					{ingr.quantity}
 				</Text>
 				<View style={styleSheet.flexView}>
-					<TouchableOpacity style={{ marginRight: 10 }}>
+					<TouchableOpacity style={{ marginRight: 10 }} onPress={updateSelf}>
 						<PencilIcon color={Color.gray} width={15} height={16} />
 					</TouchableOpacity>
 					<TouchableOpacity onPress={deleteSelf}>
