@@ -40,8 +40,8 @@ const Recipes = () => {
 	};
 
 	const searchData = value => {
-		if (!value) return;
 		setIngredient(value);
+		if (!value) return;
 		const onChangeInputs = () => {
 			// Debouncing
 			// 이전에 요청된 스케쥴(검색 API)가 있다면 취소

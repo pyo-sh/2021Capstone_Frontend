@@ -104,7 +104,7 @@ function refsReducer(state = initialState, action) {
 			const nowIndex = state.refs.findIndex(obj => obj.refNum === newRef?.refNum);
 			if (nowIndex === -1) return { ...state };
 			const newRefs = [...state.refs];
-			newRefs[nowIndex] = newRef;
+			newRefs[nowIndex] = { ...newRefs[nowIndex], ...newRef };
 			return {
 				...state,
 				refs: newRefs,
@@ -159,7 +159,9 @@ function refsReducer(state = initialState, action) {
 			// 냉장고에 재료 추가하기
 			const newRef = {
 				...newRefs[targetIndex],
-				enrollIngrs: [...newRefs[targetIndex].enrollIngrs, newIngr]
+				enrollIngrs: [...newRefs[targetIndex].enrollIngrs, newIngr].sort(
+					(a, b) => a.expyDate > b.expyDate
+				)
 			};
 			newRefs[targetIndex] = newRef;
 			return {
@@ -199,7 +201,7 @@ function refsReducer(state = initialState, action) {
 			// 냉장고에 재료 추가하기
 			const newRef = {
 				...newRefs[targetIndex],
-				enrollIngrs: newEnrollIngrs
+				enrollIngrs: newEnrollIngrs.sort((a, b) => a.expyDate > b.expyDate)
 			};
 			newRefs[targetIndex] = newRef;
 			return {

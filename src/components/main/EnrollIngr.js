@@ -21,6 +21,7 @@ const EnrollIngr = ({ ingr, refInfos, refNum, refColor, isSameDate }) => {
 			pName: ingr.ingrName,
 			pType: ingr?.storageMthdType,
 			pDate: ingr.expyDate,
+			pCount: ingr.quantity,
 			pIngrNum: ingr?.presetIngrNum,
 			updateNum: ingr.ingrOrnu
 		});
